@@ -3,9 +3,6 @@ import React from 'react';
 export default class LoginPage extends React.Component {
   render() {
     return (
-    	<div className="ink-grid">
-    	<div className="column-group gutters">
-        <div className="all-100">
     	<form method='POST'>
 			<p>
 			    <label htmlFor="username">Username or Email</label><br />
@@ -24,9 +21,6 @@ export default class LoginPage extends React.Component {
 			  </p>
 			<a href="/auth/facebook">Login with Facebook</a>
 		  </form>
-		  </div>
-		  </div>
-		  </div>
 	);
 	}
 }
