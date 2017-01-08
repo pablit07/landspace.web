@@ -8,6 +8,14 @@ import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import routes from './routes';
 import NotFoundPage from './components/NotFoundPage';
+import passport from 'passport';
+import {Strategy as LocalStrategy} from 'passport-local';
+import {Strategy as FacebookStrategy} from 'passport-facebook';
+import cookieSession from 'cookie-session';
+import cookieParser from 'cookie-parser';
+import expressSession from 'express-session';
+import bodyParser from 'body-parser';
+
 
 // initialize the server and configure support for ejs templates
 const app = new Express();
@@ -15,11 +23,59 @@ const server = new Server(app);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ extended: true }));
+app.use(cookieParser());
+app.use(cookieSession( {name: 'sessionid', keys: ['Vjk6UwTQdtk9NmG6RdHHdMSDiEFKqC']} ));
 // define the folder that will be used for static assets
+
 app.use(Express.static(path.join(__dirname, 'static')));
 
-// universal routing and rendering
-app.get('*', (req, res) => {
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+// Serialize sessions
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  done(null, {id:id});
+});
+// end serialize sessions
+
+
+passport.use(new FacebookStrategy({
+    clientID: '1848587668757095',
+    clientSecret: 'c5d62603da56c96108f34664345906fc',
+    callbackURL: "http://localhost:3000/auth/facebook"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    done(null, true);
+  }
+));
+
+passport.use(new LocalStrategy(
+  function(username, password, done) {
+    var user = {id:1};
+    return done(null, user);
+  })
+);
+
+// Redirect the user to Facebook for authentication.  When complete,
+// Facebook will redirect the user back to the application at
+//     /auth/facebook/callback
+app.get('/auth/facebook', passport.authenticate('facebook'), );
+// Facebook will redirect the user to this URL after approval.  Finish the
+// authentication process by attempting to obtain an access token.  If
+// access was granted, the user will be logged in.  Otherwise,
+// authentication has failed.
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' }));
+
+var routeRequest = (req, res) => {
   match(
     { routes, location: req.url },
     (err, redirectLocation, renderProps) => {
@@ -51,7 +107,24 @@ app.get('*', (req, res) => {
       return res.render('index', { markup });
     }
   );
+};
+
+// route middleware to make sure a user is logged in
+var isLoggedIn = (req, res, next) => {
+  if (req.isAuthenticated())
+      return next();
+  res.redirect('/login' + '?next=' + encodeURIComponent(req.url));
+};
+
+// universal routing and rendering
+app.get('/login', routeRequest);
+app.post('/login', passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/'}));
+app.get('/logout', function(req,res){
+ req.logOut();
+ res.redirect('/login');
 });
+
+app.get('/*', isLoggedIn, routeRequest);
 
 // start the server
 const port = process.env.PORT || 3000;
