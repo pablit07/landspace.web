@@ -3,7 +3,7 @@ import React from 'react';
 export default class LoginPage extends React.Component {
   render() {
     return (
-    	<div className='ink-grid'>
+    	<div className='ink-grid vertical-space'>
     	<div className='column-group gutters'>
     	<div className='all-100'>
     	<form method='POST'>
