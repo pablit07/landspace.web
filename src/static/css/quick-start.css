@@ -30,6 +30,20 @@
  *                 outside a @media query let's you use the grid in IE8.
  *  
  */
+
+.ink-navigation ul.menu li a.logoPlaceholder {
+    margin-right: .5em;
+    padding: .4em 0;
+    font-weight: 700;
+    font-size: 1.8em;
+    margin-top: -4px;
+}
+
+.app-content {
+	background-color: #F2F2F2;
+	border-top: 60px solid #f2f2f2;
+}
+
 /* for xlarge screens */
 @media screen and (min-width: 1261px) {
   /* your css for xlarge screens goes here ... */
