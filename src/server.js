@@ -72,8 +72,8 @@ app.get('/auth/facebook', passport.authenticate('facebook'), );
 // access was granted, the user will be logged in.  Otherwise,
 // authentication has failed.
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/login' }));
+  passport.authenticate('facebook', { successRedirect: '/projects',
+                                      failureRedirect: '/users/login' }));
 
 var routeRequest = (req, res) => {
   match(
@@ -113,15 +113,15 @@ var routeRequest = (req, res) => {
 var isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated())
       return next();
-  res.redirect('/login' + '?next=' + encodeURIComponent(req.url));
+  res.redirect('/users/login' + '?next=' + encodeURIComponent(req.url));
 };
 
 // universal routing and rendering
-app.get('/login', routeRequest);
-app.post('/login', passport.authenticate('local', { failureRedirect: '/login', successRedirect: '/'}));
-app.get('/logout', function(req,res){
+app.get('/users/login', routeRequest);
+app.post('/users/login', passport.authenticate('local', { failureRedirect: '/users/login', successRedirect: '/projects'}));
+app.get('/users/logout', function(req,res){
  req.logOut();
- res.redirect('/login');
+ res.redirect('/users/login');
 });
 
 app.get('/*', isLoggedIn, routeRequest);

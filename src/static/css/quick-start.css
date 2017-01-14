@@ -34,15 +34,19 @@
 .ink-navigation ul.menu li a.logoPlaceholder {
     margin-right: .5em;
     padding: .4em 0;
-    font-weight: 700;
-    font-size: 1.8em;
-    margin-top: -4px;
 }
 
-.app-content {
+.public .app-content {
 	background-color: #F2F2F2;
 	border-top: 60px solid #f2f2f2;
 }
+
+.app-content.dashboard { height: 94%; }
+.public .app-content { height: 50%; }
+
+html, body, #main, .full-height { height: 100%; }
+
+header.clearfix { overflow: visible !important;}
 
 /* for xlarge screens */
 @media screen and (min-width: 1261px) {
@@ -63,4 +67,12 @@
 /* for tiny screens */
 @media screen and (max-width: 320px) {
   /* your css for tiny screens goes here ... */
+}
+
+nav.ink-navigation .vertical .heading {
+    padding: .5em 1em;
+    display: block;
+}
+nav.ink-navigation .fa-shopping-cart.fa-2x {
+	margin-bottom: -0.4em;
 }
