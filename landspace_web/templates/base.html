@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+{% load staticfiles %}
+{% load render_bundle from webpack_loader %}
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LANDSPACE</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static '/img/favicon.png' %}">
+    {% render_bundle 'app' 'css'%}
+    {% render_bundle 'page' 'css'%}
+    {% block extra_css %}
+    {% endblock %}
+    {% render_bundle 'init.js' %}
+  </head>
+  <body class='ink-drawer'>
+
+    <div id="main" class='content-drawer'>
+    </div>
+
+    <div id="right-drawer" class="right-drawer">
+    </div>
+
+    {% block content %}
+    {% endblock %}
+
+    {% render_bundle 'app' 'js'%}
+    {% render_bundle 'page' 'js'%}
+    {% block extra_js %}
+    {% endblock %}
+  </body>
+</html>

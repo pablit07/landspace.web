@@ -2,6 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
 	entry: {
@@ -9,8 +10,8 @@ module.exports = {
 		'page': path.join(__dirname, 'landspace_web', 'landspace_web', 'index.js')
 	},
 	output: {
-		path: path.join(__dirname, 'src', 'static', 'js'),
-		filename: '[name].bundle.js'
+		path: path.join(__dirname, 'landspace_web', 'static', 'bundles', 'js'),
+		filename: '[name].js'
 	},
 	module: {
 		loaders: [
@@ -21,7 +22,9 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new ExtractTextPlugin("../css/style.css"),
+		new BundleTracker({filename: './landspace_web/static/webpack-stats.json'}),
+		// relative to js source directory
+		new ExtractTextPlugin("../../../static/css/style.css"),
 		new webpack.DefinePlugin({
 		  'process.env': {
 		    NODE_ENV: JSON.stringify('production')
