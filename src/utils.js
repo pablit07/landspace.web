@@ -1,11 +1,18 @@
+import React from 'react';
 
 // using jQuery
 export function getCookie(name) {
+
+    function trim(str)
+    {
+        return str.replace(/^\s+|\s+$/g,'');
+    };
+
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
+            var cookie = trim(cookies[i]);
             // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) == (name + '=')) {
                 cookieValue = decodeURIComponent(
@@ -17,4 +24,11 @@ export function getCookie(name) {
     }
     return cookieValue;
 }
-export var csrftoken = getCookie('csrftoken');
+
+export function writeCsrf() {
+    var csrfToken = getCookie('csrftoken');
+    
+    return React.DOM.input(
+      {type:"hidden", name:"csrfmiddlewaretoken", value:csrfToken}
+      );
+}

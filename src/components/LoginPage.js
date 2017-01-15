@@ -1,4 +1,5 @@
 import React from 'react';
+import { writeCsrf } from '../utils.js';
 
 export default class LoginPage extends React.Component {
   render() {
@@ -18,6 +19,7 @@ export default class LoginPage extends React.Component {
 							<input type="submit" value="Reset" />
 			        		<a href='javascript:void(0)' className='left-space ink-toggle' data-target="#id-login-form" data-is-accordion="true" data-initial-state="true" data-class-name-on='' data-class-name-off='hide-all'>Login</a>
 						</p>
+						{writeCsrf()}
 				    </form>
 			    </div>
 
@@ -45,6 +47,7 @@ export default class LoginPage extends React.Component {
 						  </p>
 
 						<a href="/auth/facebook" className='ink-button blue'>Login with Facebook</a>
+						{writeCsrf()}
 					  </form>
 				  </div>
 			  </div>

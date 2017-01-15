@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import Logo from './Logo.js'
 
 
 export default class ProjectsTopNav extends React.Component {
@@ -68,7 +69,7 @@ export default class ProjectsTopNav extends React.Component {
 			    <ul className={leftMenuClassName} style={spacerStyle}>
 			    	<li>
 				    	<a className='logoPlaceholder' href="http://www.landspace.site">
-							<img className="logo" src="/img/landspace-logo.png" width='150' height='30'/>
+							<Logo />
 						</a>
 					</li>
 			        {projectsMenu}

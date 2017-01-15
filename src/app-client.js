@@ -6,4 +6,7 @@ require('./static/css/animate.extensions.css')
 require('./static/css/ink-flex.css')
 require('./static/js/ink-all.js')
 require('./static/js/autoload.js')
-require('./utils.js')
+
+import { getCookie } from './utils.js'
+
+window.getCookie = getCookie;
