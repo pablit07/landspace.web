@@ -51,6 +51,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+LOGIN_REDIRECT_URL = '/projects'
+
 ROOT_URLCONF = 'landspace_web.urls'
 
 TEMPLATES = [

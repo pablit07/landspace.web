@@ -24,7 +24,7 @@ export default class LoginPage extends React.Component {
 			    </div>
 
 		    	<div id='id-login-form' className='all-40 tiny-90 small-90 medium-55 push-center block animated'>
-			    	<form method='POST' className='ink-form'>
+			    	<form method='POST' className='ink-form' action='/login/'>
 						<div className='control-group'>
 						    <label htmlFor="username">Username or Email</label>
 						    <div className='control'>

@@ -30,7 +30,7 @@ export default class TopNav extends React.Component {
 		        
 		        <ul className={rightMenuClassName}>
 			        <li><Link to='/users/my_cart'><span className={responsiveClassNames}>Cart <i className="fa fa-shopping-cart" aria-hidden="true"></i></span> <i className={cartResponsiveClassNames} aria-hidden="true"></i></Link></li>
-			        <li className={responsiveClassNames}><Link to='/users/login'>Sign In</Link></li>
+			        <li className={responsiveClassNames}><Link to='/users/logout/?next=/users/login'>Sign In</Link></li>
 		        	<li className={responsiveClassNames}><a href='http://www.landspace.site/survey' className='ink-button'>Sign Up</a></li>
 		        	{responsiveBtn}
 			    </ul>

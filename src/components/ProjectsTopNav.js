@@ -20,7 +20,7 @@ export default class ProjectsTopNav extends React.Component {
 	        (<li><a href="#">My Cart</a></li>),
 	        (<li><a href="#">Invite Friends</a></li>),
 	        (<li><a href="#">Support</a></li>),
-	        (<li><a href="/users/logout" className='separator-above'>Logout</a></li>)];
+	        (<li><a href="/users/logout/?next=/users/login/" className='separator-above'>Logout</a></li>)];
 
         var exploreMenu = [
 			(<li><a href="#">Projects</a></li>),
