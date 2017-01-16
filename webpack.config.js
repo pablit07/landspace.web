@@ -5,6 +5,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
+	devtool: 'source-map',
 	entry: {
 		'app': path.join(__dirname, 'src', 'app-client.js'),
 		'page': path.join(__dirname, 'landspace_web', 'landspace_web', 'index.js')

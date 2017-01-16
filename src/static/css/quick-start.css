@@ -31,20 +31,7 @@
  *  
  */
 
-.ink-navigation ul.menu li a.logoPlaceholder {
-    margin-right: .5em;
-    padding: .4em 0;
-}
 
-.public .app-content {
-	background-color: #F2F2F2;
-	border-top: 60px solid #f2f2f2;
-}
-
-.app-content.dashboard { height: 94%; }
-.public .app-content { height: 50%; }
-
-html, body, #main, .full-height { height: 100%; }
 
 header.clearfix { overflow: visible !important;}
 
@@ -76,3 +63,18 @@ nav.ink-navigation .vertical .heading {
 nav.ink-navigation .fa-shopping-cart.fa-2x {
 	margin-bottom: -0.1em;
 }
+
+.ink-navigation ul.menu li a.logoPlaceholder {
+    margin-right: .5em;
+    padding: .4em 0;
+}
+
+.public .app-content {
+	background-color: #F2F2F2;
+	border-top: 60px solid #f2f2f2;
+}
+
+.app-content.dashboard { height: 94%; }
+.public .app-content { height: 50%; min-height: 390px; }
+
+html, body, #main, .full-height { height: 100%; }
