@@ -1,0 +1,21 @@
+{% extends 'admin/base.html' %}
+
+{% load static %}
+
+{% block branding %}
+
+<a href="http://www.landspace.site"><img src="{% static 'img/landspace-logo.png' %}" class="logo" width='150' height='30'></a>
+
+{% endblock %}
+
+{% block userlinks %}
+
+{{ block.super }}
+
+{% endblock %}
+
+{% block extrastyle %}
+<link rel="stylesheet" id="cubic-montserrat-css" href="//fonts.googleapis.com/css?family=Montserrat%3A400%2C700" type="text/css" media="all">
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{% static 'css/admin_landspace.css' %}">
+{% endblock %}

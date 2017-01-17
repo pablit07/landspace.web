@@ -1,0 +1,14 @@
+#header {
+    background-color: #F2F2F2;
+    color: black;
+}
+
+#header a,
+#header a:link, #header a:visited  {
+    color: black;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: Montserrat, sans-serif;
+    color: black;
+}
