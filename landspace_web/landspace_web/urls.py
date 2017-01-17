@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views, decorators
+from django.views.generic.base import RedirectView
 from . import api
 from . import views
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+	url(r'^$', RedirectView.as_view(url='projects/', permanent=False), name='index'),
+    url(r'^admin', admin.site.urls),
     url(r'^login/$', auth_views.login),
     url(r'^users/logout/$', auth_views.logout, name='logout'),
     url(r'^users/login/', views.index),

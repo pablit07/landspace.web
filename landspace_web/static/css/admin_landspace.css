@@ -23,6 +23,7 @@ a:link, a:visited {
 
 div.breadcrumbs {
     background: #66b14b;
+    color: black;
 }
 
 body .selector-chosen h2 {
@@ -61,4 +62,10 @@ body .button, input[type=submit], input[type=button], .submit-row input, a.butto
 #user-tools a:focus, #user-tools a:hover {
     border-bottom-color: #66B14B;
     color: #66B14B;
+}
+
+
+
+body #changelist-filter li.selected a {
+    color: #497E35;
 }
