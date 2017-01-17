@@ -6,10 +6,8 @@ from rest_framework.generics import CreateAPIView
 from django.contrib.auth.models import User
 import serializers
 
-def index(request):
 
-	view_data = {}
+class CreateUserView(CreateAPIView):
 
-	response = render(request, 'landspace_web/index.html', view_data)
-
-	return response
+    model = User
+    serializer_class = serializers.UserSerializer

@@ -16,6 +16,7 @@ Including another URLconf
 from django.conf.urls import url
 from django.contrib import admin
 from django.contrib.auth import views as auth_views, decorators
+from . import api
 from . import views
 
 urlpatterns = [
@@ -23,5 +24,6 @@ urlpatterns = [
     url(r'^login/$', auth_views.login),
     url(r'^users/logout/$', auth_views.logout, name='logout'),
     url(r'^users/login/', views.index),
+    url(r'^api/users/$', api.CreateUserView.as_view()),
     url(r'', decorators.login_required(views.index, login_url='/users/login/'))
 ]
