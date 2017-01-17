@@ -8,13 +8,19 @@ import DashboardPage from '../../src/components/DashboardPage';
 import NotFoundPage from '../../src/components/NotFoundPage';
 import TopNav from '../../src/components/TopNav';
 import ProjectsTopNav from '../../src/components/ProjectsTopNav';
+import ResetPasswordEmail from '../../src/components/ResetPasswordEmail';
+import ResetPasswordDone from '../../src/components/ResetPasswordDone';
 import { render } from 'react-dom'
 
 render((
 <Router history={browserHistory}>
 	<Route path='/users' component={LayoutPublic}>
 		<Route path='/users/login' component={LoginPage}/>
-	    <Route path='/users/password/reset/done/' component={() => (<LoginPage pwResetEmail={true} />)}/>
+	    <Route path='/users/password/' component={LoginPage}>
+	    	<Route path='/users/password/reset/done/' component={ResetPasswordEmail}/>
+	    	<Route path='/users/password/done/' component={ResetPasswordDone}/>
+    	</Route>
+		<Route path='/users/password/reset/:hash/' component={() => (<LoginPage showPasswordUpdate={true} />)}/>
 		<Route path="*" component={NotFoundPage}/>
 	</Route>
 	<Route path='/projects' component={Layout}>
@@ -28,6 +34,7 @@ render((
 <Router history={browserHistory}>
 	<Route path="/users" component={() => (<TopNav vertical={true} />)}>
 		<Route path='/users/login'/>
+		<Route path='/users/*'/>
 	</Route>
 	<Route path='/projects' component={() => (<ProjectsTopNav vertical={true} />)}>
 		<IndexRoute />

@@ -546,7 +546,7 @@ th {
   padding: 1em 3em 1em 1em;
 }
 .ink-alert.basic p {
-  margin: 0;
+  margin: 0.5em 0;
 }
 .ink-alert.basic .ink-close {
   top: .55em;

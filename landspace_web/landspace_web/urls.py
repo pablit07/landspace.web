@@ -29,7 +29,7 @@ urlpatterns = [
     url(r'^api/users/$', api.CreateUserView.as_view()),
     url(r'^users/password/reset/$', views.passwordreset, name='password-reset'),
     url(r'^users/password/reset/done/$', views.index, name='password-reset-done'),
-    url(r'^users/password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'post_reset_redirect' : '/users/password/done/'}, name='password-reset-confirm'),
+    url(r'^users/password/reset/(?P<uidb64>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'post_reset_redirect' : '/users/password/done/'}, name='password-reset-confirm'),
     url(r'^users/password/done/$', auth_views.password_reset_complete),
     url(r'', decorators.login_required(views.index, login_url='/users/login/'))
 ]
