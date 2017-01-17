@@ -1,3 +1,8 @@
+.animated.delay-0 {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s;
+}
+
 .animated.delay-0_5 {
     -webkit-animation-delay: 0.5s;
     animation-delay: 0.5s;

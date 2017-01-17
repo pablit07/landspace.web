@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from django.contrib.auth import views as auth_views, decorators
 from django.views.generic.base import RedirectView
@@ -22,10 +22,14 @@ from . import views
 
 urlpatterns = [
 	url(r'^$', RedirectView.as_view(url='projects/', permanent=False), name='index'),
-    url(r'^admin', admin.site.urls),
+    url(r'^admin/?', admin.site.urls),
     url(r'^login/$', auth_views.login),
     url(r'^users/logout/$', auth_views.logout, name='logout'),
     url(r'^users/login/', views.index),
     url(r'^api/users/$', api.CreateUserView.as_view()),
+    url(r'^users/password/reset/$', views.passwordreset, name='password-reset'),
+    url(r'^users/password/reset/done/$', views.index, name='password-reset-done'),
+    url(r'^users/password/reset/(?P<uidb36>[0-9A-Za-z]+)-(?P<token>.+)/$', auth_views.password_reset_confirm, {'post_reset_redirect' : '/users/password/done/'}, name='password-reset-confirm'),
+    url(r'^users/password/done/$', auth_views.password_reset_complete),
     url(r'', decorators.login_required(views.index, login_url='/users/login/'))
 ]

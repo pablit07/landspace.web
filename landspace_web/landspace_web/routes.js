@@ -14,6 +14,7 @@ render((
 <Router history={browserHistory}>
 	<Route path='/users' component={LayoutPublic}>
 		<Route path='/users/login' component={LoginPage}/>
+	    <Route path='/users/password/reset/done/' component={() => (<LoginPage pwResetEmail={true} />)}/>
 		<Route path="*" component={NotFoundPage}/>
 	</Route>
 	<Route path='/projects' component={Layout}>

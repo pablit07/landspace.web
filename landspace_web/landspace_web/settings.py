@@ -177,3 +177,6 @@ WEBPACK_LOADER = {
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
     }
 }
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
