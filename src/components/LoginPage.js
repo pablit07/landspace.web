@@ -2,6 +2,16 @@ import React from 'react';
 import { writeCsrf } from '../utils.js';
 
 export default class LoginPage extends React.Component {
+	constructor() {
+		super();
+		this.state = {
+			'fbLoginSource': ''
+		}
+	}
+
+	componentDidMount() {
+		$.get('/api/url/?name=social:begin&p1=facebook', (data) => { this.setState({'fbLoginSource': data.url}) });
+	}
 
   render() {
 
@@ -102,7 +112,7 @@ export default class LoginPage extends React.Component {
 						  </div>
 						  {pwUpdateLink}
 
-						<a href="/auth/facebook" className='ink-button blue'>Login with Facebook</a>
+						<a href={this.state.fbLoginSource} className='ink-button fb-blue'>Login with Facebook</a>
 						{writeCsrf()}
 					  </form>
 				  </div>

@@ -86,3 +86,14 @@ nav.ink-navigation .fa-shopping-cart.fa-2x {
 .public .app-content { min-height: 50%; }
 
 html, body, #main, .full-height { height: 100%; }
+
+.ink-button.fb-blue {
+  background-color: #4267b2;
+  border-color: #4267b2;
+  color: white;
+}
+
+.ink-button.fb-blue:hover {
+    background-color: #365899;
+    border-color: #365899;
+}

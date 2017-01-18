@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'webpack_loader',
     'rest_framework',
     'rest_framework.authtoken',
+    'social_django',
     'landspace_web'
 ]
 
@@ -60,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware'
 ]
 
 LOGIN_REDIRECT_URL = '/projects'
@@ -77,6 +79,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -180,3 +184,13 @@ WEBPACK_LOADER = {
 
 EMAIL_HOST = 'localhost'
 EMAIL_PORT = 1025
+
+
+SOCIAL_AUTH_FACEBOOK_KEY='1848587668757095'
+SOCIAL_AUTH_FACEBOOK_SECRET='c5d62603da56c96108f34664345906fc'
+
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.facebook.FacebookOAuth2',
+)

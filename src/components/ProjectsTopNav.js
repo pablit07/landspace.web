@@ -47,7 +47,7 @@ export default class ProjectsTopNav extends React.Component {
 	        (<li className="separator-above"><a href="#"><i className='fa fa-plus'></i> New Project</a></li>)];
 
 		var userMenu = [
-			(<li><a href="#">My Account</a></li>),
+			(<li><Link to="/users/account">My Account</Link></li>),
 	        (<li><a href="#">My Cart</a></li>),
 	        (<li><a href="#">Invite Friends</a></li>),
 	        (<li><a href="#">Support</a></li>),

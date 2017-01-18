@@ -4,12 +4,14 @@ import Layout from './components/Layout';
 import LayoutPublic from './components/Layout-Public';
 import IndexPage from './components/IndexPage';
 import LoginPage from './components/LoginPage';
+import AccountPage from './components/AccountPage';
 import DashboardPage from './components/DashboardPage';
 import NotFoundPage from './components/NotFoundPage';
 
 const routes = (
 <Route path='/'>
   <Route path="/users" component={LayoutPublic}>
+  	<Route path="/users/account" component={AccountPage} />
     <Route path='/users/login' component={LoginPage}/>
     <Route path="*" component={NotFoundPage}/>
   </Route>
@@ -17,6 +19,7 @@ const routes = (
     <IndexRoute component={DashboardPage}/>
     <Route path="*" component={NotFoundPage}/>
   </Route>
+  <Route path="*" component={NotFoundPage}/>
 </Route>
 );
 
