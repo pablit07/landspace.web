@@ -14,8 +14,3 @@ class UserProjectsViewSet(viewsets.ModelViewSet):
 		queryset = Project.objects.filter(client=user_id)
 
 		return queryset
-
-
-
-router = routers.DefaultRouter()
-router.register(r'projects', UserProjectsViewSet, 'projects')
