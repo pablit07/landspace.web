@@ -5,6 +5,7 @@ import LayoutPublic from '../../src/components/Layout-Public';
 import IndexPage from '../../src/components/IndexPage';
 import LoginPage from '../../src/components/LoginPage';
 import AccountPage from '../../src/components/AccountPage';
+import CartPage from '../../src/components/CartPage';
 import DashboardPage from '../../src/components/DashboardPage';
 import NotFoundPage from '../../src/components/NotFoundPage';
 import TopNav from '../../src/components/TopNav';
@@ -17,9 +18,15 @@ const userSource = '/api/users/';
 
 render((
 <Router history={browserHistory}>
+
 	<Route path='/users/account' component={Layout}>
 		<IndexRoute component={AccountPage}/>
 	</Route>
+
+	<Route path='/users/cart' component={Layout}>
+		<IndexRoute component={CartPage}/>
+	</Route>
+
 	<Route path='/users' component={LayoutPublic}>
 
 		<Route path='/users/login' component={LoginPage}/>

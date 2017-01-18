@@ -19,6 +19,7 @@ from django.contrib.auth import views as auth_views, decorators
 from django.views.generic.base import RedirectView
 from . import api
 from . import views
+from projects import api as projects_api
 
 urlpatterns = [
 	url(r'^$', RedirectView.as_view(url='projects/', permanent=False), name='index'),
@@ -27,6 +28,7 @@ urlpatterns = [
 	url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^users/logout/$', auth_views.logout, name='logout'),
     url(r'^users/login/', views.index),
+    url(r'^api/projects/', include(projects_api.router.urls)),
     url(r'^api/users/(?P<pk>\d+)/$', api.UserViewSet.as_view({'get': 'retrieve'}), name='users-api'),
     url(r'^api/users/$', api.CreateUserView.as_view()),
     url(r'^api/url/$', api.ReverseUrlApiView.as_view()),
