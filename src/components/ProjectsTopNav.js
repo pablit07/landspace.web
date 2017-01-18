@@ -8,7 +8,8 @@ export default class ProjectsTopNav extends React.Component {
 		super();
 		this.state = {
 			'firstName': '',
-			'lastName': ''
+			'lastName': '',
+			'projects': []
 		};
 	}
 
@@ -27,8 +28,23 @@ export default class ProjectsTopNav extends React.Component {
 		});
 	}
 
+	projectsDataSource(props) {
+		var props = props || this.props;
+		if (!props.userSource) {
+			console.error('userSource prop not found')
+			return;
+		}
+
+		$.get(props.userSource + window.userId + '/projects', (data) => {
+			this.setState({
+				'projects': data['results']
+			});
+		});
+	}
+
 	componentDidMount() {
 		this.userDataSource();
+		this.projectsDataSource();
 	}
 
 	componentWillReceiveProps(props) {
@@ -42,9 +58,13 @@ export default class ProjectsTopNav extends React.Component {
 		var responsiveBtn = (this.props.vertical) ? null : (<li className="hide-all show-tiny show-small show-medium"><a href='#' className="right-drawer-trigger ink-button"><i className='fa fa-bars'></i></a></li>);
 		var responsiveClassNames = (this.props.vertical) ? '' : 'show-all hide-medium hide-small hide-tiny';
 
-		var projectsMenu = [
-			(<li><a href="#">Smith Backyard</a></li>),
-	        (<li className="separator-above"><Link to="/projects"><i className='fa fa-plus'></i> New Project</Link></li>)];
+		var projectsMenu = [];
+
+		this.state.projects.forEach( (p) => {
+			projectsMenu.push(<li><a href="#">{p.name}</a></li>);
+		});
+
+		projectsMenu.push(<li className="separator-above"><Link to="/projects"><i className='fa fa-plus'></i> New Project</Link></li>);
 
 		var userMenu = [
 			(<li><Link to="/users/account">My Account</Link></li>),

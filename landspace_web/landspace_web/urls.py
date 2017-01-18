@@ -28,7 +28,7 @@ urlpatterns = [
 	url(r'^auth/', include('social_django.urls', namespace='social')),
     url(r'^users/logout/$', auth_views.logout, name='logout'),
     url(r'^users/login/', views.index),
-    url(r'^api/projects/', include(projects_api.router.urls)),
+    url(r'^api/users/(?P<user_id>\d+)/projects', projects_api.UserProjectsViewSet.as_view({'get': 'list'}), name='user-projects'),
     url(r'^api/users/(?P<pk>\d+)/$', api.UserViewSet.as_view({'get': 'retrieve'}), name='users-api'),
     url(r'^api/users/$', api.CreateUserView.as_view()),
     url(r'^api/url/$', api.ReverseUrlApiView.as_view()),

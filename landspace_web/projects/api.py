@@ -3,22 +3,19 @@ from models import Project
 from . import serializers
 
 
-class ProjectViewSet(viewsets.ModelViewSet):
+class UserProjectsViewSet(viewsets.ModelViewSet):
 	serializer_class = serializers.ProjectSerializer
-	queryset = Project.objects.all()
+	
+	def get_queryset(self):
+		"""
+		This view should return a list of only the projects for which the given user is authenticated
+		"""
+		user_id = self.kwargs['user_id']
+		queryset = Project.objects.filter(client=user_id)
 
-
-
-
-
-
-
-
-
-
-
+		return queryset
 
 
 
 router = routers.DefaultRouter()
-router.register(r'projects', ProjectViewSet)
+router.register(r'projects', UserProjectsViewSet, 'projects')
