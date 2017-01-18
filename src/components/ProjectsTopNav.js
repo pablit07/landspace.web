@@ -4,6 +4,37 @@ import Logo from './Logo.js'
 
 
 export default class ProjectsTopNav extends React.Component {
+	constructor(props) {
+		super();
+		this.state = {
+			'firstName': '',
+			'lastName': ''
+		};
+	}
+
+	userDataSource(props) {
+		var props = props || this.props;
+		if (!props.userSource) {
+			console.error('userSource prop not found')
+			return;
+		}
+
+		$.get(props.userSource + window.userId + '/', (data) => {
+			this.setState({
+				'firstName': data['first_name'],
+				'lastName': data['last_name']
+			});
+		});
+	}
+
+	componentDidMount() {
+		this.userDataSource();
+	}
+
+	componentWillReceiveProps(props) {
+		
+	}
+
 	render() {
 		
 		var leftOrientation = (this.props.vertical) ? 'vertical grey' : 'push-left horizontal';
@@ -38,7 +69,7 @@ export default class ProjectsTopNav extends React.Component {
 
 			userMenu = (
 				<li className={responsiveClassNames + " ink-dropdown"} data-target="#my-menu-dropdown3">
-				    <button className="ink-button white">Jessica Smith <i className='fa fa-user'></i></button>
+				    <button className="ink-button white">{this.state.firstName} {this.state.lastName} <i className='fa fa-user'></i></button>
 				    <ul id="my-menu-dropdown3" className="dropdown-menu">
 				    {userMenu}
 				    </ul>
@@ -54,7 +85,7 @@ export default class ProjectsTopNav extends React.Component {
 
 		} else {
 			projectsMenu.unshift(<li className='heading separator-above separator-below'>Projects</li>);
-			userMenu.unshift(<li className='heading'>Jessica Smith <i className='fa fa-user'></i></li>);
+			userMenu.unshift(<li className='heading'>{this.state.firstName} {this.state.lastName} <i className='fa fa-user'></i></li>);
 			exploreMenu.unshift(<li className='heading'>Explore</li>)
 		}
 

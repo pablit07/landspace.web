@@ -5,6 +5,7 @@ require('./static/css/animate.css')
 require('./static/css/animate.extensions.css')
 require('./static/css/ink-flex.css')
 require('./static/css/ink-ie.css')
+require('./static/js/jquery-latest.js')
 require('./static/js/ink-all.js')
 require('./static/js/autoload.js')
 

@@ -5,7 +5,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
-	devtool: 'source-map',
+	// devtool: 'source-map',
 	entry: {
 		'app': path.join(__dirname, 'src', 'app-client.js'),
 		'page': path.join(__dirname, 'landspace_web', 'landspace_web', 'index.js')
@@ -32,8 +32,8 @@ module.exports = {
 		  }
 		}),
 		new webpack.optimize.CommonsChunkPlugin("init.js"),
-		new webpack.optimize.DedupePlugin(),
- 		new webpack.optimize.OccurenceOrderPlugin(),
+		// new webpack.optimize.DedupePlugin(),
+ 		// new webpack.optimize.OccurenceOrderPlugin(),
  		new webpack.optimize.UglifyJsPlugin()
 	]
 };

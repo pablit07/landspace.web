@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^login/$', auth_views.login),
     url(r'^users/logout/$', auth_views.logout, name='logout'),
     url(r'^users/login/', views.index),
+    url(r'^api/users/(?P<pk>\d+)/$', api.UserViewSet.as_view({'get': 'retrieve'})),
     url(r'^api/users/$', api.CreateUserView.as_view()),
     url(r'^users/password/reset/$', views.passwordreset, name='password-reset'),
     url(r'^users/password/reset/done/$', views.index, name='password-reset-done'),

@@ -12,6 +12,8 @@ import ResetPasswordEmail from '../../src/components/ResetPasswordEmail';
 import ResetPasswordDone from '../../src/components/ResetPasswordDone';
 import { render } from 'react-dom'
 
+const userSource = '/api/users/';
+
 render((
 <Router history={browserHistory}>
 	<Route path='/users' component={LayoutPublic}>
@@ -36,7 +38,7 @@ render((
 		<Route path='/users/login'/>
 		<Route path='/users/*'/>
 	</Route>
-	<Route path='/projects' component={() => (<ProjectsTopNav vertical={true} />)}>
+	<Route path='/projects' component={() => (<ProjectsTopNav vertical={true} userSource={userSource} />)}>
 		<IndexRoute />
 	</Route>
 </Router>), document.getElementById('right-drawer'));

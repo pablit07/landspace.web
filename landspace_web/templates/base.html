@@ -19,6 +19,7 @@
     {% render_bundle 'init.js' %}
   </head>
   <body class='ink-drawer'>
+    <script type="text/javascript">window.userId = "{{ request.user.id }}";</script>
 
     <div id="main" class='content-drawer'>
     </div>
@@ -29,6 +30,7 @@
     {% block content %}
     {% endblock %}
 
+    <script type="text/javascript" src="{% static 'js/jquery-latest.js' %}"></script>
     {% render_bundle 'app' 'js'%}
     {% render_bundle 'page' 'js'%}
     {% block extra_js %}
