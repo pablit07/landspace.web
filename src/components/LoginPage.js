@@ -5,17 +5,32 @@ export default class LoginPage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			'fbLoginSource': ''
+			'fbLoginSource': '',
+			'errors': []
 		}
 	}
 
 	componentDidMount() {
 		$.get('/api/url/?name=social:begin&p1=facebook', (data) => { this.setState({'fbLoginSource': data.url}) });
+		this.getFormErrors();
+	}
+
+	getFormErrors() {
+		var errorObj = JSON.parse(document.getElementById('id-login-errors').innerHTML)
+			,errors = (!errorObj['__all__']) ? [] : errorObj['__all__'].map(x => x.message);
+		this.setState({'errors': errors});
 	}
 
   render() {
 
   	var showPasswordUpdate = this.props.showPasswordUpdate;
+
+  	var errorMessages = [];
+  	this.state.errors.forEach( (msg) => {
+		errorMessages.push(<span className='tip'>{msg}</span>)
+	});
+
+	errorMessages = (<p>{errorMessages}</p>);
 
 	if (this.props.showPasswordUpdate) {
 		var invalidLinkText = document.getElementById("id-invalid-link");
@@ -85,23 +100,20 @@ export default class LoginPage extends React.Component {
 			    </div>
 
 		    	<div id='id-login-form' className={"all-40 tiny-90 small-90 medium-55 push-center block animated" + (showPasswordUpdate ? ' hide-all' : '')}>
-			    	<form method='POST' className='ink-form' action='/login/'>
-						<div className='control-group'>
+			    	<form method='POST' className='ink-form' action='/users/login/'>
+						<div className={"control-group" + (!errorMessages ? '' : ' required')} >
 						    <label htmlFor="username">Username or Email</label>
 						    <div className='control'>
 						    	<input id="username" type="text" name="username" />
 						    </div>
 					    </div>
-						<div className='control-group'>
+						<div className={"control-group" + (!errorMessages ? '' : ' required')}>
 						    <label htmlFor="password">Password</label>
 						    <div className='control'>
 						    	<input id="password" type="password" name="password" />
 					    	</div>
 					  	</div>
-						  <p data-spIf="form.error">
-						    <strong>Error:</strong><br />
-						    <span data-spBind="form.errorMessage" />
-						  </p>
+						  	{ errorMessages }
 						  <div className='column-group vertical-space'>
 						  	<div className='all-30'>
 						    	<input type="submit" value="Login" />
