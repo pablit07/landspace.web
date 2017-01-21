@@ -64,7 +64,11 @@ export default class ProjectsTopNav extends React.Component {
 			projectsMenu.push(<li><a href="#">{p.name}</a></li>);
 		});
 
-		projectsMenu.push(<li className="separator-above"><Link to="/projects"><i className='fa fa-plus'></i> New Project</Link></li>);
+		if (projectsMenu.length == 0) {
+			projectsMenu.push(<li className='inline'>You have no projects. <a href="/projects" className='inline'>Start a Project</a></li>);
+		} else {
+			projectsMenu.push(<li className="separator-above"><Link to="/projects"><i className='fa fa-plus'></i> New Project</Link></li>);	
+		}		
 
 		var userMenu = [
 			(<li><Link to="/users/account">My Account</Link></li>),
@@ -80,9 +84,9 @@ export default class ProjectsTopNav extends React.Component {
 		if (!this.props.vertical) {
 			
 			projectsMenu = (
-				<li className={responsiveClassNames + " ink-dropdown"} data-target="#my-menu-dropdown1">
+				<li className={responsiveClassNames + " ink-dropdown"} data-target="#id-projects-dropdown">
 				    <button className="ink-button white">My Projects</button>
-				    <ul id="my-menu-dropdown1" className="dropdown-menu">
+				    <ul id="id-projects-dropdown" className="dropdown-menu">
 				        {projectsMenu}
 				    </ul>
 				</li>);

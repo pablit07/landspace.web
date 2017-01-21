@@ -1,5 +1,5 @@
 import React from 'react';
-import { writeCsrf } from '../utils.js';
+import { writeCsrf, getCookie } from '../utils.js';
 
 export default class AccountPage extends React.Component {
 	constructor() {
@@ -18,24 +18,42 @@ export default class AccountPage extends React.Component {
 		});
 	}
 
+	handleEmailChange(event) {
+		this.setState({email: event.target.value});
+	}
+
+	handleSubmit(event) {
+		$.ajax({
+			headers: {
+				'X-CSRFToken': getCookie('csrftoken')
+			},
+			method: 'PATCH',
+			url: this.state.userDataSource,
+			data: {
+				email: this.state.email
+			}
+		})
+		event.preventDefault();
+	}
+
   render() {
 
     return (
     	<div className='ink-grid animated'>
 	    	<div className='column-group'>
 
-		    	<div id='id-login-form' className="all-40 tiny-90 small-90 medium-55 push-center block vertical-space">
+		    	<div id='id-account-form' className="all-40 tiny-90 small-90 medium-55 push-center block vertical-space">
 		    		<h1>My Account</h1>
-			    	<form method='POST' className='ink-form'>
+			    	<form method='POST' className='ink-form' onSubmit={this.handleSubmit.bind(this)}>
 						<div className='control-group'>
 						    <label htmlFor="email" className='all-20'>Email</label>
 						    <div className='control all-80'>
-						    	<input id="email" type="text" name="email" value={this.state.email} />
+						    	<input id="email" type="text" name="email" value={this.state.email} onChange={this.handleEmailChange.bind(this)}/>
 						    </div>
 					    </div>
 						
 						{writeCsrf()}
-						<input type="submit" value="Save" />
+						<input type="submit" value="Save"/>
 					  </form>
 				  </div>
 

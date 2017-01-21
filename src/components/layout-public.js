@@ -13,7 +13,7 @@ export default class LayoutPublic extends React.Component {
                 <div className="app-content">{this.props.children}</div>
                 <footer>
                     <div className='ink-grid vertical-space'>
-                        This is a demo app to showcase <strong>Ink</strong>, <strong>React</strong>, and <strong>Express</strong>.
+                        &copy; 2017 <strong>Landspace LLC</strong>
                     </div>
                 </footer>
             </div>

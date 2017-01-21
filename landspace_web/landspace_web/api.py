@@ -20,7 +20,7 @@ class CreateUserView(CreateAPIView):
 
 class UserViewSet(viewsets.ModelViewSet):
 	
-	http_method_names = ['get',]
+	http_method_names = ['get', 'patch', 'post', 'put']
 	queryset = User.objects.all()
 	serializer_class = serializers.UserSerializer
 
