@@ -5,7 +5,9 @@ export default class AccountPage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
-			'email': ''
+			'email': '',
+			'firstName': '',
+			'lastName': ''
 		}
 	}
 
@@ -13,13 +15,25 @@ export default class AccountPage extends React.Component {
 		var userDataSource;
 		$.get('/api/url/?name=users-api&p1=' + userId, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
 			$.get(userDataSource, (data) => {
-				this.setState({'email': data.email});
+				this.setState({
+					'email': data.email,
+					'firstName': data.first_name,
+					'lastName': data.last_name
+				});
 			});
 		});
 	}
 
 	handleEmailChange(event) {
 		this.setState({email: event.target.value});
+	}
+
+	handleFirstNameChange(event) {
+		this.setState({firstName: event.target.value});
+	}
+
+	handleLastNameChange(event) {
+		this.setState({lastName: event.target.value});
 	}
 
 	handleSubmit(event) {
@@ -30,7 +44,9 @@ export default class AccountPage extends React.Component {
 			method: 'PATCH',
 			url: this.state.userDataSource,
 			data: {
-				email: this.state.email
+				email: this.state.email,
+				first_name: this.state.firstName,
+				last_name: this.state.lastName
 			}
 		})
 		event.preventDefault();
@@ -49,6 +65,18 @@ export default class AccountPage extends React.Component {
 						    <label htmlFor="email" className='all-20'>Email</label>
 						    <div className='control all-80'>
 						    	<input id="email" type="text" name="email" value={this.state.email} onChange={this.handleEmailChange.bind(this)}/>
+						    </div>
+					    </div>
+					    <div className='control-group'>
+						    <label htmlFor="firstName" className='all-20'>First Name</label>
+						    <div className='control all-80'>
+						    	<input id="firstName" type="text" name="firstName" value={this.state.firstName} onChange={this.handleFirstNameChange.bind(this)}/>
+						    </div>
+					    </div>
+					    <div className='control-group'>
+						    <label htmlFor="lastName" className='all-20'>Last Name</label>
+						    <div className='control all-80'>
+						    	<input id="lastName" type="text" name="lastName" value={this.state.lastName} onChange={this.handleLastNameChange.bind(this)}/>
 						    </div>
 					    </div>
 						
