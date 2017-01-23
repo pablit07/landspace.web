@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from rest_framework.response import Response
 from django.core.urlresolvers import reverse
+from . import models
 import serializers
 
 
@@ -29,6 +30,11 @@ class UserViewSet(viewsets.ModelViewSet):
 			raise PermissionDenied()
 
 		return super(UserViewSet, self).retrieve(request, pk=pk)
+
+
+class DesignerViewSet(viewsets.ModelViewSet):
+	queryset = models.Designer.objects.all()
+	serializer_class = serializers.DesignerSerializer
 
 
 class ReverseUrlApiView(APIView):

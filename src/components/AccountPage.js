@@ -7,7 +7,8 @@ export default class AccountPage extends React.Component {
 		this.state = {
 			'email': '',
 			'firstName': '',
-			'lastName': ''
+			'lastName': '',
+			'designerSource': ''
 		}
 	}
 
@@ -18,8 +19,16 @@ export default class AccountPage extends React.Component {
 				this.setState({
 					'email': data.email,
 					'firstName': data.first_name,
-					'lastName': data.last_name
+					'lastName': data.last_name,
+					'designerSource': data.designer
 				});
+				if (data.designer) {
+					$.get(data.designer, (data) => {
+						this.setState({
+							'region': data.region
+						});
+					});
+				}
 			});
 		});
 	}
@@ -36,6 +45,10 @@ export default class AccountPage extends React.Component {
 		this.setState({lastName: event.target.value});
 	}
 
+	handleRegionChange(event) {
+		this.setState({region: event.target.value});
+	}
+
 	handleSubmit(event) {
 		$.ajax({
 			headers: {
@@ -46,7 +59,8 @@ export default class AccountPage extends React.Component {
 			data: {
 				email: this.state.email,
 				first_name: this.state.firstName,
-				last_name: this.state.lastName
+				last_name: this.state.lastName,
+				region: this.state.region
 			}
 		})
 		event.preventDefault();
@@ -79,6 +93,16 @@ export default class AccountPage extends React.Component {
 						    	<input id="lastName" type="text" name="lastName" value={this.state.lastName} onChange={this.handleLastNameChange.bind(this)}/>
 						    </div>
 					    </div>
+
+					    { (this.state.designerSource ? (
+
+					    	<div className='control-group'>
+							    <label htmlFor="region" className='all-20'>Region</label>
+							    <div className='control all-80'>
+							    	<input id="region" type="text" name="region" value={this.state.region} onChange={this.handleRegionChange.bind(this)}/>
+							    </div>
+						    </div>
+				    	) : null ) }
 						
 						{writeCsrf()}
 						<input type="submit" value="Save"/>
