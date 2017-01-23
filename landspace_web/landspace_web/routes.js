@@ -52,6 +52,9 @@ render((
 	<Route path='/users/account' component={() => (<ProjectsTopNav vertical={true} userSource={userSource} />)}>
 		<IndexRoute />
 	</Route>
+	<Route path='/users/cart' component={() => (<ProjectsTopNav vertical={true} userSource={userSource} />)}>
+		<IndexRoute />
+	</Route>
 	<Route path="/users" component={() => (<TopNav vertical={true} />)}>
 		<Route path='/users/login'/>
 		<Route path='/users/*'/>

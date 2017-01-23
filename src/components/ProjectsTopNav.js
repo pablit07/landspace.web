@@ -23,7 +23,8 @@ export default class ProjectsTopNav extends React.Component {
 		$.get(props.userSource + window.userId + '/', (data) => {
 			this.setState({
 				'firstName': data['first_name'],
-				'lastName': data['last_name']
+				'lastName': data['last_name'],
+				'designerSource': data['designer']
 			});
 		});
 	}
@@ -65,7 +66,7 @@ export default class ProjectsTopNav extends React.Component {
 		});
 
 		if (projectsMenu.length == 0) {
-			projectsMenu.push(<li className='inline'>You have no projects. <a href="/projects" className='inline'>Start a Project</a></li>);
+			projectsMenu.push(<li className='inline'><div className={'a'+(this.props.vertical?' note':'')}>You have no projects.</div> <a href="/projects" className='inline'>{ (this.state.designerSource ? 'Request Project' : 'Start a Project') }</a></li>);
 		} else {
 			projectsMenu.push(<li className="separator-above"><Link to="/projects"><i className='fa fa-plus'></i> New Project</Link></li>);	
 		}		
