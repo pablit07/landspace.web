@@ -6,3 +6,6 @@ from django.db import models
 class Project(models.Model):
 	name = models.CharField(max_length=100, blank=False, null=False)
 	client = models.ForeignKey(User)
+
+	def __unicode__(self):
+		return self.name
