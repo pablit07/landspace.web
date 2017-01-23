@@ -27,6 +27,10 @@ export function getCookie(name) {
 
 export function writeCsrf() {
     var csrfToken = getCookie('csrftoken');
+
+    if (!csrfToken) {
+        return document.getElementById('id-csrf').innerHTML;
+    }
     
     return React.DOM.input(
       {type:"hidden", name:"csrfmiddlewaretoken", value:csrfToken}
