@@ -72,7 +72,7 @@ ROOT_URLCONF = 'landspace_web.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, "..", 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -166,17 +166,17 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "..", "www", "static")
+STATIC_ROOT = os.path.join(BASE_DIR, "..", "..", "www", "static")
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, "..", 'static'),
 )
 
 WEBPACK_LOADER = {
     'DEFAULT': {
         'CACHE': False,
         'BUNDLE_DIR_NAME': 'bundles/js/', # must end with slash
-        'STATS_FILE': os.path.join(BASE_DIR, 'static', 'webpack-stats.json'),
+        'STATS_FILE': os.path.join(BASE_DIR, "..", 'static', 'webpack-stats.json'),
         'POLL_INTERVAL': 0.1,
         'TIMEOUT': None,
         'IGNORE': ['.+\.hot-update.js', '.+\.map']
