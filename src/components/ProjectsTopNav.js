@@ -74,13 +74,13 @@ export default class ProjectsTopNav extends React.Component {
 		var userMenu = [
 			(<li><Link to="/users/account">My Account</Link></li>),
 	        (<li><Link to='/users/cart'>My Cart</Link></li>),
-	        (<li><a href="http://www.landspace.site">Invite Friends</a></li>),
-	        (<li><a href="http://www.landspace.site">Support</a></li>),
+	        // (<li><a href="http://www.landspace.site">Invite Friends</a></li>),
+	        // (<li><a href="http://www.landspace.site">Support</a></li>),
 	        (<li><a href="/users/logout/?next=/users/login/" className='separator-above'>Logout</a></li>)];
 
         var exploreMenu = [
 			(<li><a href="http://www.landspace.site/moreau">Projects</a></li>),
-	        (<li><a href="http://www.landspace.site/pacific-tavern">Designers</a></li>)];
+	        (<li><a href="http://www.landspace.site/designers/">Designers</a></li>)];
 
 		if (!this.props.vertical) {
 			
