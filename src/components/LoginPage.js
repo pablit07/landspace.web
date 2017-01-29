@@ -131,7 +131,7 @@ export default class LoginPage extends React.Component {
 						  </div>
 						  {pwUpdateLink}
 
-						<a href={this.state.fbLoginSource + '?social_auth_new_user_allowed=0'} className='ink-button fb-blue'>Login with Facebook</a>
+						<a href={this.state.fbLoginSource} className='ink-button fb-blue'>Login with Facebook</a>
 						{writeCsrf()}
 					  </form>
 				  </div>

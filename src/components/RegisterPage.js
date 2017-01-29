@@ -73,7 +73,7 @@ export default class RegisterPage extends React.Component {
 						    </div>
 						  </div>
 
-						<a href={this.state.fbLoginSource + '?social_auth_new_user_allowed=1'} className='ink-button fb-blue'>Login with Facebook</a>
+						<a href={this.state.fbLoginSource + '?social_auth_new_user_allowed=1'} className='ink-button fb-blue'>Sign Up With Facebook</a>
 						{writeCsrf()}
 					  </form>
 				  </div>
