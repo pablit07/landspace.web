@@ -6,6 +6,7 @@ from rest_framework.generics import CreateAPIView
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordResetForm
 from django.http import HttpResponseBadRequest
+from forms import BadFbAuthForm
 import serializers
 
 def index(request):
@@ -39,3 +40,16 @@ def passwordreset(request):
 
 
 	return render(request, 'landspace_web/index.html', {errors: ['Could not reset password']})
+
+def fbauth_create_not_allowed(request):
+
+	form = BadFbAuthForm(data=request.GET)
+	# form.is_valid()
+
+	view_data = {
+		'form': form
+	}
+
+	response = render(request, 'registration/login.html', view_data)
+
+	return response

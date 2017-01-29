@@ -4,6 +4,7 @@ import Layout from '../../src/components/Layout';
 import LayoutPublic from '../../src/components/Layout-Public';
 import IndexPage from '../../src/components/IndexPage';
 import LoginPage from '../../src/components/LoginPage';
+import RegisterPage from '../../src/components/RegisterPage';
 import AccountPage from '../../src/components/AccountPage';
 import CartPage from '../../src/components/CartPage';
 import DashboardPage from '../../src/components/DashboardPage';
@@ -29,7 +30,9 @@ render((
 
 	<Route path='/users' component={LayoutPublic}>
 
+		<Route path='/users/new' component={RegisterPage}/>
 		<Route path='/users/login' component={LoginPage}/>
+		<Route path='/users/login/badfbauth/' component={LoginPage}/>
 	    <Route path='/users/password/' component={LoginPage}>
 	    	<Route path='/users/password/reset/done/' component={ResetPasswordEmail}/>
 	    	<Route path='/users/password/done/' component={ResetPasswordDone}/>

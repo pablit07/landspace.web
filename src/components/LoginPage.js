@@ -18,6 +18,13 @@ export default class LoginPage extends React.Component {
 	getFormErrors() {
 		var errorObj = JSON.parse(document.getElementById('id-login-errors').innerHTML)
 			,errors = (!errorObj['__all__']) ? [] : errorObj['__all__'].map(x => x.message);
+
+		delete errorObj['__all__'];
+
+		Object.keys(errorObj).forEach( (key) => {
+			errorObj[key].forEach( (msgObj) => { errors.push('' + key + ': ' + msgObj.message); });
+		});
+
 		this.setState({'errors': errors});
 	}
 
@@ -27,7 +34,7 @@ export default class LoginPage extends React.Component {
 
   	var errorMessages = [];
   	this.state.errors.forEach( (msg) => {
-		errorMessages.push(<span className='tip'>{msg}</span>)
+		errorMessages.push(<p className='tip' dangerouslySetInnerHTML={ {'__html':msg} }></p>)
 	});
 
 	var errorMessagesHtml = (errorMessages.length ? (<p>{errorMessages}</p>) : false);
@@ -124,7 +131,7 @@ export default class LoginPage extends React.Component {
 						  </div>
 						  {pwUpdateLink}
 
-						<a href={this.state.fbLoginSource} className='ink-button fb-blue'>Login with Facebook</a>
+						<a href={this.state.fbLoginSource + '?social_auth_new_user_allowed=0'} className='ink-button fb-blue'>Login with Facebook</a>
 						{writeCsrf()}
 					  </form>
 				  </div>
