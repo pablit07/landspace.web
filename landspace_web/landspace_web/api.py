@@ -37,6 +37,11 @@ class DesignerViewSet(viewsets.ModelViewSet):
 	serializer_class = serializers.DesignerSerializer
 
 
+class ClientViewSet(viewsets.ModelViewSet):
+	queryset = models.Client.objects.all()
+	serializer_class = serializers.ClientSerializer
+
+
 class ReverseUrlApiView(APIView):
 	permission_classes = (permissions.AllowAny,)
 

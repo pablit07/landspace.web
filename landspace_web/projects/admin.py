@@ -5,6 +5,7 @@ from social_django import models as social_django_models
 
 
 admin.site.register(models.Project)
+admin.site.register(models.Step)
 
 admin.site.unregister(social_django_models.Association)
 admin.site.unregister(social_django_models.Nonce)

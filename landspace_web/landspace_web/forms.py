@@ -9,6 +9,11 @@ class DesignerForm(forms.ModelForm):
 	region = forms.CharField(max_length=5, min_length=5)
 
 
+class ClientForm(forms.ModelForm):
+	class Meta:
+		fields = '__all__'
+
+
 class BadFbAuthForm(auth_forms.AuthenticationForm):
 	
 	def clean(self):
