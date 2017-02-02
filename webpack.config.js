@@ -6,6 +6,11 @@ var BundleTracker = require('webpack-bundle-tracker');
 
 module.exports = {
 	// devtool: 'source-map',
+	devServer: {
+		contentBase: path.join(__dirname, 'landspace_web', "static"),
+		compress: true,
+		port: 9000
+	},
 	entry: {
 		'app': path.join(__dirname, 'src', 'app-client.js'),
 		'page': path.join(__dirname, 'landspace_web', 'landspace_web', 'index.js')
