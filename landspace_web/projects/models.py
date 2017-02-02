@@ -15,8 +15,9 @@ class Step(models.Model):
 	percent_shown = models.IntegerField(blank=True, null=True, default=0)
 	name = models.CharField(max_length=100)
 	action = models.CharField(max_length=50, blank=True, null=True)
-	url = models.URLField(blank=True, null=True)
+	url = models.CharField(max_length=300, blank=True, null=True)
 	next = models.OneToOneField("self", blank=True, null=True)
+	icon_class = models.CharField(max_length=20, blank=True, null=True)
 
 	def __unicode__(self):
 		return self.name

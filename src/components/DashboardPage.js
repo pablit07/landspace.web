@@ -11,6 +11,7 @@ export default class ProjectsPage extends React.Component {
 			'currentStep': '',
 			'nextStep': '',
 			'nextStepUrl': '',
+			'stepIconClass': 'none',
 			'designerSource': '',
 			'clientSource': ''
 		};
@@ -18,7 +19,6 @@ export default class ProjectsPage extends React.Component {
 
 	componentDidMount() {
 		var userDataSource;
-		this.setState({'isLoading': false});
 		$.get('/api/url/?name=users-api&p1=' + userId, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
 			$.get(userDataSource, (data) => {
 				this.setState({
@@ -28,7 +28,8 @@ export default class ProjectsPage extends React.Component {
 				if (data.designer) {
 					$.get(data.designer, (data) => {
 						this.setState({
-							'region': data.region
+							'region': data.region,
+							'isLoading': false
 						});
 					});
 				}
@@ -39,8 +40,10 @@ export default class ProjectsPage extends React.Component {
 							'currentStepPercentShown': data.current_step.percent_shown,
 							'stepAction': data.current_step.action,
 							'stepActionUrl': data.current_step.url,
-							'nextStep': data.current_step.next.name,
-							'nextStepUrl': data.current_step.next.url
+							'stepIconClass': data.current_step.icon_class,
+							'nextStep': data.current_step.next ? data.current_step.next.name : '',
+							'nextStepUrl': data.current_step.next ? data.current_step.next.url : '',
+							'isLoading': false
 						});
 					});
 				}
@@ -55,7 +58,8 @@ export default class ProjectsPage extends React.Component {
 				    </div>
 				</div>) : null;
 
-    	var nextButton = this.state.stepAction ? (<a href={this.state.stepActionUrl} className='ink-button'>{this.state.stepAction}</a>) : null;
+    	var nextButton = this.state.stepAction ? (<div className="all-100 push-center align-center vertical-space"><a href={this.state.stepActionUrl} className='ink-button vertical-space'>{this.state.stepAction}</a></div>) : null;
+
     
 		return (
 
@@ -72,8 +76,11 @@ export default class ProjectsPage extends React.Component {
 			    		{ loading }
 
 						<div className="column-group gutters full-height">
-						    <div className="all-50 push-center align-center">
+						    <div className="all-80 push-center align-center">
 						    	<h2>{this.state.currentStep}</h2>
+						    	<div className="all-100 vertical-space">
+						    		<i className={(this.state.isLoading ? '' : (this.state.stepIconClass ? this.state.stepIconClass : 'fa-cogs'))+" fa fa-5x animated flip delay-2"} aria-hidden="true"></i>
+						    	</div>
 						    	<label>{this.state.currentStepPercentShown}% Complete</label>
 				     			<Line percent={this.state.currentStepPercentShown} strokeWidth="5" strokeColor="#66b14b" />
 				     			
