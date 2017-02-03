@@ -1,12 +1,18 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from . import models
+from landspace_web.models import Client, Designer
 from projects.serializers import StepSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
 
+	CLIENT_ROLE = 'CLIENT'
+	DESIGNER_ROLE = 'DESIGNER'
+	ROLE_CHOICES = ((CLIENT_ROLE, 'Client'), (DESIGNER_ROLE, 'Designer'), (None, '--------'))
+
 	password = serializers.CharField(write_only=True)
+	role = serializers.ChoiceField(write_only=True, choices=ROLE_CHOICES, required=False)
 	designer = serializers.SerializerMethodField('get_designer_url')
 	client = serializers.SerializerMethodField('get_client_url')
 
@@ -24,6 +30,12 @@ class UserSerializer(serializers.ModelSerializer):
 		)
 		user.set_password(validated_data['password'])
 		user.save()
+
+		if 'role' in validated_data and validated_data['role'] != None:
+			if validated_data['role'] == self.CLIENT_ROLE:
+				Client.objects.create(user_id=user.id)
+			elif validated_data['role'] == self.DESIGNER_ROLE:
+				Designer.objects.create(user_id=user.id)
 
 		return user
 

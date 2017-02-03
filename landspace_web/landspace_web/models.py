@@ -22,7 +22,7 @@ class Designer(models.Model):
 
 class Client(models.Model):
 	user = models.ForeignKey(User)	
-	current_step = models.ForeignKey(Step)
+	current_step = models.ForeignKey(Step, blank=True, null=True)
 
 	@property
 	def url(self):

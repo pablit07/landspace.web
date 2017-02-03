@@ -9,14 +9,24 @@ from django.contrib.auth.models import User
 from django.core.exceptions import PermissionDenied
 from rest_framework.response import Response
 from django.core.urlresolvers import reverse
+from django.conf import settings
 from . import models
 import serializers
+import rest_framework
 
 
 class CreateUserView(CreateAPIView):
 
-    model = User
-    serializer_class = serializers.UserSerializer
+	create_user_authentication_classes = tuple(map(lambda s : eval(s), settings.CREATE_USER_API_AUTH))
+	print create_user_authentication_classes
+
+	model = User
+	serializer_class = serializers.UserSerializer
+	authentication_classes = create_user_authentication_classes
+
+	def create(self, request):
+
+		return super(CreateAPIView, self).create(request)
 
 
 class UserViewSet(viewsets.ModelViewSet):

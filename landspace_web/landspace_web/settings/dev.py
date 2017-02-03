@@ -11,3 +11,5 @@ SOCIAL_AUTH_FACEBOOK_SECRET='e8fd4bd0685e9cab6f2928177fd53f82'
 STATIC_URL = 'http://localhost:9000/'
 STATIC_ROOT = os.path.join(BASE_DIR, "..", "static")
 STATICFILES_DIRS = ()
+
+CREATE_USER_API_AUTH = ('rest_framework.authentication.TokenAuthentication', 'rest_framework.authentication.SessionAuthentication',)

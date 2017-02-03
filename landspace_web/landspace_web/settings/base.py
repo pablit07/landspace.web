@@ -36,6 +36,8 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 100
 }
 
+CREATE_USER_API_AUTH = ('rest_framework.authentication.TokenAuthentication',)
+
 
 # Application definition
 
