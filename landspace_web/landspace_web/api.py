@@ -18,7 +18,6 @@ import rest_framework
 class CreateUserView(CreateAPIView):
 
 	create_user_authentication_classes = tuple(map(lambda s : eval(s), settings.CREATE_USER_API_AUTH))
-	print create_user_authentication_classes
 
 	model = User
 	serializer_class = serializers.UserSerializer
