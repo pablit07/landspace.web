@@ -11,11 +11,6 @@ export default class LayoutPublic extends React.Component {
                     <TopNav vertical={false}></TopNav>
                 </header>
                 <div className="app-content">{this.props.children}</div>
-                <footer>
-                    <div className='ink-grid vertical-space'>
-                        &copy; 2017 <strong>Landspace LLC</strong>
-                    </div>
-                </footer>
             </div>
         );
     }

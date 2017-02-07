@@ -52,7 +52,7 @@ export default class ProjectsPage extends React.Component {
 	}
 
 	render() {
-    	var loading = this.state.isLoading ? (<div className="column-group push-center push-middle gutters animated fadeInDown duration-0_5">
+    	var loading = this.state.isLoading ? (<div className="column-group push-center push-middle gutters animated fadeInDown duration-0_5 vertical-space">
 				    <div className="all-50 push-center align-center">
 				    	<i className="fa fa-refresh fa-spin fa-4x fa-fw"></i>
 				    </div>
@@ -75,7 +75,7 @@ export default class ProjectsPage extends React.Component {
 
 			    		{ loading }
 
-						<div className="column-group gutters full-height">
+						<div className="column-group gutters vertical-space">
 						    <div className="all-80 push-center align-center">
 						    	<h2>{this.state.currentStep}</h2>
 						    	<div className="all-100 vertical-space">
@@ -92,7 +92,7 @@ export default class ProjectsPage extends React.Component {
 
 			    	<div id="history" className="tabs-content full-height">
 
-						<div className="column-group push-center push-middle gutters full-height">
+						<div className="column-group push-center push-middle gutters vertical-space">
 						    <div className="all-50 push-center align-center">
 								<i className="fa fa-refresh fa-spin fa-4x fa-fw"></i>
 						    </div>

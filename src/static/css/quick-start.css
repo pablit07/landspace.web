@@ -64,6 +64,10 @@ header.clearfix { overflow: visible !important;}
   }
 }
 
+#main {
+  margin-bottom: -100px;
+}
+
 nav.ink-navigation .vertical .heading {
     padding: .5em 1em;
     display: block;
@@ -94,7 +98,7 @@ nav.ink-navigation .fa-shopping-cart.fa-2x {
 .app-content.dashboard { height: 94%; }
 .public .app-content { min-height: 50%; }
 
-html, body, #main, .full-height { height: 100%; }
+html, body, #main, .full-height { height: 100%; min-height: 600px;}
 
 .ink-button.fb-blue {
   background-color: #4267b2;
