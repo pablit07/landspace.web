@@ -1,0 +1,62 @@
+[
+  {
+    "model": "projects.step",
+    "pk": 1,
+    "fields": {
+      "percent_shown": 0,
+      "name": "1. Add Login Info",
+      "action": "Add Login",
+      "url": "/users/new/",
+      "next": 2,
+      "icon_class": "fa-user-plus"
+    }
+  },
+  {
+    "model": "projects.step",
+    "pk": 2,
+    "fields": {
+      "percent_shown": 20,
+      "name": "2. Project Profile",
+      "action": "Complete Project Profile",
+      "url": "http://www.landspace.site/",
+      "next": 3,
+      "icon_class": ""
+    }
+  },
+  {
+    "model": "projects.step",
+    "pk": 3,
+    "fields": {
+      "percent_shown": 40,
+      "name": "3. Designer Match",
+      "action": "",
+      "url": "",
+      "next": 4,
+      "icon_class": ""
+    }
+  },
+  {
+    "model": "projects.step",
+    "pk": 4,
+    "fields": {
+      "percent_shown": 60,
+      "name": "4. Select Package",
+      "action": "",
+      "url": "",
+      "next": 5,
+      "icon_class": ""
+    }
+  },
+  {
+    "model": "projects.step",
+    "pk": 5,
+    "fields": {
+      "percent_shown": 80,
+      "name": "5. Payment",
+      "action": "",
+      "url": "",
+      "next": null,
+      "icon_class": "fa-credit-card"
+    }
+  }
+]
