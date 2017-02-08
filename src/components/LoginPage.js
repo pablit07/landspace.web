@@ -20,7 +20,7 @@ export default class LoginPage extends React.Component {
 		
 		if (!rawJson) return;
 
-		var errorObj = JSON.parse(rawJson);
+		var errorObj = JSON.parse(rawJson)
 			,errors = (!errorObj['__all__']) ? [] : errorObj['__all__'].map(x => x.message);
 
 		delete errorObj['__all__'];
