@@ -16,7 +16,11 @@ export default class LoginPage extends React.Component {
 	}
 
 	getFormErrors() {
-		var errorObj = JSON.parse(document.getElementById('id-login-errors').innerHTML)
+		var rawJson = document.getElementById('id-login-errors').innerHTML;
+		
+		if (!rawJson) return;
+
+		var errorObj = JSON.parse(rawJson);
 			,errors = (!errorObj['__all__']) ? [] : errorObj['__all__'].map(x => x.message);
 
 		delete errorObj['__all__'];
@@ -99,7 +103,7 @@ export default class LoginPage extends React.Component {
 						    </div>
 					    </div>
 						<p>
-							<input type="submit" value="Reset" />
+							<input type="submit" value="Send Reset Email" />
 			        		<a href='javascript:void(0)' className='left-space ink-toggle' data-target="#id-login-form" data-is-accordion="true" data-initial-state={(showPasswordUpdate ? 'false' : 'true')} data-class-name-on='' data-class-name-off='hide-all'>Login</a>
 						</p>
 						{writeCsrf()}

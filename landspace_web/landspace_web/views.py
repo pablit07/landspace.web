@@ -8,6 +8,7 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.http import HttpResponseBadRequest
 from forms import BadFbAuthForm
 import serializers
+import json
 
 def index(request):
 
@@ -24,27 +25,28 @@ def passwordreset(request):
 	if not email:
 		return HttpResponseBadRequest()
 
-	user = User.objects.get(email=email)
+	user_queryset = User.objects.filter(email=email)
+	if user_queryset.exists() and user_queryset.count() == 1:
+		user = user_queryset.first()
 
-	if user and user.email:
-		form = PasswordResetForm({'email': user.email})
+		if user and user.email:
+			form = PasswordResetForm({'email': user.email})
 
-		if form.is_valid():
-			form.save(
-				use_https=False,
-				from_email="no-reply@landspace.site", 
-				email_template_name='registration/password_reset_email.html',
-				request=request)
+			if form.is_valid():
+				form.save(
+					use_https=False,
+					from_email="no-reply@landspaceplan.com", 
+					email_template_name='registration/password_reset_email.html',
+					request=request)
 
-			return redirect('password-reset-done')
+				return redirect('password-reset-done')
 
 
-	return render(request, 'landspace_web/index.html', {errors: ['Could not reset password']})
+	return render(request, 'registration/login.html')
 
 def fbauth_create_not_allowed(request):
 
 	form = BadFbAuthForm(data=request.GET)
-	# form.is_valid()
 
 	view_data = {
 		'form': form

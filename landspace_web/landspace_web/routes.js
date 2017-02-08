@@ -34,6 +34,7 @@ render((
 		<Route path='/users/login' component={LoginPage}/>
 		<Route path='/users/login/badfbauth/' component={LoginPage}/>
 	    <Route path='/users/password/' component={LoginPage}>
+	    	<Route path='/users/password/reset/' component={() => (<ResetPasswordEmail isError={true}/>)}/>
 	    	<Route path='/users/password/reset/done/' component={ResetPasswordEmail}/>
 	    	<Route path='/users/password/done/' component={ResetPasswordDone}/>
     	</Route>
