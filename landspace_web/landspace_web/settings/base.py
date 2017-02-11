@@ -204,3 +204,5 @@ AUTHENTICATION_BACKENDS = (
 )
 
 FIELDS_STORED_IN_SESSION = ['social_auth_new_user_allowed']
+
+SITE_URL = 'http://app.gamesensesports.com/'

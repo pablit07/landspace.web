@@ -5,6 +5,7 @@ import LayoutPublic from '../../src/components/Layout-Public';
 import IndexPage from '../../src/components/IndexPage';
 import LoginPage from '../../src/components/LoginPage';
 import RegisterPage from '../../src/components/RegisterPage';
+import DesignerRegisterPage from '../../src/components/DesignerRegisterPage';
 import AccountPage from '../../src/components/AccountPage';
 import CartPage from '../../src/components/CartPage';
 import DashboardPage from '../../src/components/DashboardPage';
@@ -30,6 +31,7 @@ render((
 
 	<Route path='/users' component={LayoutPublic}>
 
+		<Route path='/users/new/designer' component={DesignerRegisterPage}/>
 		<Route path='/users/new' component={RegisterPage}/>
 		<Route path='/users/login' component={LoginPage}/>
 		<Route path='/users/login/badfbauth/' component={LoginPage}/>

@@ -28,6 +28,29 @@ export default class RegisterPage extends React.Component {
 		this.setState({'errors': errors});
 	}
 
+	getFormFields(errorMessagesHtml) {
+		return [
+		(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')} >
+		    <label htmlFor="username">Email</label>
+		    <div className='control'>
+		    	<input id="username" type="text" name="username" />
+		    </div>
+	    </div>),
+		(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
+		    <label htmlFor="password">Password</label>
+		    <div className='control'>
+		    	<input id="password" type="password" name="password" />
+	    	</div>
+	  	</div>),
+	  	(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
+		    <label htmlFor="password">Password (Confirm)</label>
+		    <div className='control'>
+		    	<input id="password2" type="password" name="password2" />
+	    	</div>
+	  	</div>)
+	  	];
+	}
+
   render() {
 
   	var errorMessages = [];
@@ -37,6 +60,7 @@ export default class RegisterPage extends React.Component {
 
 	var errorMessagesHtml = (errorMessages.length ? (<p>{errorMessages}</p>) : false);
 	var messages = null;
+	var formFields = this.getFormFields(errorMessagesHtml);
 
     return (
     	<div className='ink-grid animated fadeIn duration-2'>
@@ -48,24 +72,7 @@ export default class RegisterPage extends React.Component {
 
 		    	<div id='id-register-form' className="all-40 tiny-90 small-90 medium-55 push-center block animated">
 			    	<form method='POST' className='ink-form' action='/users/login/'>
-						<div className={"control-group" + (errorMessagesHtml ? ' required' : '')} >
-						    <label htmlFor="username">Email</label>
-						    <div className='control'>
-						    	<input id="username" type="text" name="username" />
-						    </div>
-					    </div>
-						<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
-						    <label htmlFor="password">Password</label>
-						    <div className='control'>
-						    	<input id="password" type="password" name="password" />
-					    	</div>
-					  	</div>
-					  	<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
-						    <label htmlFor="password">Password (Confirm)</label>
-						    <div className='control'>
-						    	<input id="password2" type="password" name="password2" />
-					    	</div>
-					  	</div>
+							{ formFields }
 						  	{ errorMessagesHtml }
 						  <div className='column-group vertical-space'>
 						  	<div className='all-30'>

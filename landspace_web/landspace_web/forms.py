@@ -1,17 +1,23 @@
 from django import forms
 from django.contrib.auth import forms as auth_forms
+from . import models
 
 
-class DesignerForm(forms.ModelForm):
-	class Meta:
-		fields = '__all__'
+class DesignerAdminForm(forms.ModelForm):
 
 	region = forms.CharField(max_length=5, min_length=5)
+	email = forms.CharField()
 
-
-class ClientForm(forms.ModelForm):
 	class Meta:
 		fields = '__all__'
+		model = models.Designer
+
+
+class ClientAdminForm(forms.ModelForm):
+
+	class Meta:
+		fields = '__all__'
+		model = models.Client
 
 
 class BadFbAuthForm(auth_forms.AuthenticationForm):
