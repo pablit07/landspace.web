@@ -5,7 +5,11 @@ from social_django import models as social_django_models
 from django import forms as django_forms
 from django.utils.crypto import get_random_string
 from django.conf import settings
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 import forms
+import urllib
 
 
 class DesignerAdmin(admin.ModelAdmin):
@@ -18,8 +22,8 @@ class DesignerAdmin(admin.ModelAdmin):
 
 
 	def registration_url(self, obj):
-		url = settings.SITE_URL + 'users/new/designer?id={id}'.format(id=obj.id)
-		return '<a href="{url}">{url}</a>'.format(url=url)
+		url = settings.SITE_URL + 'users/new/designer/{token}/{email}/{uid}'.format(token=default_token_generator.make_token(obj.user), email=urllib.quote(obj.user.username), uid=urlsafe_base64_encode(force_bytes(obj.user.pk)).decode())
+		return '<a href="{url}">Right Click To Copy</a>'.format(url=url)
 
 	registration_url.allow_tags = True
 

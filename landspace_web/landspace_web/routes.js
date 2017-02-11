@@ -18,6 +18,12 @@ import { render } from 'react-dom'
 
 const userSource = '/api/users/';
 
+class DesignerRegisterPageRoute extends React.Component {
+    render () {
+        return <DesignerRegisterPage params={{token: this.props.params.token, email: decodeURIComponent(this.props.params.email), uid: this.props.params.uid}} />;
+    }
+};
+
 render((
 <Router history={browserHistory}>
 
@@ -31,7 +37,7 @@ render((
 
 	<Route path='/users' component={LayoutPublic}>
 
-		<Route path='/users/new/designer' component={DesignerRegisterPage}/>
+		<Route path='/users/new/designer/:token/:email/:uid' component={DesignerRegisterPageRoute}/>
 		<Route path='/users/new' component={RegisterPage}/>
 		<Route path='/users/login' component={LoginPage}/>
 		<Route path='/users/login/badfbauth/' component={LoginPage}/>

@@ -1,31 +1,23 @@
 import React from 'react';
-import { writeCsrf } from '../utils.js';
+import { writeCsrf, getCookie } from '../utils.js';
 
 export default class RegisterPage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			'fbLoginSource': '',
+			'createUserSource': '',
 			'errors': []
 		}
 	}
 
 	componentDidMount() {
 		$.get('/api/url/?name=social:begin&p1=facebook', (data) => { this.setState({'fbLoginSource': data.url}) });
-		this.getFormErrors();
+		$.get('/api/url/?name=users-api-create', (data) => { this.setState({'createUserSource': data.url}) });
 	}
 
-	getFormErrors() {
-		var errorObj = JSON.parse(document.getElementById('id-login-errors').innerHTML)
-			,errors = (!errorObj['__all__']) ? [] : errorObj['__all__'].map(x => x.message);
-
-		delete errorObj['__all__'];
-
-		Object.keys(errorObj).forEach( (key) => {
-			errorObj[key].forEach( (msgObj) => { errors.push('' + key + ': ' + msgObj.message); });
-		});
-
-		this.setState({'errors': errors});
+	getFbButton() {
+		return (<a href={this.state.fbLoginSource + '?social_auth_new_user_allowed=1'} className='ink-button fb-blue'>Sign Up With Facebook</a>);
 	}
 
 	getFormFields(errorMessagesHtml) {
@@ -43,12 +35,50 @@ export default class RegisterPage extends React.Component {
 	    	</div>
 	  	</div>),
 	  	(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
-		    <label htmlFor="password">Password (Confirm)</label>
+		    <label htmlFor="password2">Password (Confirm)</label>
 		    <div className='control'>
 		    	<input id="password2" type="password" name="password2" />
 	    	</div>
 	  	</div>)
 	  	];
+	}
+
+	handleSubmit(event) {
+		event.preventDefault();
+		
+		var errors = [],
+			form = event.target
+
+		errors = this.validate(form);
+		if (!errors.length) {
+			this.saveForm(form);
+		} else {
+			this.setState({errors: errors});
+		}
+	}
+
+	validate(form) {
+		var errors = [];
+
+		if (!form.password.value || !form.password2.value) {
+			errors.push('password: This field is required.')
+		} else if (form.password.value != form.password2.value) {
+			errors.push('Passwords must match.')
+		}
+
+		return errors;
+	}
+
+	saveForm(form) {
+		$.post({
+			url: this.state.createUserSource,
+			headers: {
+				'X-CSRFToken': getCookie('csrftoken')
+			},
+			data: {
+
+			}
+		});
 	}
 
   render() {
@@ -61,6 +91,7 @@ export default class RegisterPage extends React.Component {
 	var errorMessagesHtml = (errorMessages.length ? (<p>{errorMessages}</p>) : false);
 	var messages = null;
 	var formFields = this.getFormFields(errorMessagesHtml);
+	var fbButton = this.getFbButton();
 
     return (
     	<div className='ink-grid animated fadeIn duration-2'>
@@ -71,17 +102,21 @@ export default class RegisterPage extends React.Component {
 	    	<div className='column-group gutters'>
 
 		    	<div id='id-register-form' className="all-40 tiny-90 small-90 medium-55 push-center block animated">
-			    	<form method='POST' className='ink-form' action='/users/login/'>
+			    	<form name='register' method='POST' className='ink-form' onSubmit={this.handleSubmit.bind(this)}>
 							{ formFields }
 						  	{ errorMessagesHtml }
 						  <div className='column-group vertical-space'>
 						  	<div className='all-30'>
-						    	<input type="submit" value="Finish" />
+						    	<input type="submit" value="Create My Account" />
 						    </div>
 						  </div>
-
-						<a href={this.state.fbLoginSource + '?social_auth_new_user_allowed=1'} className='ink-button fb-blue'>Sign Up With Facebook</a>
+						{fbButton}
 						{writeCsrf()}
+					  </form>
+					  <form name='login' method='POST' action='/users/login/'>
+					  	<input type='hidden' name='username' id='loginUsername'/>
+					  	<input type='hidden' name='password' id='loginPassword'/>
+					  	{writeCsrf()}
 					  </form>
 				  </div>
 			  
