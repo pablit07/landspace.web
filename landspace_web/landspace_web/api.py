@@ -14,6 +14,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import get_default_password_validators
 from . import models
 import serializers
@@ -113,4 +114,3 @@ class ValidatePasswordApiView(APIView):
 
 		return Response({'errors': errors})
 
-		
