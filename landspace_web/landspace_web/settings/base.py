@@ -64,7 +64,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_django.middleware.SocialAuthExceptionMiddleware'
+    'social_django.middleware.SocialAuthExceptionMiddleware',
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware'
 ]
 
 LOGIN_REDIRECT_URL = '/projects'
@@ -206,3 +207,10 @@ AUTHENTICATION_BACKENDS = (
 FIELDS_STORED_IN_SESSION = ['social_auth_new_user_allowed']
 
 SITE_URL = 'http://app.gamesensesports.com/'
+
+ROLLBAR = {
+    'access_token': '6d83b5868ef24399ab788de8b2a0e2a4',
+    'environment': 'production',
+    'root': BASE_DIR,
+}
+

@@ -1,6 +1,7 @@
 from .base import *
 
 # to use localhost
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_HOST = 'localhost'
 # EMAIL_PORT = 1025
 
@@ -30,3 +31,9 @@ EMAIL_HOST_USER = 'AKIAIUBIEEQFDGURX6FQ'
 EMAIL_HOST_PASSWORD = 'ArA4+R4C4lJGzsPyVhQhV0ZGmRg8Dn7AJ5fCAQlRxOsR'
 
 SITE_URL = 'http://localhost:8000/'
+
+ROLLBAR = {
+    'access_token': '6d83b5868ef24399ab788de8b2a0e2a4',
+    'environment': 'development',
+    'root': BASE_DIR,
+}
