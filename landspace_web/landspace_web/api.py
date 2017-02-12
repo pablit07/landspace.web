@@ -14,6 +14,7 @@ from django.contrib.auth.tokens import default_token_generator
 from django.views.decorators.csrf import csrf_exempt
 from django.core.exceptions import PermissionDenied
 from django.conf import settings
+from django.contrib.auth.password_validation import get_default_password_validators
 from . import models
 import serializers
 import rest_framework
@@ -92,3 +93,24 @@ class DesignerTokenApiView(APIView):
 		token, created = Token.objects.get_or_create(user=user)
 
 		return Response({'id': user.id, 'token': token.key})
+
+
+class ValidatePasswordApiView(APIView):
+	permission_classes = (permissions.AllowAny,)
+	authentication_classes = (authentication.TokenAuthentication,)
+
+	def post(self, request):
+		password = request.POST.get('password')
+		errors = []
+
+		password_validators = get_default_password_validators()
+		for validator in password_validators:
+			try:
+				validator.validate(password, user)
+			except ValidationError as error:
+				errors.append(error)
+
+
+		return Response({'errors': errors})
+
+		

@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^users/login/', auth_views.login),
     url(r'^users/new/', logout_user(auth_views.login)),
 
+    url(r'^api/users/validatepassword/$', api.ValidatePasswordApiView.as_view(), name='users-api-validatepassword'),
     url(r'^api/users/(?P<user_id>\d+)/projects', projects_api.UserProjectsViewSet.as_view({'get': 'list'}), name='user-projects'),
     url(r'^api/users/clients/(?P<pk>\d+)/$', api.ClientViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update'}), name='clients-api'),
     url(r'^api/users/designers/auth/$', csrf_exempt(api.DesignerTokenApiView.as_view()), name='designer-token-auth'),

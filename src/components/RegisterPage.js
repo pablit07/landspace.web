@@ -51,7 +51,9 @@ export default class RegisterPage extends React.Component {
 
 		errors = this.validate(form);
 		if (!errors.length) {
-			this.saveForm(form);
+			this.validatePassword(form).done(_ => {
+				this.saveForm(form);
+			});
 		} else {
 			this.setState({errors: errors});
 		}
@@ -67,6 +69,35 @@ export default class RegisterPage extends React.Component {
 		}
 
 		return errors;
+	}
+
+	validatePassword(form) {
+		var result = $.Deferred();
+
+		$.get('/api/url/?name=users-api-validatepassword').done((data) => {
+			$.ajax({
+				url: data.url,
+				headers: {
+					'X-CSRFToken': getCookie('csrftoken')
+				},
+				type: 'POST',
+				data: {
+					password: form.password.value
+				}
+			}).done((data) => {
+				if (data.errors && data.errors.length) {
+					var errors = this.state.errors;
+					errors = errors.concat(data.errors);
+					this.setState({'errors': errors});
+					result.reject();
+				} else {
+					console.info(data);
+					result.resolve();
+				}
+			});
+		});
+
+		return result;
 	}
 
 	saveForm(form) {
