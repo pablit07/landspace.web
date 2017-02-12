@@ -109,7 +109,7 @@ class ValidatePasswordApiView(APIView):
 			try:
 				validator.validate(password)
 			except ValidationError as error:
-				errors.append(error)
+				errors.append(str(error))
 
 
 		return Response({'errors': errors})
