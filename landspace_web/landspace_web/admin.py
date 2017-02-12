@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
-import forms
+from . import forms
 import urllib
 
 
@@ -17,8 +17,7 @@ class DesignerAdmin(admin.ModelAdmin):
 	list_display = ('full_name', 'is_available',)
 	readonly_fields = ('user', 'registration_url')
 
-	class Meta:
-		form = forms.DesignerAdminForm
+	form = forms.DesignerAdminForm
 
 
 	def registration_url(self, obj):
@@ -47,6 +46,9 @@ class DesignerAdmin(admin.ModelAdmin):
 		return super(DesignerAdmin, self).get_form(request, obj, *args, **kwargs)
 
 	def save_model(self, request, obj, form, change):
+		form.clean()
+		print type(form)
+
 		if change:
 			super(DesignerAdmin, self).save_model(request, obj, form, change)
 		else:

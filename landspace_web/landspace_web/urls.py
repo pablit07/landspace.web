@@ -21,6 +21,8 @@ from django.views.generic.base import RedirectView
 from . import api
 from . import views
 from projects import api as projects_api
+from utils import logout_user
+
 
 urlpatterns = [
 	url(r'^$', RedirectView.as_view(url='projects/', permanent=False), name='index'),
@@ -30,7 +32,7 @@ urlpatterns = [
     url(r'^users/logout/$', auth_views.logout, name='logout'),
     url(r'^users/login/badfbauth/', views.fbauth_create_not_allowed),
     url(r'^users/login/', auth_views.login),
-    url(r'^users/new/', auth_views.login),
+    url(r'^users/new/', logout_user(auth_views.login)),
 
     url(r'^api/users/(?P<user_id>\d+)/projects', projects_api.UserProjectsViewSet.as_view({'get': 'list'}), name='user-projects'),
     url(r'^api/users/clients/(?P<pk>\d+)/$', api.ClientViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update'}), name='clients-api'),
@@ -38,7 +40,7 @@ urlpatterns = [
     url(r'^api/users/designers/(?P<pk>\d+)/$', api.DesignerViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update'}), name='designers-api'),
     url(r'^api/users/(?P<pk>\d+)/$', api.UserViewSet.as_view({'get': 'retrieve', 'put': 'update', 'patch': 'partial_update'}), name='users-api'),
     url(r'^api/users/$', api.CreateUserView.as_view(), name='users-api-create'),
-    
+
     url(r'^api/url/$', api.ReverseUrlApiView.as_view()),
     url(r'^users/password/reset/$', views.passwordreset, name='password-reset'),
     url(r'^users/password/reset/done/$', views.index, name='password-reset-done'),
