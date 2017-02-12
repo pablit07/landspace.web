@@ -127,9 +127,11 @@ export default class DesignerRegisterPage extends RegisterPage {
 					});
 					// trigger login
 					$.when(p1, p2, p3).done(_ => {
-						$('#loginUsername').val(this.props.params.email);
-						$('#loginPassword').val(form.password.value);
-						$('form[name="login"]')[0].submit();
+						setTimeout(_ => {
+							$('#loginUsername').val(this.props.params.email);
+							$('#loginPassword').val(form.password.value);
+							$('form[name="login"]')[0].submit();
+						}, 500);
 					})
 				}
 			});
