@@ -8,18 +8,19 @@ import re
 class DesignerAdminForm(forms.ModelForm):
 
 	region = forms.CharField(max_length=5, min_length=5, required=True)
-	email = forms.CharField()
+	email = forms.CharField(required=False)
 
 	class Meta:
 		fields = '__all__'
 		model = models.Designer
 
 	def clean(self):
+		email=self.cleaned_data.get('email', None)
+
 		cleaned_data = super(DesignerAdminForm, self).clean()
-		email=cleaned_data.get('email')
 		region=cleaned_data.get('region')
 
-		if User.objects.filter(username=email).exists():
+		if email and User.objects.filter(username=email).exists():
 			raise forms.ValidationError('Email address already in use.')
 
 		if not re.match(r'[0-9]{5}', region):

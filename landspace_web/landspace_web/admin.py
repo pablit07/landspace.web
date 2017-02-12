@@ -41,13 +41,12 @@ class DesignerAdmin(admin.ModelAdmin):
 		return fieldsets
 
 	def get_form(self, request, obj, *args, **kwargs):
-		self.form.declared_fields['email'] = django_forms.CharField(initial='')
+		if not obj or not obj.id:
+			self.form.declared_fields['email'] = django_forms.CharField(initial='')
 
 		return super(DesignerAdmin, self).get_form(request, obj, *args, **kwargs)
 
 	def save_model(self, request, obj, form, change):
-		form.clean()
-		print type(form)
 
 		if change:
 			super(DesignerAdmin, self).save_model(request, obj, form, change)
