@@ -81,6 +81,10 @@ export default class RegisterPage extends React.Component {
 		});
 	}
 
+	getSubmitButton() {
+		return (<input type="submit" value="Create My Account" />);
+	}
+
   render() {
 
   	var errorMessages = [];
@@ -92,6 +96,7 @@ export default class RegisterPage extends React.Component {
 	var messages = null;
 	var formFields = this.getFormFields(errorMessagesHtml);
 	var fbButton = this.getFbButton();
+	var submitButton = this.getSubmitButton();
 
     return (
     	<div className='ink-grid animated fadeIn duration-2'>
@@ -107,7 +112,7 @@ export default class RegisterPage extends React.Component {
 						  	{ errorMessagesHtml }
 						  <div className='column-group vertical-space'>
 						  	<div className='all-30'>
-						    	<input type="submit" value="Create My Account" />
+						    	{submitButton}
 						    </div>
 						  </div>
 						{fbButton}

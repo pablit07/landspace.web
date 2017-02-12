@@ -6,6 +6,7 @@ export default class DesignerRegisterPage extends RegisterPage {
 	constructor() {
 		super();
 		this.state.authTokenSource = '';
+		this.state.isDisabled = false;
 	}
 
 	componentDidMount() {
@@ -17,7 +18,7 @@ export default class DesignerRegisterPage extends RegisterPage {
 				email: this.props.params.email,
 				token: this.props.params.token
 			}).done( (data) => { this.setState({'authToken': data.token, 'userId': data.id})})
-			  .fail( () => { this.setState({'errors': ['Service error. Please contact our support team.']})});
+			  .fail( () => { this.setState({'isDisabled': true}); this.setState({'errors': ['Service error. Please contact our support team.']})});
 		});
 	}
 
@@ -51,6 +52,14 @@ export default class DesignerRegisterPage extends RegisterPage {
 	  	</div>);
 
 	  	return formFields;
+	}
+
+	getSubmitButton() {
+		if (this.state.isDisabled) {
+			return null;
+		} else {
+			return super.getSubmitButton();
+		}
 	}
 
 	validate(form) {
@@ -87,7 +96,7 @@ export default class DesignerRegisterPage extends RegisterPage {
 					'Authorization': authHeader
 				},
 				success: (data) => {
-					var p1, p2, p3; //promises
+					var p1, p2, p3 = $.Deferred(); //promises
 					// zip update
 					p1 = $.ajax({
 						headers: {
@@ -99,19 +108,7 @@ export default class DesignerRegisterPage extends RegisterPage {
 						data: {
 							region: form.zip.value
 						}
-					});
-					// password update
-					p2 = $.ajax({
-						headers: {
-							'X-CSRFToken': getCookie('csrftoken')
-						},
-						method: 'POST',
-						url: pwUpdateSource,
-						data: {
-							'new_password1': form.password.value,
-							'new_password2': form.password2.value
-						}
-					});
+					}).fail(_ => { this.setState({'errors': ['A problem occurred. Please try again later.']})});
 					// name update
 					p3 = $.ajax({
 						headers: {
@@ -124,15 +121,35 @@ export default class DesignerRegisterPage extends RegisterPage {
 							'first_name': form.firstName.value,
 							'last_name': form.lastName.value
 						}
+					}).fail(_ => { this.setState({'errors': ['A problem occurred. Please try again later.']})});
+					// password update
+					$.when(p1, p3).done(_ => {
+											
+						p2 = $.ajax({
+							headers: {
+								'X-CSRFToken': getCookie('csrftoken')
+							},
+							method: 'POST',
+							url: pwUpdateSource,
+							data: {
+								'new_password1': form.password.value,
+								'new_password2': form.password2.value
+							}
+						}).fail(_ => { this.setState({'errors': ['A problem occurred. Please try again later.']})});
+
+						// trigger login
+						$.when(p1, p2, p3).done(_ => {
+							var interval = setInterval(_ => {
+								if (p1.responseText && p2.responseText && p3.responseText) {
+									clearInterval(interval);
+									$('#loginUsername').val(this.props.params.email);
+									$('#loginPassword').val(form.password.value);
+									$('form[name="login"]')[0].submit();
+								}							
+							}, 100);
+						});
 					});
-					// trigger login
-					$.when(p1, p2, p3).done(_ => {
-						setTimeout(_ => {
-							$('#loginUsername').val(this.props.params.email);
-							$('#loginPassword').val(form.password.value);
-							$('form[name="login"]')[0].submit();
-						}, 500);
-					})
+
 				}
 			});
 		});
