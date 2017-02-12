@@ -107,7 +107,7 @@ class ValidatePasswordApiView(APIView):
 		password_validators = get_default_password_validators()
 		for validator in password_validators:
 			try:
-				validator.validate(password, user)
+				validator.validate(password)
 			except ValidationError as error:
 				errors.append(error)
 
