@@ -206,7 +206,7 @@ AUTHENTICATION_BACKENDS = (
 
 FIELDS_STORED_IN_SESSION = ['social_auth_new_user_allowed']
 
-SITE_URL = 'http://app.gamesensesports.com/'
+SITE_URL = 'http://app.landspaceplan.com/'
 
 ROLLBAR = {
     'access_token': '6d83b5868ef24399ab788de8b2a0e2a4',
