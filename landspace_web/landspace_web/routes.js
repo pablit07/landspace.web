@@ -24,6 +24,12 @@ class DesignerRegisterPageRoute extends React.Component {
     }
 };
 
+class RegisterPageRoute extends React.Component {
+    render () {
+        return <RegisterPage params={{token: this.props.params.token, email: decodeURIComponent(this.props.params.email), uid: this.props.params.uid}} />;
+    }
+};
+
 render((
 <Router history={browserHistory}>
 
@@ -38,7 +44,7 @@ render((
 	<Route path='/users' component={LayoutPublic}>
 
 		<Route path='/users/new/designer/:token/:email/:uid' component={DesignerRegisterPageRoute}/>
-		<Route path='/users/new' component={RegisterPage}/>
+		<Route path='/users/new/:token/:email/:uid' component={RegisterPageRoute}/>
 		<Route path='/users/login' component={LoginPage}/>
 		<Route path='/users/login/badfbauth/' component={LoginPage}/>
 	    <Route path='/users/password/' component={LoginPage}>

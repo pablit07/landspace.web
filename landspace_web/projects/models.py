@@ -5,7 +5,8 @@ from django.db import models
 
 class Project(models.Model):
 	name = models.CharField(max_length=100, blank=False, null=False)
-	client = models.ForeignKey(User)
+	client = models.ForeignKey(User, related_name='client_project')
+	designer = models.ForeignKey(User, related_name='designer_project', blank=True, null=True)
 
 	def __unicode__(self):
 		return self.name

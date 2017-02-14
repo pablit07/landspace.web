@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'webpack_loader',
     'rest_framework',
     'rest_framework.authtoken',
@@ -65,7 +66,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
-    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware'
+    'rollbar.contrib.django.middleware.RollbarNotifierMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 LOGIN_REDIRECT_URL = '/projects'
@@ -207,6 +209,12 @@ AUTHENTICATION_BACKENDS = (
 FIELDS_STORED_IN_SESSION = ['social_auth_new_user_allowed']
 
 SITE_URL = 'http://app.landspaceplan.com/'
+
+CORS_ORIGIN_WHITELIST = (
+    'landspaceplan.com',
+    'app.landspaceplan.com',
+    'localhost:8000',
+)
 
 ROLLBAR = {
     'access_token': '6d83b5868ef24399ab788de8b2a0e2a4',

@@ -16,6 +16,9 @@ from django.core.exceptions import PermissionDenied
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.contrib.auth.password_validation import get_default_password_validators
+from django.http import HttpResponseBadRequest
+from django.utils.crypto import get_random_string 
+from utils import get_registration_url
 from . import models
 import serializers
 import rest_framework
@@ -79,7 +82,31 @@ class ReverseUrlApiView(APIView):
 		return Response(json_data)
 
 
-class DesignerTokenApiView(APIView):
+class ClientRegisterUrlApiView(APIView):
+	permission_classes = (permissions.AllowAny,)
+
+	def post(self, request):
+		email = request.POST.get('email')
+		user_queryset = User.objects.filter(username=email)
+		user = None
+		client = None
+
+		if user_queryset.exists():
+			return HttpResponseBadRequest()
+		else:
+			user = User.objects.create_user(username=email, email=email, password=get_random_string())
+			user.save()
+			client = models.Client(user=user)
+			client.save()
+
+		url = get_registration_url(user)
+		if client:
+			client.registration_url = url
+			
+		return Response({'url': url})
+
+
+class UserTokenApiView(APIView):
 	permission_classes = (permissions.AllowAny,)
 	authentication_classes = (authentication.TokenAuthentication,)
 

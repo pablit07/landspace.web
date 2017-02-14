@@ -14,3 +14,16 @@ class UserProjectsViewSet(viewsets.ModelViewSet):
 		queryset = Project.objects.filter(client=user_id)
 
 		return queryset
+
+
+class DesignerProjectsViewSet(viewsets.ModelViewSet):
+	serializer_class = serializers.ProjectSerializer
+	
+	def get_queryset(self):
+		"""
+		This view should return a list of only the projects for which the given user is authenticated
+		"""
+		user_id = self.kwargs['pk']
+		queryset = Project.objects.filter(designer=user_id)
+
+		return queryset
