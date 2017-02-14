@@ -7,6 +7,7 @@ export default class DesignerRegisterPage extends RegisterPage {
 		super();
 		this.state.authTokenSource = '';
 		this.state.isDisabled = false;
+		this.state.zip = '';
 	}
 
 	componentDidMount() {
@@ -17,8 +18,17 @@ export default class DesignerRegisterPage extends RegisterPage {
 			$.post(authTokenSource, {
 				email: this.props.params.email,
 				token: this.props.params.token
-			}).done( (data) => { this.setState({'authToken': data.token, 'userId': data.id})})
-			  .fail( () => { this.setState({'isDisabled': true}); this.setState({'errors': ['Service error. Please contact our support team.']})});
+			}).done( (data) => {
+				this.setState({'authToken': data.token, 'userId': data.id});
+				var authHeader = 'token ' + data.token;
+				$.get('/api/url/?name=users-api&p1='+data.id, (data) => {
+					$.ajax({url:data.url, headers:{'Authorization': authHeader}, success:(data) => {
+						$.ajax({url:data.designer, headers:{'Authorization': authHeader}, success:(data) => {
+							this.setState({zip: data.region});
+						}});
+					}});
+				});
+			}).fail( () => { this.setState({'isDisabled': true}); this.setState({'errors': ['Service error. Please contact our support team.']})});
 		});
 	}
 
@@ -29,27 +39,15 @@ export default class DesignerRegisterPage extends RegisterPage {
 	getFormFields(errorMessagesHtml) {
 		var formFields = super.getFormFields(errorMessagesHtml);
 
-		var emailField = formFields.shift();
-
-		formFields.unshift(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
+		formFields.splice(1, 0, (<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
 		    <label htmlFor="zip">Zip Code</label>
 		    <div className='control'>
-		    	<input id="zip" type="text" name="zip" pattern="[0-9]{5}" maxLength="5" minLength="5"/>
+		    	<input id="zip" type="text" name="zip" pattern="[0-9]{5}" maxLength="5" minLength="5" disabled='disabled' value={this.state.zip}/>
 	    	</div>
-	  	</div>);
+	  	</div>));
 
 
-		formFields.unshift(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
-		    <label htmlFor="firstName" className="all-45">First Name</label>
-		    <label htmlFor="lastName" className="all-45 left-space">Last Name</label>
-		    <div className='control all-45'>
-		    	<input id="firstName" type="text" name="firstName"/>
-	    	</div>
-	    	<div className='control all-45 left-space'>
-		    	<input id="lastName" type="text" name="lastName"/>
-	    	</div>
-
-	  	</div>);
+		formFields.unshift();
 
 	  	return formFields;
 	}
@@ -83,11 +81,9 @@ export default class DesignerRegisterPage extends RegisterPage {
 	}
 
 	saveForm(form) {
-		var userDataSource,
-			pwUpdateSource,
-			authHeader = 'token ' + this.state.authToken;
+		var authHeader = 'token ' + this.state.authToken,
+			userDataSource;
 
-		$.get('/api/url/?name=password-reset-confirm&p1=' + this.props.params.uid + '&p2=' + this.props.params.token, (data) => { pwUpdateSource = data.url });
 		$.get('/api/url/?name=users-api&p1=' + this.state.userId, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
 			$.ajax({
 				url: userDataSource,
@@ -96,7 +92,7 @@ export default class DesignerRegisterPage extends RegisterPage {
 					'Authorization': authHeader
 				},
 				success: (data) => {
-					var p1, p2, p3 = $.Deferred(); //promises
+					var p1 = $.Deferred();
 					// zip update
 					p1 = $.ajax({
 						headers: {
@@ -109,47 +105,10 @@ export default class DesignerRegisterPage extends RegisterPage {
 							region: form.zip.value
 						}
 					}).fail(_ => { this.setState({'errors': ['A problem occurred. Please try again later.']})});
-					// name update
-					p3 = $.ajax({
-						headers: {
-							'X-CSRFToken': getCookie('csrftoken'),
-							'Authorization': authHeader
-						},
-						method: 'PATCH',
-						url: userDataSource,
-						data: {
-							'first_name': form.firstName.value,
-							'last_name': form.lastName.value
-						}
-					}).fail(_ => { this.setState({'errors': ['A problem occurred. Please try again later.']})});
-					// password update
-					$.when(p1, p3).done(_ => {
-											
-						p2 = $.ajax({
-							headers: {
-								'X-CSRFToken': getCookie('csrftoken')
-							},
-							method: 'POST',
-							url: pwUpdateSource,
-							data: {
-								'new_password1': form.password.value,
-								'new_password2': form.password2.value
-							}
-						}).fail(_ => { this.setState({'errors': ['A problem occurred. Please try again later.']})});
 
-						// trigger login
-						$.when(p1, p2, p3).done(_ => {
-							var interval = setInterval(_ => {
-								if (p1.responseText && p2.responseText && p3.responseText) {
-									clearInterval(interval);
-									$('#loginUsername').val(this.props.params.email);
-									$('#loginPassword').val(form.password.value);
-									$('form[name="login"]')[0].submit();
-								}							
-							}, 100);
-						});
+					$.when(p1).done(_ => {
+						super.saveForm(form);
 					});
-
 				}
 			});
 		});

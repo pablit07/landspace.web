@@ -1,4 +1,5 @@
 import React from 'react';
+import { browserHistory } from 'react-router';
 import { writeCsrf, getCookie } from '../utils.js';
 
 export default class RegisterPage extends React.Component {
@@ -16,6 +17,19 @@ export default class RegisterPage extends React.Component {
 		$.get('/api/url/?name=users-api-create', (data) => { this.setState({'createUserSource': data.url}) });
 	}
 
+	componentWillReceiveProps() {
+		var authTokenSource;
+		
+		$.get('/api/url/?name=designer-token-auth', (data) => { authTokenSource = data.url }).done(_ => {
+			$.post(authTokenSource, {
+				email: this.props.params.email,
+				token: this.props.params.token
+			}).done( (data) => {
+				this.setState({'authToken': data.token, 'userId': data.id});
+			}).fail( () => { this.setState({'isDisabled': true}); this.setState({'errors': ['Service error. Please contact our support team.']})});
+		});
+	}
+
 	getFbButton() {
 		return (<a href={this.state.fbLoginSource + '?social_auth_new_user_allowed=1'} className='ink-button fb-blue'>Sign Up With Facebook</a>);
 	}
@@ -25,9 +39,20 @@ export default class RegisterPage extends React.Component {
 		(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')} >
 		    <label htmlFor="username">Email</label>
 		    <div className='control'>
-		    	<input id="username" type="text" name="username" />
+		    	<input id="username" type="text" name="username" disabled='disabled' value={this.props.params.email}/>
 		    </div>
 	    </div>),
+	    (<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
+		    <label htmlFor="firstName" className="all-45">First Name</label>
+		    <label htmlFor="lastName" className="all-45 left-space">Last Name</label>
+		    <div className='control all-45'>
+		    	<input id="firstName" type="text" name="firstName"/>
+	    	</div>
+	    	<div className='control all-45 left-space'>
+		    	<input id="lastName" type="text" name="lastName"/>
+	    	</div>
+
+	  	</div>),
 		(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>
 		    <label htmlFor="password">Password</label>
 		    <div className='control'>
@@ -68,6 +93,14 @@ export default class RegisterPage extends React.Component {
 			errors.push('Passwords must match.')
 		}
 
+		if (!form.firstName.value) {
+			errors.push('first name: This field is required.')
+		}
+
+		if (!form.lastName.value) {
+			errors.push('last name: This field is required.')
+		}
+
 		return errors;
 	}
 
@@ -91,7 +124,6 @@ export default class RegisterPage extends React.Component {
 					this.setState({'errors': errors});
 					result.reject();
 				} else {
-					console.info(data);
 					result.resolve();
 				}
 			});
@@ -100,20 +132,93 @@ export default class RegisterPage extends React.Component {
 		return result;
 	}
 
-	saveForm(form) {
-		$.post({
-			url: this.state.createUserSource,
-			headers: {
-				'X-CSRFToken': getCookie('csrftoken')
-			},
-			data: {
 
-			}
+	saveForm(form) {
+		var userDataSource,
+			pwUpdateSource,
+			authHeader = 'token ' + this.state.authToken;
+
+		$.get('/api/url/?name=password-reset-confirm&p1=' + this.props.params.uid + '&p2=' + this.props.params.token, (data) => { pwUpdateSource = data.url });
+		$.get('/api/url/?name=users-api&p1=' + this.state.userId, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
+			$.ajax({
+				url: userDataSource,
+				headers: {
+					'X-CSRFToken': getCookie('csrftoken'),
+					'Authorization': authHeader
+				},
+				success: (data) => {
+					var p1, p2 = $.Deferred(); //promises
+
+					// name update
+					p1 = $.ajax({
+						headers: {
+							'X-CSRFToken': getCookie('csrftoken'),
+							'Authorization': authHeader
+						},
+						method: 'PATCH',
+						url: userDataSource,
+						data: {
+							'first_name': form.firstName.value,
+							'last_name': form.lastName.value
+						}
+					}).fail(_ => { this.setState({'errors': ['A problem occurred. Please try again later.']})});
+					// password update
+					$.when(p1).done(_ => {
+											
+						p2 = $.ajax({
+							headers: {
+								'X-CSRFToken': getCookie('csrftoken')
+							},
+							method: 'POST',
+							url: pwUpdateSource,
+							data: {
+								'new_password1': form.password.value,
+								'new_password2': form.password2.value
+							}
+						}).fail(_ => { this.setState({'errors': ['A problem occurred. Please try again later.']})});
+
+						// trigger login
+						$.when(p1, p2).done(_ => {
+							var interval = setInterval(_ => {
+								if (p1.responseText && p2.responseText) {
+									clearInterval(interval);
+									$('#loginUsername').val(this.props.params.email);
+									$('#loginPassword').val(form.password.value);
+									$('form[name="login"]')[0].submit();
+								}							
+							}, 100);
+						});
+					});
+
+				}
+			});
 		});
 	}
 
 	getSubmitButton() {
 		return (<input type="submit" value="Create My Account" />);
+	}
+
+	signUpWithEmail() {
+		var authTokenSource;
+
+		$.get('/api/url/?name=clients-register-url-api').done((data) => {
+			$.ajax({
+				url: data.url,
+				headers: {
+					'X-CSRFToken': getCookie('csrftoken')
+				},
+				type: 'POST',
+				data: {
+					email: this.props.params.email
+				}
+			}).done((data) => {
+				browserHistory.push(data.url);
+			}).fail(_ => { this.setState({errors: ['Unable to register, please contact our support team.']})});
+		});
+
+		// $.get('/api/url/?name=users-api-create', (data) => { this.setState({'createUserSource': data.url}) });
+
 	}
 
   render() {
@@ -125,9 +230,16 @@ export default class RegisterPage extends React.Component {
 
 	var errorMessagesHtml = (errorMessages.length ? (<p>{errorMessages}</p>) : false);
 	var messages = null;
-	var formFields = this.getFormFields(errorMessagesHtml);
-	var fbButton = this.getFbButton();
-	var submitButton = this.getSubmitButton();
+	var formFields = this.props.params.token ? this.getFormFields(errorMessagesHtml) : null;
+	var createButtons = !this.props.params.token ? (<div className='all-100 align-center'>
+						  		<div className='all-50 tiny-90 small-90 vertical-space right-space' >
+						  			<a className='ink-button' onClick={this.signUpWithEmail.bind(this)}>Sign Up With Email</a>
+					  			</div>
+								<div className='all-30 tiny-90 small-90 vertical-space' >{this.getFbButton()}</div>
+							</div>) : null;
+	var submitButton = this.props.params.token ? (<div className='all-30'>
+						    	{this.getSubmitButton()}
+						    </div>) : null;
 
     return (
     	<div className='ink-grid animated fadeIn duration-2'>
@@ -142,11 +254,9 @@ export default class RegisterPage extends React.Component {
 							{ formFields }
 						  	{ errorMessagesHtml }
 						  <div className='column-group vertical-space'>
-						  	<div className='all-30'>
-						    	{submitButton}
-						    </div>
+						  	{createButtons}
+						  	{submitButton}
 						  </div>
-						{fbButton}
 						{writeCsrf()}
 					  </form>
 					  <form name='login' method='POST' action='/users/login/'>

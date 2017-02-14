@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
+from landspace_web.models import Designer
 from functools import wraps
 from django.conf import settings
 import urllib
@@ -21,9 +22,8 @@ def auth_allowed(backend, strategy, user=None, *args, **kwargs):
 	if strategy.session_get('social_auth_new_user_allowed', '0')=='0' and user==None:
 		return strategy.redirect('/users/login/badfbauth/')
 
-
 def get_registration_url(user):
-	base_url = 'users/new/designer/{token}/{email}/{uid}' if hasattr(user, 'designer') else 'users/new/{token}/{email}/{uid}'
+	base_url = 'users/new/designer/{token}/{email}/{uid}' if Designer.objects.filter(user=user).exists() else 'users/new/{token}/{email}/{uid}'
 	return settings.SITE_URL + base_url.format(token=default_token_generator.make_token(user),
 																				 email=urllib.quote(user.username),
 																				 uid=urlsafe_base64_encode(force_bytes(user.pk)).decode())

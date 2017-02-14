@@ -96,13 +96,14 @@ class ClientRegisterUrlApiView(APIView):
 		else:
 			user = User.objects.create_user(username=email, email=email, password=get_random_string())
 			user.save()
-			client = models.Client(user=user)
+			client = models.Client(user=user, )
 			client.save()
 
 		url = get_registration_url(user)
 		if client:
 			client.registration_url = url
-			
+			client.save()
+
 		return Response({'url': url})
 
 

@@ -42,9 +42,10 @@ render((
 	</Route>
 
 	<Route path='/users' component={LayoutPublic}>
-
+		
 		<Route path='/users/new/designer/:token/:email/:uid' component={DesignerRegisterPageRoute}/>
 		<Route path='/users/new/:token/:email/:uid' component={RegisterPageRoute}/>
+		<Route path='/users/new/:email/' component={RegisterPageRoute}/>
 		<Route path='/users/login' component={LoginPage}/>
 		<Route path='/users/login/badfbauth/' component={LoginPage}/>
 	    <Route path='/users/password/' component={LoginPage}>
