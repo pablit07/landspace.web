@@ -14,6 +14,7 @@ import TopNav from '../../src/components/TopNav';
 import ProjectsTopNav from '../../src/components/ProjectsTopNav';
 import ResetPasswordEmail from '../../src/components/ResetPasswordEmail';
 import ResetPasswordDone from '../../src/components/ResetPasswordDone';
+import { projectRoutes, projectRightDrawerRoutes } from '../projects/routes';
 import { render } from 'react-dom'
 
 const userSource = '/api/users/';
@@ -56,10 +57,7 @@ render((
 		<Route path='/users/password/reset/:hash/' component={() => (<LoginPage showPasswordUpdate={true} />)}/>
 		<Route path="*" component={NotFoundPage}/>
 	</Route>
-	<Route path='/projects' component={Layout}>
-		<IndexRoute component={DashboardPage}/>
-	    <Route path="*" component={NotFoundPage}/>
-	</Route>
+	{projectRoutes}
 	<Route path='/' component={LayoutPublic}>
 		<Route path="*" component={NotFoundPage}/>
 	</Route>
@@ -78,7 +76,5 @@ render((
 		<Route path='/users/login'/>
 		<Route path='/users/*'/>
 	</Route>
-	<Route path='/projects' component={() => (<ProjectsTopNav vertical={true} userSource={userSource} />)}>
-		<IndexRoute />
-	</Route>
+	{projectRightDrawerRoutes}
 </Router>), document.getElementById('right-drawer'));

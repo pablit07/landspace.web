@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block extra_css %}
+{% endblock %}
+
+{% block content %}
+
+<script type="text/html" id="project-profile-form">
+	<form id='ProjectProfile' method='POST' class='ink-form' name='project-profile' action=''>
+	{% for field in form %}
+    <div class="control-group">
+        {{ field.errors }}
+
+        {{ field.label_tag }}
+        {% if field.help_text %}
+         <p class="help note">{{ field.help_text|safe }}</p>
+        {% endif %}
+
+        {% if field.id_for_label == "id_lot_size" %}
+        	<br>
+    	{% endif %}
+
+        {{ field }}
+        {% if field.id_for_label == "id_lot_size" %}
+        	acres
+    	{% endif %}
+        
+    </div>
+	{% endfor %}
+	</form>
+</script>
+
+{% endblock %}
