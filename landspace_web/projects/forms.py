@@ -28,7 +28,7 @@ class ProjectProfileForm(forms.ModelForm):
 		labels = {
 			"name": "Project Name",
 			"project_type": "Which of the following best describes your project?",
-			"lot_size": "What is the size of your lot?",
+			"lot_size": "What is the size of your lot? (Optional)",
 			"slope_amount": "How much slope does your space have?",
 			"work_type": "What type of work do you anticipate being done?",
 			"primary_users": "Who will be the primary users of this space?",
