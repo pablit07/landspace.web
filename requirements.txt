@@ -3,6 +3,7 @@ coreapi==2.1.1
 coreapi-cli==1.0.6
 Django==1.10.5
 django-cors-headers==2.0.2
+-e git://github.com/pablit07/django-remote-forms@57c9bffd21869ccabe2f96c4b3a788210f2b6b54#egg=django_remote_forms
 django-webpack-loader==0.4.1
 djangorestframework==3.5.3
 httplib2==0.9.2

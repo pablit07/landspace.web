@@ -37,7 +37,7 @@ export default class RegisterPage extends React.Component {
 	getFormFields(errorMessagesHtml) {
 		return [
 		(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')} >
-		    <label htmlFor="username">Email</label>
+		    <label htmlFor="username">Sign-in with your email address</label>
 		    <div className='control'>
 		    	<input id="username" type="text" name="username" disabled='disabled' value={this.props.params.email}/>
 		    </div>
@@ -247,9 +247,15 @@ export default class RegisterPage extends React.Component {
     			{this.props.children}
     			{messages}
 			</div>
-	    	<div className='column-group gutters'>
 
-		    	<div id='id-register-form' className="all-40 tiny-90 small-90 medium-55 push-center block animated">
+	    	<div className='column-group gutters'>
+	    		<div className='all-40 tiny-100 small-100 medium-65 push-center'>		    		
+    				<div className='left-space'><h1>Welcome.</h1>
+		    			<span className='note'>Thank you for registering.</span>
+	    			</div>
+	    		</div>
+
+		    	<div id='id-register-form' className="all-60 tiny-90 small-90 medium-55 push-center block animated">
 			    	<form name='register' method='POST' className='ink-form' onSubmit={this.handleSubmit.bind(this)}>
 							{ formFields }
 						  	{ errorMessagesHtml }

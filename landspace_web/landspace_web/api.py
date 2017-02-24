@@ -91,16 +91,17 @@ class ClientRegisterUrlApiView(APIView):
 		user = None
 		client = None
 
-		if user_queryset.exists():
+		if user_queryset.exists() and user_queryset.first().client.has_registered:
 			return HttpResponseBadRequest()
 		else:
 			user = User.objects.create_user(username=email, email=email, password=get_random_string())
 			user.save()
-			client = models.Client(user=user, )
+			client = models.Client(user=user)
 			client.save()
 
 		url = get_registration_url(user)
 		if client:
+
 			client.registration_url = url
 			client.save()
 

@@ -13,7 +13,10 @@ class Designer(models.Model):
 		return '/api/users/designers/%s/' % self.id
 
 	def __unicode__(self):
-		return self.full_name
+		if self.user.first_name or self.user.last_name:
+			return self.full_name
+		else:
+			return self.user.email
 
 	@property
 	def full_name(self):
@@ -27,13 +30,17 @@ class Client(models.Model):
 	user = models.ForeignKey(User)	
 	current_step = models.ForeignKey(Step, blank=True, null=True)
 	registration_url = models.URLField(blank=True, null=True)
+	has_registered = models.BooleanField(default=False)
 
 	@property
 	def url(self):
 		return '/api/users/clients/%s/' % self.id
 
 	def __unicode__(self):
-		return self.full_name
+		if self.user.first_name or self.user.last_name:
+			return self.full_name
+		else:
+			return self.user.email
 
 	@property
 	def full_name(self):

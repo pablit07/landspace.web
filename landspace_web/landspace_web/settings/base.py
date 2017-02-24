@@ -204,6 +204,7 @@ SOCIAL_AUTH_PIPELINE = (
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.facebook.FacebookOAuth2',
+    'landspace_web.backends.UserSelectRelatedBackend'
 )
 
 FIELDS_STORED_IN_SESSION = ['social_auth_new_user_allowed']

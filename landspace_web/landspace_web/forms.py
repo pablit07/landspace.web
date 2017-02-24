@@ -29,9 +29,22 @@ class DesignerAdminForm(forms.ModelForm):
 
 class ClientAdminForm(forms.ModelForm):
 
+	email = forms.CharField(required=False)
+
 	class Meta:
 		fields = '__all__'
 		model = models.Client
+		help_texts = {
+			'registration_url': 'Leave blank to generate'
+		}
+
+	def clean(self):
+		email=self.cleaned_data.get('email', None)
+
+		cleaned_data = super(ClientAdminForm, self).clean()
+
+		if email and User.objects.filter(username=email).exists():
+			raise forms.ValidationError('Email address already in use.')
 
 
 class BadFbAuthForm(auth_forms.AuthenticationForm):
