@@ -4,7 +4,7 @@ from projects.models import Step
 
 
 class Designer(models.Model):
-	user = models.ForeignKey(User, related_name='designer')
+	user = models.OneToOneField(User, related_name='designer')
 	region = models.CharField(max_length=5)
 	is_available = models.BooleanField(default=True)
 
@@ -27,7 +27,7 @@ class Designer(models.Model):
 
 
 class Client(models.Model):
-	user = models.ForeignKey(User, related_name='client')
+	user = models.OneToOneField(User, related_name='client')
 	current_step = models.ForeignKey(Step, blank=True, null=True)
 	registration_url = models.URLField(blank=True, null=True)
 	has_registered = models.BooleanField(default=False)

@@ -93,16 +93,16 @@ class ClientRegisterUrlApiView(APIView):
 
 		user_queryset.first()
 
-		if user_queryset.exists() and user_queryset.first().client.first().has_registered:
+		if user_queryset.exists() and user_queryset.first().client.has_registered:
 			return HttpResponseBadRequest()
-		elif not user_queryset.first().client.exists():
+		elif not user_queryset.first().client:
 			user = User.objects.create_user(username=email, email=email, password=get_random_string())
 			user.save()
 			client = models.Client(user=user)
 			client.save()
 		else:
 			user = user_queryset.first()
-			client = user.client.first()
+			client = user.client
 
 		url = get_registration_url(user)
 		if client:
