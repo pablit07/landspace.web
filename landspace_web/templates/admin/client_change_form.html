@@ -38,7 +38,7 @@
 {% block coltype %}flex{% endblock %}
 
 {% block actions %}
-
+{% if pending_action_users.exists %}
 <h1>TAKE ACTION</h1>
 
 <table>
@@ -62,7 +62,7 @@
 {% endfor %}
 </table>
 <br><br>
-
+{% endif %}
 {% endblock %}
 
 {% block content %}
