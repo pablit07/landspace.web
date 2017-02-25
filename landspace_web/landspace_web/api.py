@@ -91,8 +91,6 @@ class ClientRegisterUrlApiView(APIView):
 		user = None
 		client = None
 
-		user_queryset.first()
-
 		if user_queryset.exists() and user_queryset.first().client.has_registered:
 			return HttpResponseBadRequest()
 		elif not user_queryset.first().client:
@@ -107,6 +105,7 @@ class ClientRegisterUrlApiView(APIView):
 		url = get_registration_url(user)
 		if client:
 			client.registration_url = url
+			client.has_registered = True
 			client.save()
 
 		return Response({'url': url})
