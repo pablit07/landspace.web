@@ -7,7 +7,7 @@ class UserSelectRelatedBackend(ModelBackend):
         try:
             # This is where the magic happens
             return User.objects. \
-                select_related('client'). \
+                prefetch_related('client'). \
                 get(pk=user_id)
         except User.DoesNotExist:
             return None
