@@ -1,5 +1,7 @@
 import React from 'react';
 import { writeCsrf, getCookie } from '../utils.js';
+import userStore from '../stores/UserStore';
+import dispatcher from '../Dispatcher';
 
 export default class AccountPage extends React.Component {
 	constructor() {
@@ -14,22 +16,14 @@ export default class AccountPage extends React.Component {
 
 	componentDidMount() {
 		var userDataSource;
-		$.get('/api/url/?name=users-api&p1=' + userId, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
-			$.get(userDataSource, (data) => {
-				this.setState({
-					'email': data.email,
-					'firstName': data.first_name,
-					'lastName': data.last_name,
-					'designerSource': data.designer
-				});
-				if (data.designer) {
-					$.get(data.designer, (data) => {
-						this.setState({
-							'region': data.region
-						});
-					});
-				}
-			});
+
+		this.userStoreToken = userStore.addListener(_ => {
+			var newState = userStore.getState();
+			this.setState(newState);
+		});
+
+		dispatcher.dispatch({
+			type: 'user/start-load'
 		});
 	}
 
@@ -84,13 +78,13 @@ export default class AccountPage extends React.Component {
 					    <div className='control-group'>
 						    <label htmlFor="firstName" className='all-20'>First Name</label>
 						    <div className='control all-80'>
-						    	<input id="firstName" type="text" name="firstName" value={this.state.firstName} onChange={this.handleFirstNameChange.bind(this)}/>
+						    	<input id="firstName" type="text" name="firstName" value={this.state.first_name} onChange={this.handleFirstNameChange.bind(this)}/>
 						    </div>
 					    </div>
 					    <div className='control-group'>
 						    <label htmlFor="lastName" className='all-20'>Last Name</label>
 						    <div className='control all-80'>
-						    	<input id="lastName" type="text" name="lastName" value={this.state.lastName} onChange={this.handleLastNameChange.bind(this)}/>
+						    	<input id="lastName" type="text" name="lastName" value={this.state.last_name} onChange={this.handleLastNameChange.bind(this)}/>
 						    </div>
 					    </div>
 

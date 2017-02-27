@@ -15,6 +15,7 @@ import ProjectsTopNav from '../../src/components/ProjectsTopNav';
 import ResetPasswordEmail from '../../src/components/ResetPasswordEmail';
 import ResetPasswordDone from '../../src/components/ResetPasswordDone';
 import ProjectProfilePage from '../../src/components/ProjectProfilePage';
+import DesignerProjectsPage from '../../src/components/DesignerProjectsPage';
 import { render } from 'react-dom'
 
 const userSource = '/api/users/';
@@ -23,6 +24,7 @@ const userSource = '/api/users/';
 export var projectRoutes = <Router history={browserHistory}>
 	<Route path='/projects' component={Layout}>
 		<IndexRoute component={DashboardPage}/>
+		<Route path='/projects/designer/' component={DesignerProjectsPage}/>
 		<Route path='/projects/create/' component={ProjectProfilePage}/>
 	    <Route path="*" component={NotFoundPage}/>
 	</Route>

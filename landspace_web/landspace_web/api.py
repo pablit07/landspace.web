@@ -113,19 +113,28 @@ class ClientRegisterUrlApiView(APIView):
 
 class UserTokenApiView(APIView):
 	permission_classes = (permissions.AllowAny,)
-	authentication_classes = (authentication.TokenAuthentication,)
+	authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication)
 
 	def post(self, request):
-		user = User.objects.get(username=request.POST.get('email'))
-		token = request.POST.get('token', '')
-		
-		valid = default_token_generator.check_token(user, token)
-		if not valid:
+		email = request.POST.get('email', None)
+		authtoken = None
+
+		if email:
+			user = User.objects.get(username=email)
+			token = request.POST.get('token', '')
+		elif request.user.is_authenticated:
+			user = request.user
+			authtoken, created = Token.objects.get_or_create(user=user)
+		else:
 			raise PermissionDenied
 
-		token, created = Token.objects.get_or_create(user=user)
+		if not authtoken:	
+			valid = default_token_generator.check_token(user, token)
+			if not valid:
+				raise PermissionDenied
+			authtoken, created = Token.objects.get_or_create(user=user)
 
-		return Response({'id': user.id, 'token': token.key})
+		return Response({'id': user.id, 'token': authtoken.key})
 
 
 class ValidatePasswordApiView(APIView):

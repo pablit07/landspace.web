@@ -13,16 +13,22 @@ class UserSerializer(serializers.ModelSerializer):
 
 	password = serializers.CharField(write_only=True)
 	role = serializers.ChoiceField(write_only=True, choices=ROLE_CHOICES, required=False)
+	designer_id = serializers.SerializerMethodField()
+	client_id = serializers.SerializerMethodField()
 	designer = serializers.SerializerMethodField('get_designer_url')
 	client = serializers.SerializerMethodField('get_client_url')
 
 	def get_designer_url(self, obj):
-		designer_obj = models.Designer.objects.filter(user_id=obj.id)
-		return designer_obj.first().url if designer_obj.exists() else None
+		return obj.designer.url if hasattr(obj, 'designer') else None
 
 	def get_client_url(self, obj):
-		client_obj = models.Client.objects.filter(user_id=obj.id)
-		return client_obj.first().url if client_obj.exists() else None
+		return obj.client.url if hasattr(obj, 'client') else None
+
+	def get_designer_id(self, obj):
+		return obj.designer.id if hasattr(obj, 'designer') else None
+
+	def get_client_id(self, obj):
+		return obj.client.id if hasattr(obj, 'client') else None
 
 	def create(self, validated_data):
 		user = User.objects.create(
