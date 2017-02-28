@@ -165,3 +165,11 @@ html, body, #main, .full-height { height: 100%; min-height: 600px;}
 footer {
   background-color: white;
 }
+
+.fa.fa-10x {
+  font-size: 10em;
+}
+
+.project-container {
+  display: inline-block;
+}
