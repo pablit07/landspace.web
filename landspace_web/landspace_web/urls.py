@@ -26,7 +26,7 @@ from utils import logout_user
 
 urlpatterns = [
 	url(r'^$', RedirectView.as_view(url='projects/', permanent=False), name='index'),
-    url(r'^projects/?', include('projects.urls')),
+    url(r'^projects/?', include('projects.urls', namespace='projects')),
     url(r'^admin/?', admin.site.urls),
     url(r'^login/$', auth_views.login),
 	url(r'^auth/', include('social_django.urls', namespace='social')),

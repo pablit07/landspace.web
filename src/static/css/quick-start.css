@@ -172,4 +172,14 @@ footer {
 
 .project-container {
   display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.project-container .overlay {
+  position: absolute;
+  top: 30px;
+  left: 10px;
+  width: 48px;
+  height: 8px;
 }

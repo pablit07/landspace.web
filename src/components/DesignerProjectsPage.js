@@ -39,12 +39,20 @@ export default class DesignerProjectsPage extends React.Component {
 	render() {
     	var projectComponents = [];
 
+    	var folderColors = ['#C22F09', '#6E0980', '#9F7300', '#A80846'];
+    	var currentColor = folderColors.shift();
+    	var currentFolderStyle = {'background-color': currentColor};
+
     	this.state.designerProjects.forEach((project) => {
-    		projectComponents.push(<div className='project-container'>
-			    						<div className='overlay'></div>
+
+    		projectComponents.push(<div className='project-container all-30 tiny-80 small-80'>
+			    						<div className='overlay' style={currentFolderStyle}></div>
 			    						<i className="fa fa-folder-o fa-10x background" aria-hidden="true"></i>
 				    					<div className='title'>{project.name}</div>
 								</div>);
+    		folderColors.push(currentColor);
+    		currentColor = folderColors.shift();
+    		currentFolderStyle = {'background-color': currentColor};
     	});
 
 		return (<div className='ink-grid full-height'>
@@ -56,9 +64,7 @@ export default class DesignerProjectsPage extends React.Component {
 
 					    <div id="home" className="tabs-content full-height">
 							<div className='column-group vertical-space'>
-		    					<div className='all-90'>
 		    					{projectComponents}
-		    					</div>
 							</div>
 						</div>
 

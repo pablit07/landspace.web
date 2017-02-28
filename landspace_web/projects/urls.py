@@ -6,8 +6,9 @@ from . import api
 from . import views
 
 
-urlpatterns = [
+urlpatterns = [	
 	url(r'^$', views.index),
+	url(r'(?P<role>designer)?^$', views.index, name='designer'),
 	url(r'^create/$', views.create_project),
 	url(r'^testdrive/$', views.testdrive)
 ]

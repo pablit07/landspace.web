@@ -1,8 +1,10 @@
 from django_remote_forms.forms import RemoteForm
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
 from . import forms
 
-def index(request):
+def index(request, role=None):
+	if not role and hasattr(request.user, 'designer'):
+		return redirect('/projects/designer/')
 
 	return render(request, 'projects/index.html')
 
