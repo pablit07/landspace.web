@@ -13,13 +13,13 @@ export default class DesignerRegisterPage extends RegisterPage {
 	componentDidMount() {
 		var authTokenSource;
 
-		$.get('/api/url/?name=users-api-create', (data) => { this.setState({'createUserSource': data.url}) });
+		// $.get('/api/url/?name=users-api-create', (data) => { this.setState({'createUserSource': data.url}) });
 		$.get('/api/url/?name=designer-token-auth', (data) => { authTokenSource = data.url }).done(_ => {
 			$.post(authTokenSource, {
 				email: this.props.params.email,
 				token: this.props.params.token
 			}).done( (data) => {
-				this.setState({'authToken': data.token, 'userId': data.id});
+				this.setState(data);
 				var authHeader = 'token ' + data.token;
 				$.get('/api/url/?name=users-api&p1='+data.id, (data) => {
 					$.ajax({url:data.url, headers:{'Authorization': authHeader}, success:(data) => {
@@ -81,10 +81,10 @@ export default class DesignerRegisterPage extends RegisterPage {
 	}
 
 	saveForm(form) {
-		var authHeader = 'token ' + this.state.authToken,
+		var authHeader = 'token ' + this.state.token,
 			userDataSource;
 
-		$.get('/api/url/?name=users-api&p1=' + this.state.userId, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
+		$.get('/api/url/?name=users-api&p1=' + this.state.id, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
 			$.ajax({
 				url: userDataSource,
 				headers: {

@@ -37,7 +37,7 @@ class API {
 		$.get(url, success).fail(fail || this.genericFail);
 	}
 
-	getCurrentUser(success, fail) {
+	getCurrentUser(success, data, fail) {
 		if (this.promise_getCurrentUser) return;
 
 		var api = this;
@@ -46,17 +46,17 @@ class API {
 		
 		this.reverseUrl('designer-token-auth', (authTokenSource) => {
 
-			if (cache[authTokenSource]) {
+			if (!data && cache[authTokenSource]) {
 				success(cache[authTokenSource]);
 			} else {
 
 				this.promise_getCurrentUser = $.ajax({
 					url: authTokenSource, 
-					data: {},
+					data: data || {},
 					headers: {'X-CSRFToken': getCookie('csrftoken')},
 					method: 'POST'
 				}).done((data) => {
-					cache[authTokenSource] = data;
+					if (!data) cache[authTokenSource] = data;
 					this.promise_getCurrentUser = null;
 					success(data);
 				}).fail(_ => {

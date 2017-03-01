@@ -20,6 +20,7 @@ from django.http import HttpResponseBadRequest
 from django.utils.crypto import get_random_string 
 from utils import get_registration_url
 from . import models
+from projects.models import Step
 import serializers
 import rest_framework
 
@@ -106,6 +107,7 @@ class ClientRegisterUrlApiView(APIView):
 		if client:
 			client.registration_url = url
 			client.has_registered = True
+			client.current_step = Step.objects.get(name__icontains='project')
 			client.save()
 
 		return Response({'url': url})
@@ -113,7 +115,7 @@ class ClientRegisterUrlApiView(APIView):
 
 class UserTokenApiView(APIView):
 	permission_classes = (permissions.AllowAny,)
-	authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication)
+	authentication_classes = (authentication.TokenAuthentication, authentication.SessionAuthentication,)
 
 	def post(self, request):
 		email = request.POST.get('email', None)

@@ -1,20 +1,37 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
-import { writeCsrf, getCookie } from '../utils.js';
+import { writeCsrf, getCookie } from '../utils';
+import userStore from '../stores/UserStore';
+import dispatcher from '../Dispatcher';
+
 
 export default class RegisterPage extends React.Component {
 	constructor() {
 		super();
 		this.state = {
 			'fbLoginSource': '',
-			'createUserSource': '',
+			// 'createUserSource': '',
 			'errors': []
 		}
 	}
 
 	componentDidMount() {
 		$.get('/api/url/?name=social:begin&p1=facebook', (data) => { this.setState({'fbLoginSource': data.url}) });
-		$.get('/api/url/?name=users-api-create', (data) => { this.setState({'createUserSource': data.url}) });
+
+		this.userStoreToken = userStore.addListener(_ => {
+			var newState = userStore.getState();
+			this.setState(newState);
+		});
+		
+		if (this.props.params.token) {
+			dispatcher.dispatch({
+				type: 'user/start-load',
+				data: {
+					email: this.props.params.email,
+					token: this.props.params.token
+				}
+			});
+		}
 	}
 
 	componentWillReceiveProps() {
@@ -25,9 +42,13 @@ export default class RegisterPage extends React.Component {
 				email: this.props.params.email,
 				token: this.props.params.token
 			}).done( (data) => {
-				this.setState({'authToken': data.token, 'userId': data.id});
+				this.setState(data);
 			}).fail( () => { this.setState({'isDisabled': true}); this.setState({'errors': ['Service error. Please contact our support team.']})});
 		});
+	}
+
+	componentWillUnmount() {
+		this.userStoreToken.remove();
 	}
 
 	getFbButton() {
@@ -136,10 +157,10 @@ export default class RegisterPage extends React.Component {
 	saveForm(form) {
 		var userDataSource,
 			pwUpdateSource,
-			authHeader = 'token ' + this.state.authToken;
+			authHeader = 'token ' + this.state.token;
 
 		$.get('/api/url/?name=password-reset-confirm&p1=' + this.props.params.uid + '&p2=' + this.props.params.token, (data) => { pwUpdateSource = data.url });
-		$.get('/api/url/?name=users-api&p1=' + this.state.userId, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
+		$.get('/api/url/?name=users-api&p1=' + this.state.id, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
 			$.ajax({
 				url: userDataSource,
 				headers: {
@@ -216,9 +237,6 @@ export default class RegisterPage extends React.Component {
 				browserHistory.push(data.url);
 			}).fail(_ => { this.setState({errors: ['Unable to register, please contact our support team.']})});
 		});
-
-		// $.get('/api/url/?name=users-api-create', (data) => { this.setState({'createUserSource': data.url}) });
-
 	}
 
   render() {

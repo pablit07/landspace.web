@@ -25,14 +25,15 @@ class UserStore extends ReduceStore {
 			case 'user/empty':
 				return {};
 			case 'user/start-load':
-				api.getCurrentUser(this.startLoadSuccessAction);
+				api.getCurrentUser(action.data ? this.startLoadFromRegisterSuccessAction : this.startLoadSuccessAction, action.data);
 				return state;
 			case 'user/loaded-basic':
 				var newState = {
 					token: action.data.token,
-					id: action.data.id
+					id: action.data.id,
+					isAuthenticated: action.data.isAuthenticated
 				};
-				api.getCurrentUserData(newState.id, this.startLoadDataSuccessAction);
+				if (newState.isAuthenticated) api.getCurrentUserData(newState.id, this.startLoadDataSuccessAction);
 				return newState;
 			case 'user/loaded':
 				var newState = Object.assign({}, state, action.data);
@@ -62,7 +63,14 @@ class UserStore extends ReduceStore {
 	startLoadSuccessAction(data) {
 		dispatcher.dispatch({
 			type: 'user/loaded-basic',
-			data: data
+			data: Object.assign(data, {isAuthenticated: true})
+		});
+	}
+
+	startLoadFromRegisterSuccessAction(data) {
+		dispatcher.dispatch({
+			type: 'user/loaded-basic',
+			data: Object.assign(data, {isAuthenticated: false})
 		});
 	}
 

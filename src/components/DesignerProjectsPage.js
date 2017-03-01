@@ -78,6 +78,10 @@ export default class DesignerProjectsPage extends React.Component {
     		currentFolderStyle = {'background-color': currentColor};
     	});
 
+    	if (!this.state.designerProjects.length) {
+    		projectComponents.push(<div className='note left-space'>You have no active projects.</div>);
+    	}
+
 		return (<div className='ink-grid full-height'>
 					<div className="ink-tabs top full-height left-space right-space vertical-space" data-prevent-url-change="true">
 					    <ul className="tabs-nav">
