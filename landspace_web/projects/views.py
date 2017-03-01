@@ -1,4 +1,3 @@
-from django_remote_forms.forms import RemoteForm
 from django.shortcuts import render, redirect, reverse
 from . import forms
 
@@ -12,7 +11,7 @@ def create_project(request):
 
 	form = forms.ProjectProfileForm(request.POST or None)
 	view_data = {
-		'form': RemoteForm(form).as_dict()
+		'form': form
 	}
 	return render(request, 'projects/create.html', view_data)
 
