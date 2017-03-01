@@ -22,7 +22,7 @@ class DesignerProjectsStore extends ReduceStore {
 
 	reduce(state, action) {
 
-		// console.info(this.id, action, state);
+		console.info(this.id, action, state);
 
 		switch (action.type) {
 			case 'designerProjects/empty':
@@ -43,8 +43,8 @@ class DesignerProjectsStore extends ReduceStore {
 				return newState;
 			case 'user/loaded-basic':
 				dispatcher.waitFor([userStore.getDispatchToken()]);
-				var newState = Object.assign({}, state, {userId: action.data.id});
-				if (newState.isAuthenticated) api.getAllDesignerProjects(newState.userId, this.startLoadSuccessAction);
+				var newState = Object.assign({}, state, action.data);
+				if (newState.isAuthenticated) api.getAllDesignerProjects(newState.id, this.startLoadSuccessAction);
 				return newState;
 
 			default:

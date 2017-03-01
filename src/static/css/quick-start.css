@@ -111,22 +111,12 @@ html, body, #main, .full-height { height: 100%; min-height: 600px;}
 }
 
 .ink-navigation ul.menu.horizontal li.inline {
-  width: 265px;
+  width: 165px;
 }
 
 .ink-navigation ul.menu.horizontal li.inline,
 .ink-navigation ul.menu.vertical li.inline {
     padding: .5em 1em;
-}
-
-.ink-navigation ul.menu.horizontal li.inline a {
-    padding: 0;
-}
-
-.ink-navigation ul.menu.horizontal li.inline a,
-.ink-navigation ul.menu.vertical li.inline a {
-    display: inline;
-    color: #6998c9;
 }
 
 #id-projects-dropdown {
