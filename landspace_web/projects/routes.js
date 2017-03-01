@@ -34,5 +34,6 @@ export var projectRightDrawerRoutes =
 <Router history={browserHistory}>
 	<Route path='/projects' component={() => (<ProjectsTopNav vertical={true} userSource={userSource} />)}>
 		<IndexRoute />
+		<Route path='/projects/designer/'/>
 	</Route>
 </Router>;

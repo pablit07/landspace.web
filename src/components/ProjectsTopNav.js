@@ -31,20 +31,36 @@ export default class ProjectsTopNav extends React.Component {
 
 	componentDidMount() {
 		// this.userDataSource();
-		this.projectsDataSource();
 
 		this.userStoreToken = userStore.addListener(_ => {
 			var newState = userStore.getState();
 			this.setState({
 				'firstName': newState['first_name'],
 				'lastName': newState['last_name'],
-				'designerSource': newState['designer']
+				'designerSource': newState['designer'],
+				'clientSource': newState['client']
 			});
+
+			if (newState['designer']) {
+				var designerProjectsStore = require('../stores/DesignerProjectsStore').default;
+				this.setState({projects: designerProjectsStore.getState().designerProjects});
+				this.designerProjectsStoreToken = designerProjectsStore.addListener(_ => {
+					var newState = designerProjectsStore.getState();
+					this.setState({projects: newState.designerProjects});
+				});
+			} else {
+				this.projectsDataSource();
+			}
 		});
 
 		dispatcher.dispatch({
 			type: 'user/start-load'
 		});
+	}
+
+	componentWillUnmount() {
+		this.userStoreToken.remove();
+		// designerProjectsStore.removeListener(this.designerProjectsStoreToken);
 	}
 
 	componentWillReceiveProps(props) {
@@ -67,7 +83,11 @@ export default class ProjectsTopNav extends React.Component {
 		if (projectsMenu.length == 0) {
 			projectsMenu.push(<li className='inline'><div className={'a'+(this.props.vertical?' note':'')}>You have no projects.</div> <a href="/projects" className='inline'>{ (this.state.designerSource ? 'Request Project' : 'Start a Project') }</a></li>);
 		} else {
-			projectsMenu.push(<li className="separator-above"><Link to="/projects"><i className='fa fa-plus'></i> New Project</Link></li>);	
+			if (this.state.designerSource) {
+				projectsMenu.push(<li className="separator-above"><Link to="/projects/designer/"><i className='fa fa-asterisk'></i> All Projects</Link></li>);
+			} else {
+				projectsMenu.push(<li className="separator-above"><Link to="/projects"><i className='fa fa-plus'></i> New Project</Link></li>);	
+			}
 		}		
 
 		var userMenu = [
