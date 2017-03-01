@@ -7,8 +7,8 @@ from . import views
 
 
 urlpatterns = [	
-	url(r'^$', views.index),
-	url(r'(?P<role>designer)?^$', views.index, name='designer'),
-	url(r'^create/$', views.create_project),
+	url(r'^$', decorators.login_required(views.index)),
+	url(r'(?P<role>designer)?^$', decorators.login_required(views.index), name='designer'),
+	url(r'^create/$', decorators.login_required(views.create_project)),
 	url(r'^testdrive/$', views.testdrive)
 ]
