@@ -36,6 +36,19 @@ export default class DesignerProjectsPage extends React.Component {
 		this.designerProjectsStoreToken.remove();
 	}
 
+	clickFolderHandler(project) {
+		
+		return _ => {
+			var id = project.id;
+			dispatcher.dispatch({
+				type: 'designerProjects/open',
+				data: {
+					id: id
+				}
+			});
+		};
+	}
+
 	render() {
     	var projectComponents = [];
 
@@ -45,7 +58,7 @@ export default class DesignerProjectsPage extends React.Component {
 
     	this.state.designerProjects.forEach((project) => {
 
-    		projectComponents.push(<div className='project-container all-30 tiny-100 small-100'>
+    		projectComponents.push(<div className={'project-container all-30 tiny-100 small-100' + (project.isOpen ? ' open' : '')} onClick={this.clickFolderHandler(project)}>
 			    						<div className='overlay' style={currentFolderStyle}></div>
 			    						<div className='contents'>
 			    							<i className="fa fa-folder-o fa-10x background" aria-hidden="true"></i>
@@ -73,7 +86,11 @@ export default class DesignerProjectsPage extends React.Component {
 					    </ul>
 
 					    <div id="home" className="tabs-content full-height">
-					    	<div className='column-group'><div className='all-100 push-right align-right'><a href="https://drive.google.com/a/landspaceplan.com/file/d/0B3L5HbsWbNMiU3RuNVhQeVY3ZTA/view?usp=sharing">Landspace Onboarding</a></div></div>
+					    	<div className='column-group'>
+					    	<div className='all-100 push-right align-right'>
+					    		<a target="_blank" href="https://drive.google.com/a/landspaceplan.com/file/d/0B3L5HbsWbNMiU3RuNVhQeVY3ZTA/view?usp=sharing">Landspace Onboarding</a>
+					    		</div>
+				    		</div>
 							<div className='column-group vertical-space'>
 		    					{projectComponents}
 							</div>

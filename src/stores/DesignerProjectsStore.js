@@ -12,7 +12,7 @@ class DesignerProjectsStore extends ReduceStore {
 
 	getInitialState() {
 		this._state = {
-			designerID: null
+			activeProjectId: null
 		};
 		dispatcher.dispatch({
 			type: 'designerProjects/empty'
@@ -22,7 +22,7 @@ class DesignerProjectsStore extends ReduceStore {
 
 	reduce(state, action) {
 
-		// console.info(this.id, action, state);
+		console.info(this.id, action, state);
 
 		switch (action.type) {
 			case 'designerProjects/empty':
@@ -35,6 +35,11 @@ class DesignerProjectsStore extends ReduceStore {
 				return state;
 			case 'designerProjects/loaded':
 				var newState = Object.assign({}, state, {designerProjects: action.data.results});
+				newState.designerProjects.forEach((p) => { p.isOpen = p.id === newState.activeProjectId });
+				return newState;
+			case 'designerProjects/open':
+				var newState = Object.assign({}, state, {activeProjectId: action.data.id});
+				newState.designerProjects.forEach((p) => { p.isOpen = p.id === newState.activeProjectId });
 				return newState;
 			case 'user/loaded-basic':
 				dispatcher.waitFor([userStore.getDispatchToken()]);
@@ -55,7 +60,8 @@ class DesignerProjectsStore extends ReduceStore {
 	}
 
 	areEqual(one, two) {
-		return (one.designerProjects || []).length === (two.designerProjects || []).length;
+		return (one.designerProjects || []).length === (two.designerProjects || []).length
+			&& one.activeProjectId === two.activeProjectId;
 	}
 }
 
