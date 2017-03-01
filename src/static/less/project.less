@@ -1,0 +1,51 @@
+.project-container {
+
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+
+	.title {
+		padding: 0.5em 1.3em;
+	}
+
+	.contents {
+		border: none;
+	}
+
+	.details {
+		display: none;
+	}
+	
+	.overlay {
+		position: absolute;
+		top: 30px;
+		left: 10px;
+		width: 52px;
+		height: 8px;
+	}
+}
+
+
+.project-container:hover {
+	transition: font-size 0.5s;
+	font-size: 2em;
+	
+	.overlay { display: none; }
+
+	.details {
+		display: block;
+		position: absolute;
+		top: 0; left: 0;
+		font-size: 0.5em;
+	}
+
+	.contents {
+		border: 1px solid black;
+		box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+	}
+
+	.fa-10x {
+		transition: opacity 0.5s;
+		opacity: 0;
+	}
+}

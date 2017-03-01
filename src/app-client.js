@@ -1,5 +1,6 @@
 require('./static/css/ink.css')
 require('./static/css/quick-start.css')
+require('./static/less/base.less')
 require('./static/css/font-awesome.min.css')
 require('./static/css/animate.css')
 require('./static/css/animate.extensions.css')

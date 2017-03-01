@@ -24,7 +24,8 @@ module.exports = {
 			{ test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
 			{ test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/, exclude: /node_modules/, loader: 'url-loader?importLoaders=1&limit=100000&name=../fonts/[hash].[ext]' },
 			{ test: /\.(png|jpe|jpg|svg)(\?.*$|$)/, exclude: /node_modules/, loader: 'url-loader?importLoaders=1&limit=100000&name=../img/[hash].[ext]' },
-			{ test: /\.js$/, exclude: /(node_modules|static)/, loader: 'babel-loader?presets[]=es2015&presets[]=react' }
+			{ test: /\.js$/, exclude: /(node_modules|static)/, loader: 'babel-loader?presets[]=es2015&presets[]=react' },
+			{ test: /\.less$/, loader: "style!css!less" }
 		]
 	},
 	plugins: [

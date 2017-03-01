@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router';
 import Logo from './Logo.js'
+import userStore from '../stores/UserStore';
+import dispatcher from '../Dispatcher';
 
 
 export default class ProjectsTopNav extends React.Component {
@@ -11,22 +13,6 @@ export default class ProjectsTopNav extends React.Component {
 			'lastName': '',
 			'projects': []
 		};
-	}
-
-	userDataSource(props) {
-		var props = props || this.props;
-		if (!props.userSource) {
-			console.error('userSource prop not found')
-			return;
-		}
-
-		$.get(props.userSource + window.userId + '/', (data) => {
-			this.setState({
-				'firstName': data['first_name'],
-				'lastName': data['last_name'],
-				'designerSource': data['designer']
-			});
-		});
 	}
 
 	projectsDataSource(props) {
@@ -44,8 +30,21 @@ export default class ProjectsTopNav extends React.Component {
 	}
 
 	componentDidMount() {
-		this.userDataSource();
+		// this.userDataSource();
 		this.projectsDataSource();
+
+		this.userStoreToken = userStore.addListener(_ => {
+			var newState = userStore.getState();
+			this.setState({
+				'firstName': newState['first_name'],
+				'lastName': newState['last_name'],
+				'designerSource': newState['designer']
+			});
+		});
+
+		dispatcher.dispatch({
+			type: 'user/start-load'
+		});
 	}
 
 	componentWillReceiveProps(props) {

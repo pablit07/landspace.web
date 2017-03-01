@@ -47,8 +47,18 @@ export default class DesignerProjectsPage extends React.Component {
 
     		projectComponents.push(<div className='project-container all-30 tiny-80 small-80'>
 			    						<div className='overlay' style={currentFolderStyle}></div>
-			    						<i className="fa fa-folder-o fa-10x background" aria-hidden="true"></i>
-				    					<div className='title'>{project.name}</div>
+			    						<div className='contents'>
+			    							<i className="fa fa-folder-o fa-10x background" aria-hidden="true"></i>
+				    						<div className='title'>{project.name}</div>
+				    						<div className='details'>
+				    							<ul>
+				    							<li><a href='#'>Open Google Drive Folder</a></li>
+				    							<li><a href='#'>Download Survey Results</a></li>
+				    							<li><a href='#'>Download Project Profile</a></li>
+				    							</ul>
+			    							</div>
+
+		    							</div>
 								</div>);
     		folderColors.push(currentColor);
     		currentColor = folderColors.shift();
