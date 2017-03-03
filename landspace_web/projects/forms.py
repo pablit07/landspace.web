@@ -35,7 +35,7 @@ class ProjectProfileForm(forms.ModelForm):
 			"has_edible_garden": "Will you have an edible garden? If so what do you envision growing?",
 			"has_pets": "Do you have any pets?",
 			"approximate_budget": "What is your approximate budget for your project including construction?",
-			"requires_contractor": "Would you like one of our landspace designers help connect you to a contractor in your area?",
+			"requires_contractor": "Would you like one of our landspace designers to help connect you to a contractor in your area?",
 			"is_in_phases": "Will you be doing this project in phases?",
 			"project_description_text": "Short Project Description (Optional)",
 			"state_province": "State/Province",

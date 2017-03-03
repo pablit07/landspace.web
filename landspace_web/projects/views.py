@@ -10,6 +10,13 @@ def index(request, role=None):
 def create_project(request):
 
 	form = forms.ProjectProfileForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		user.client.current_step = user.client.current_step.next
+		user.client.save()
+
+		return redirect('/projects/')
+
 	view_data = {
 		'form': form
 	}

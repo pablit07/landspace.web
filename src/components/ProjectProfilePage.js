@@ -12,6 +12,10 @@ export default class ProjectProfilePage extends React.Component {
 		$('#main').css({'margin-bottom': '0', 'height': 'auto'});
 	}
 
+	submitHandler() {
+		$('#ProjectProfile').submit();
+	}
+
 	render() {
 		var formHTML = document.getElementById('project-profile-form').innerHTML;
 		var form = { '__html': formHTML } ;
@@ -31,7 +35,7 @@ export default class ProjectProfilePage extends React.Component {
 				</div>
 				<div className='column-group gutters'>
 					<div className="all-50 tiny-90 small-90 medium-55 push-center align-right">
-						<input className="ink-button" type="submit" value="Submit" />
+						<input className="ink-button" type="submit" value="Submit" onClick={this.submitHandler}/>
 					</div>
 				</div>
 			</div>

@@ -85,7 +85,7 @@ export default class ProjectsTopNav extends React.Component {
 			if (this.state.designerSource) {
 				projectsMenu.push(<li className="separator-above"><Link to="/projects/designer/"><i className='fa fa-asterisk'></i> All Projects</Link></li>);
 			} else {
-				projectsMenu.push(<li className="separator-above"><Link to="/projects/create/"><i className='fa fa-plus'></i> New Project</Link></li>);	
+				projectsMenu.push(<li className="separator-above"><a to="/projects/create/"><i className='fa fa-plus'></i> New Project</a></li>);	
 			}
 		} else {
 			if (this.state.designerSource) {
