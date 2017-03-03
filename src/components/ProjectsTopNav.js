@@ -83,15 +83,15 @@ export default class ProjectsTopNav extends React.Component {
 		if (projectsMenu.length == 0) {
 			projectsMenu.push(<li className='inline'><div className={'a'+(this.props.vertical?' note':'')}>You have no projects.</div></li>);
 			if (this.state.designerSource) {
-				projectsMenu.push(<li className="separator-above"><Link to="/projects/designer/"><i className='fa fa-asterisk'></i> All Projects</Link></li>);
+				projectsMenu.push(<li className="separator-above"><a href="/projects/designer/"><i className='fa fa-asterisk'></i> All Projects</a></li>);
 			} else {
-				projectsMenu.push(<li className="separator-above"><a to="/projects/create/"><i className='fa fa-plus'></i> New Project</a></li>);	
+				projectsMenu.push(<li className="separator-above"><a href="/projects/create/"><i className='fa fa-plus'></i> New Project</a></li>);	
 			}
 		} else {
 			if (this.state.designerSource) {
-				projectsMenu.push(<li className="separator-above"><Link to="/projects/designer/"><i className='fa fa-asterisk'></i> All Projects</Link></li>);
+				projectsMenu.push(<li className="separator-above"><a href="/projects/designer/"><i className='fa fa-asterisk'></i> All Projects</a></li>);
 			} else {
-				projectsMenu.push(<li className="separator-above"><a to="/projects/create/"><i className='fa fa-plus'></i> New Project</a></li>);	
+				projectsMenu.push(<li className="separator-above"><a href="/projects/create/"><i className='fa fa-plus'></i> New Project</a></li>);	
 			}
 		}		
 
