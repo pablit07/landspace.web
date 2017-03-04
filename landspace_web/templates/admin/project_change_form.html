@@ -38,25 +38,21 @@
 {% block coltype %}flex{% endblock %}
 
 {% block actions %}
-{% if pending_action_users.exists %}
+{% if pending_action_projects.exists %}
 <h1>TAKE ACTION</h1>
 
 <table>
-<caption>The following clients have submitted an email but haven't completed registration. They may require a registration email with a URL.</caption>
+<caption>The following projects require action.</caption>
 <thead>
   <tr>
-    <th>Email / Login</th>
     <th>Name</th>
-    <th>Register URL</th>
-    <th align="right">Has Registered</th>
+    <th>Action</th>
   </tr>
 </thead>
-{% for pending_action_user in pending_action_users %}
+{% for pending_action_project in pending_action_projects %}
 <tr>
-  <td>{{ pending_action_user.user.username }}</td>
-  <td>{{ pending_action_user.full_name }}</td>
-  <td><a href='{{ pending_action_user.registration_url }}'>Right-Click To Copy</a></td>
-  <td align="right">{{ pending_action_user.has_registered | yesno }}</td>
+  <td>{{ pending_action_project.name }}</td>
+  <td>{{ pending_action_project.admin_step.action }}</td>
 </tr>
 
 {% endfor %}

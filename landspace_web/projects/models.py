@@ -4,10 +4,13 @@ from django.contrib.auth.models import User
 from django.db import models
 
 
+DESIGNER_MATCH_ADMIN_NAME = 'Designer Match - Admin Role'
+DESIGNER_MATCH_DESIGNER_NAME = 'Designer Match - Designer Role'
+
 class Project(models.Model):
 	name = models.CharField(max_length=100, blank=False, null=False)
 	client = models.ForeignKey(User, related_name='client_project')
-	designer = models.ForeignKey(User, related_name='designer_project', blank=True, null=True)
+	designer = models.ForeignKey('landspace_web.Designer', related_name='designer_project', blank=True, null=True)
 
 	project_type = models.CharField(max_length=100)
 	lot_size = models.IntegerField(blank=True, null=True)

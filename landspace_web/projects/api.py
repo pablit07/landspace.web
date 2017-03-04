@@ -24,6 +24,6 @@ class DesignerProjectsViewSet(viewsets.ModelViewSet):
 		This view should return a list of only the projects for which the given user is authenticated
 		"""
 		user_id = self.kwargs['pk']
-		queryset = Project.objects.filter(designer=user_id)
+		queryset = Project.objects.filter(designer__user_id=user_id)
 
 		return queryset

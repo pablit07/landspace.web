@@ -67,6 +67,8 @@ class ProjectProfileForm(forms.ModelForm):
 	def save(self, commit=False):
 		instance = super(ProjectProfileForm, self).save(commit=False)
 		instance.client = self.user
+		instance.admin_step = models.Step.objects.get(name=models.DESIGNER_MATCH_ADMIN_NAME)
+		instance.designer_step = models.Step.objects.get(name=models.DESIGNER_MATCH_DESIGNER_NAME)
 
 		if commit:
 			instance.save()
