@@ -37,7 +37,8 @@ export default class DesignerProjectsPage extends React.Component {
 	}
 
 	clickFolderHandler(project) {
-		return _ => {
+		return (e) => {
+			e.stopPropagation();
 			var id = project.id;
 			if (!project.isOpen) {
 				dispatcher.dispatch({
@@ -48,6 +49,12 @@ export default class DesignerProjectsPage extends React.Component {
 				});
 			}
 		};
+	}
+
+	clickOutsideFolderHandler() {
+		dispatcher.dispatch({
+			type: 'designerProjects/close'
+		});
 	}
 
 	render() {
@@ -88,7 +95,7 @@ export default class DesignerProjectsPage extends React.Component {
     		projectComponents.push(<div className='note left-space'>You have no active projects.</div>);
     	}
 
-		return (<div className='ink-grid full-height'>
+		return (<div className='ink-grid full-height' onClick={this.clickOutsideFolderHandler}>
 					<div className="ink-tabs top full-height left-space right-space vertical-space" data-prevent-url-change="true">
 					    <ul className="tabs-nav">
 					        <li><a className="tabs-tab" href="#home">Active Projects</a></li>

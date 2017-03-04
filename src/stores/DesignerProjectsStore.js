@@ -46,6 +46,10 @@ class DesignerProjectsStore extends ReduceStore {
 				var newState = Object.assign({}, state, {activeProjectId: action.data.id});
 				newState.designerProjects.forEach((p) => { p.isOpen = p.id === newState.activeProjectId });
 				return newState;
+			case 'designerProjects/close':
+				var newState = Object.assign({}, state, {activeProjectId: null});
+				newState.designerProjects.forEach((p) => { p.isOpen = p.id === newState.activeProjectId });
+				return newState;
 			case 'user/loaded-basic':
 				dispatcher.waitFor([userStore.getDispatchToken()]);
 				var newState = Object.assign({}, state, action.data);
