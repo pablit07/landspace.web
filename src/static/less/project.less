@@ -5,7 +5,7 @@
 	cursor: pointer;
 
 	.title {
-		padding: 0.5em 0.5em;
+		padding: 0.3em 0.5em;
 	}
 
 	.contents {
@@ -23,14 +23,28 @@
 		width: 52px;
 		height: 8px;
 	}
+
+	.progress { 
+		position: absolute;
+		top: 70px;
+	    left: 14px;
+	    width: 120px;
+	    height: 10px;
+	}
+
+	p {
+		padding: 0.5em 1em;
+	}
 }
 
 
 .project-container.open {
 	transition: font-size 0.5s;
 	font-size: 2em;
+	cursor: default;
 	
 	.overlay { display: none; }
+	.progress { display: none; }
 
 	.details {
 		display: block;
@@ -46,5 +60,11 @@
 		transition: opacity 0.5s;
 		opacity: 0;
 		position: absolute;
+		animation: hide-after-transition 0.5s forwards;
 	}
+}
+
+@keyframes hide-after-transition {
+	0% { visibility: visible; }
+	100% { visibility: hidden; }
 }

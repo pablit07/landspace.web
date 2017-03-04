@@ -6,7 +6,7 @@ from social_django import models as social_django_models
 
 class ProjectAdmin(admin.ModelAdmin):
 	change_list_template = 'admin/project_change_form.html'
-	exclude = ('designer_step', 'admin_step')
+	readonly_fields = ('designer_step', 'admin_step')
 
 	def changelist_view(self, request, extra_context=None):
 		extra_context = extra_context or {}
@@ -15,8 +15,9 @@ class ProjectAdmin(admin.ModelAdmin):
 
 	def save_model(self, request, obj, form, change):
 		# if needs designer, and designer added, mark step completed
-		if obj.designer and obj.admin_step and obj.admin_step.name == models.DESIGNER_MATCH_ADMIN_NAME:
+		if obj.designer and obj.drive_folder and obj.admin_step and obj.admin_step.name == models.DESIGNER_MATCH_ADMIN_NAME:
 			obj.admin_step = None
+			obj.designer_step = None
 			obj.client.client.current_step = obj.client.client.current_step.next
 
 		obj.save()

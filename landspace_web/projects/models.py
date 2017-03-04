@@ -41,6 +41,7 @@ class Project(models.Model):
 
 	designer_step = models.ForeignKey('projects.Step', blank=True, null=True, related_name='designer_project')
 	admin_step = models.ForeignKey('projects.Step', blank=True, null=True, related_name='admin_project')
+	drive_folder = models.URLField(blank=True, null=True)
 
 	def __unicode__(self):
 		return self.name

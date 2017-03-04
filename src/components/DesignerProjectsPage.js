@@ -37,15 +37,16 @@ export default class DesignerProjectsPage extends React.Component {
 	}
 
 	clickFolderHandler(project) {
-		
 		return _ => {
 			var id = project.id;
-			dispatcher.dispatch({
-				type: 'designerProjects/open',
-				data: {
-					id: id
-				}
-			});
+			if (!project.isOpen) {
+				dispatcher.dispatch({
+					type: 'designerProjects/open',
+					data: {
+						id: id
+					}
+				});
+			}
 		};
 	}
 
@@ -58,16 +59,21 @@ export default class DesignerProjectsPage extends React.Component {
 
     	this.state.designerProjects.forEach((project) => {
 
-    		projectComponents.push(<div className={'project-container all-30 tiny-100 small-100' + (project.isOpen ? ' open' : '')} onClick={this.clickFolderHandler(project)}>
+    		projectComponents.push(<div className={'project-container all-30 medium-50 tiny-100 small-100' + (project.isOpen ? ' open' : '')} onClick={this.clickFolderHandler(project)}>
 			    						<div className='overlay' style={currentFolderStyle}></div>
+			    						<div className='progress align-center'>
+			    							<label>{project.designer_step.percent_shown}%</label>
+			    							<Line percent={project.designer_step.percent_shown} strokeWidth="2" strokeColor={currentColor} />
+			    						</div>
 			    						<div className='contents'>
 			    							<i className="fa fa-folder-o fa-10x background" aria-hidden="true"></i>
 				    						<div className='title'>{project.name}</div>
 				    						<div className='details'>
+				    							<p>{project.display_name}<br/><a href={'mailto:'+project.email}>{project.email}</a></p>
 				    							<ul>
-				    							<li><a href='#'>Open Google Drive Folder</a></li>
+				    							<li><a href={project.drive_folder} target='_blank'>Open Google Drive Folder</a></li>
 				    							<li><a href='#'>Download Survey Results</a></li>
-				    							<li><a href='#'>Download Project Profile</a></li>
+				    							<li><a href={'/projects/export/'+project.id} target='_blank'>Download Project Profile</a></li>
 				    							</ul>
 			    							</div>
 

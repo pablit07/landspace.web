@@ -59,6 +59,14 @@ class DesignerSerializer(serializers.ModelSerializer):
 
 class ClientSerializer(serializers.ModelSerializer):
 	current_step = StepSerializer()
+	display_name = serializers.SerializerMethodField()
+	email = serializers.SerializerMethodField()
+
+	def get_display_name(self, obj):
+		return obj.full_name
+
+	def get_email(self, obj):
+		return obj.user.email
 
 	class Meta:
 		model = models.Client

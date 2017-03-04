@@ -93,6 +93,18 @@ class API {
 		}, userId);
 	}
 
+	getAllDesignerProjectsExtended(projects, success, fail) {
+		var callbacks = [];
+		projects.forEach((p) => {
+			let promise = $.get(p.client);
+			promise.done((data) => {
+				Object.assign(p, {email: data.email, display_name: data.display_name});
+			});
+			callbacks.push(promise);
+		});
+		$.when(callbacks).then(success, fail || api.genericFail);
+	}
+
 }
 
 var api = new API();

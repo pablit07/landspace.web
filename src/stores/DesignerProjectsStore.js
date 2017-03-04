@@ -12,7 +12,8 @@ class DesignerProjectsStore extends ReduceStore {
 
 	getInitialState() {
 		this._state = {
-			activeProjectId: null
+			activeProjectId: null,
+			lastUpdate: Date.now()
 		};
 		dispatcher.dispatch({
 			type: 'designerProjects/empty'
@@ -36,6 +37,10 @@ class DesignerProjectsStore extends ReduceStore {
 			case 'designerProjects/loaded':
 				var newState = Object.assign({}, state, {designerProjects: action.data.results});
 				newState.designerProjects.forEach((p) => { p.isOpen = p.id === newState.activeProjectId });
+				api.getAllDesignerProjectsExtended(action.data.results, this.projectsExtendedSuccessAction);
+				return newState;
+			case 'designerProjects/loaded-extended':
+				var newState = Object.assign({}, state, {lastUpdate: Date.now()});
 				return newState;
 			case 'designerProjects/open':
 				var newState = Object.assign({}, state, {activeProjectId: action.data.id});
@@ -59,9 +64,18 @@ class DesignerProjectsStore extends ReduceStore {
 		});
 	}
 
+	projectsExtendedSuccessAction(data) {
+		if (data){
+			dispatcher.dispatch({
+				type: 'designerProjects/loaded-extended',
+			});
+		}
+	}
+
 	areEqual(one, two) {
 		return (one.designerProjects || []).length === (two.designerProjects || []).length
-			&& one.activeProjectId === two.activeProjectId;
+			&& one.activeProjectId === two.activeProjectId
+			&& one.lastUpdate === two.lastUpdate;
 	}
 }
 

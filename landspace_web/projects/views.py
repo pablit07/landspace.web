@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, reverse
-from . import forms
+import django_excel
+from . import forms, models
+
 
 def index(request, role=None):
 	if not role and hasattr(request.user, 'designer'):
@@ -25,3 +27,12 @@ def create_project(request):
 def testdrive(request):
 
 	return render(request, 'projects/testdrive.html', {})
+
+
+def export_project(request, pk):
+	if not pk:
+		raise
+
+	queryset = models.Project.objects.filter(id=pk)
+
+	return django_excel.make_response_from_records(queryset.values(), 'xlsx', file_name="Project_"+pk)
