@@ -9,11 +9,11 @@ def index(request, role=None):
 
 def create_project(request):
 
-	form = forms.ProjectProfileForm(request.POST or None)
+	form = forms.ProjectProfileForm(request.POST or None, user=request.user)
 	if form.is_valid():
-		form.save()
-		user.client.current_step = user.client.current_step.next
-		user.client.save()
+		form.save(commit=True)
+		request.user.client.current_step = request.user.client.current_step.next
+		request.user.client.save()
 
 		return redirect('/projects/')
 

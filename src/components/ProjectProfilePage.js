@@ -8,7 +8,7 @@ export default class ProjectProfilePage extends React.Component {
 	}
 
 	componentDidMount() {
-		$('.control-group li:first-child').remove();
+		// $('.control-group li:first-child').remove();
 		$('#main').css({'margin-bottom': '0', 'height': 'auto'});
 	}
 

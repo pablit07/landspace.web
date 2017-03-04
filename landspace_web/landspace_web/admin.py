@@ -75,7 +75,7 @@ class ClientAdmin(admin.ModelAdmin):
 		if not obj or not obj.id:
 			fieldsets = ((None, {u'fields': ['email']}),)
 		else:
-			fieldsets = ((None, {'fields': ('user', 'has_registered', 'registration_url')}),)
+			fieldsets = ((None, {'fields': ('user', 'has_registered', 'registration_url', 'current_step')}),)
 
 		return fieldsets
 

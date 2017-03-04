@@ -1,26 +1,31 @@
+# coding=utf-8
 from django import forms
 from . import models, widgets
 
 
 class ProjectProfileForm(forms.ModelForm):
+	project_type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('front yard', 'front yard'), ('backyard', 'backyard'), ('small garden area', 'small garden area'), ('deck or patio', 'deck or patio'), ('roofdeck', 'roofdeck'), ('other', 'other')))
+	work_type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('planting', 'planting'),('wood construction', 'wood construction'),('stonework or masonry', 'stonework or masonry'),\
+													('walls', 'walls'),('art installation', 'art installation'),('small improvements (pots, firepit, etc)', 'small improvements (pots, firepit, etc)'),\
+													('patio', 'patio'),('pool or hot tub', 'pool or hot tub'),('fountain', 'fountain'),('pond', 'pond'),('outdoor kitchen', 'outdoor kitchen'),\
+													('playspace', 'playspace'), ('earthwork', 'earthwork'), ('wood construction (deck, pergola, etc.)', 'wood construction (deck, pergola, etc.)'), ('rooftop', 'rooftop'), ('sports court', 'sports court'),('I don’t have a set plan yet. I am looking for a designer to assist me',\
+													 'I don’t have a set plan yet. I am looking for a designer to assist me'),('other', 'other'),))
+	primary_users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('just me.', 'just me.'),('my partner and I', 'my partner and I'),('my family with young kids', 'my family with young kids'),('my family with young adults', 'my family with young adults'),('my family with elderly adults', 'my family with elderly adults'),('my friends and I', 'my friends and I'),('other', 'other'),))
+	has_pets = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('dog', 'dog'), ('cat', 'cat'), ('reptile', 'reptile'), ('horse', 'horse'), ('tiger', 'tiger'), ('other', 'other'), ('no', 'no'),))
+	outdoor_cooking_level = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('none, we cook inside','none, we cook inside'),('space for a pre-fab bbq grill','space for a pre-fab bbq grill'),('built-in outdoor kitchen','built-in outdoor kitchen'),('custom brick oven','custom brick oven'),))
 	
 	class Meta:
 		model = models.Project
 		fields = ["name","project_type","lot_size","slope_amount","work_type","primary_users","has_edible_garden","has_pets","approximate_budget","requires_contractor","is_in_phases",'accessibility_concerns','start','preferred_designer','is_for_sports','outdoor_cooking_level','has_existing_plan','has_allergies',"project_description_text","address_1","address_2","city","state_province","zip_code","country",]
 		widgets = {
-			'project_type': forms.CheckboxSelectMultiple(),
 			'slope_amount': forms.RadioSelect(),
-			'work_type': forms.CheckboxSelectMultiple(),
-			'primary_users': forms.CheckboxSelectMultiple(),
 			'has_edible_garden': forms.RadioSelect(),
-			'has_pets': forms.CheckboxSelectMultiple(),
 			'approximate_budget': forms.RadioSelect(),
 			'requires_contractor': forms.RadioSelect(),
 			'is_in_phases': forms.RadioSelect(),
 			'accessibility_concerns': forms.RadioSelect(),
 			'start': forms.RadioSelect(),
 			'is_for_sports': forms.RadioSelect(),
-			'outdoor_cooking_level': forms.CheckboxSelectMultiple(),
 			'has_existing_plan': forms.RadioSelect(),
 			'has_allergies': forms.RadioSelect()
 		}
@@ -53,5 +58,19 @@ class ProjectProfileForm(forms.ModelForm):
 			'preferred_designer': 'Based on demand, please be aware your preferred designer might not be available.',
 			'requires_contractor': '**Additional $50 Cost'
 		}
+
+
+	def __init__(self, *args, **kwargs):
+		self.user = kwargs.pop('user', None)
+		super(ProjectProfileForm, self).__init__(*args, **kwargs)
+
+	def save(self, commit=False):
+		instance = super(ProjectProfileForm, self).save(commit=False)
+		instance.client = self.user
+
+		if commit:
+			instance.save()
+
+		return instance
 
 		
