@@ -1,7 +1,6 @@
 .project-container {
 
 	display: inline-block;
-	position: relative;
 	cursor: pointer;
 
 	.title {
@@ -10,27 +9,28 @@
 
 	.contents {
 		border: none;
+		position: relative;
+
+		.overlay {
+			position: absolute;
+			top: 30px;
+			left: 10px;
+			width: 52px;
+			height: 8px;
+		}
+
+		.progress { 
+			position: absolute;
+			top: 70px;
+		    left: 14px;
+		    width: 120px;
+		    height: 10px;
+		}
 	}
 
 	.details {
 		display: none;
 	    padding-bottom: 1.5em;
-	}
-	
-	.overlay {
-		position: absolute;
-		top: 30px;
-		left: 10px;
-		width: 52px;
-		height: 8px;
-	}
-
-	.progress { 
-		position: absolute;
-		top: 70px;
-	    left: 14px;
-	    width: 120px;
-	    height: 10px;
 	}
 
 	p {
@@ -43,9 +43,6 @@
 	transition: font-size 0.5s;
 	font-size: 2em;
 	cursor: default;
-	
-	.overlay { display: none; }
-	.progress { display: none; }
 
 	.details {
 		display: block;
@@ -55,6 +52,8 @@
 	.contents {
 		border: 1px solid black;
 		box-shadow: 10px 10px 5px rgba(0, 0, 0, 0.5);
+		.overlay { display: none; }
+		.progress { display: none; }
 	}
 
 	.fa-10x {
@@ -63,6 +62,8 @@
 		position: absolute;
 		animation: hide-after-transition 0.5s forwards;
 	}
+
+	.alert {display: none;}
 }
 
 @keyframes hide-after-transition {

@@ -18,7 +18,7 @@
       "percent_shown": 20,
       "name": "2. Project Profile",
       "action": "Complete Project Profile",
-      "url": "http://www.landspace.site/",
+      "url": "/projects/create/",
       "next": 3,
       "icon_class": ""
     }
@@ -57,6 +57,42 @@
       "url": "",
       "next": null,
       "icon_class": "fa-credit-card"
+    }
+  },
+  {
+    "model": "projects.step",
+    "pk": 6,
+    "fields": {
+      "percent_shown": 0,
+      "name": "Designer Match - Admin Role",
+      "action": "Set a designer and Google Drive folder",
+      "url": "",
+      "next": null,
+      "icon_class": ""
+    }
+  },
+  {
+    "model": "projects.step",
+    "pk": 7,
+    "fields": {
+      "percent_shown": 40,
+      "name": "Designer Match - Designer Role",
+      "action": "",
+      "url": "",
+      "next": null,
+      "icon_class": ""
+    }
+  },
+  {
+    "model": "projects.step",
+    "pk": 8,
+    "fields": {
+      "percent_shown": 50,
+      "name": "Contact Client - Designer Role",
+      "action": "Email Customer",
+      "url": "",
+      "next": null,
+      "icon_class": ""
     }
   }
 ]

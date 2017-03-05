@@ -74,14 +74,19 @@ export default class DesignerProjectsPage extends React.Component {
     	var currentFolderStyle = {'background-color': currentColor};
 
     	this.state.designerProjects.forEach((project) => {
+    		var alert = project.designer_step && project.designer_step.action
+    					? (<div className='column-group alert'><span className='ink-badge yellow'>{project.designer_step.action}</span></div>)
+    					: null;
 
     		projectComponents.push(<div className={'project-container all-30 medium-50 tiny-100 small-100' + (project.isOpen ? ' open' : '')} onClick={this.clickFolderHandler(project)}>
-			    						<div className='overlay' style={currentFolderStyle}></div>
-			    						<div className='progress align-center'>
-			    							<label>{project.designer_step.percent_shown}%</label>
-			    							<Line percent={project.designer_step.percent_shown} strokeWidth="2" strokeColor={currentColor} />
-			    						</div>
+			    						{alert}
 			    						<div className='contents'>
+				    						<div className='overlay' style={currentFolderStyle}></div>
+				    						<div className='progress align-center'>
+				    							<label>{project.designer_step.percent_shown}%</label>
+				    							<Line percent={project.designer_step.percent_shown} strokeWidth="2" strokeColor={currentColor} />
+				    						</div>
+				    						
 			    							<i className="fa fa-folder-o fa-10x background" aria-hidden="true"></i>
 				    						<div className='title'>{project.name}</div>
 				    						<div className='details'>
@@ -92,7 +97,7 @@ export default class DesignerProjectsPage extends React.Component {
 				    							<li><a href={'/projects/export/'+project.id} target='_blank'>Download Project Profile</a></li>
 				    							</ul>
 			    							</div>
-
+			    							
 		    							</div>
 								</div>);
     		folderColors.push(currentColor);
