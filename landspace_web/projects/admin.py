@@ -19,6 +19,7 @@ class ProjectAdmin(admin.ModelAdmin):
 			obj.admin_step = None
 			obj.designer_step = None
 			obj.client.client.current_step = obj.client.client.current_step.next
+			obj.client.client.save()
 
 		obj.save()
 
