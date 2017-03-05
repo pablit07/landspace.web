@@ -17,7 +17,7 @@ class ProjectAdmin(admin.ModelAdmin):
 		# if needs designer, and designer added, mark step completed
 		if obj.designer and obj.drive_folder and obj.admin_step and obj.admin_step.name == models.DESIGNER_MATCH_ADMIN_NAME:
 			obj.admin_step = None
-			obj.designer_step = None
+			obj.designer_step = obj.designer_step.next
 			obj.client.client.current_step = obj.client.client.current_step.next
 			obj.client.client.save()
 
