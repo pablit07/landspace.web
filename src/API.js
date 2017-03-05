@@ -96,13 +96,15 @@ class API {
 	getAllDesignerProjectsExtended(projects, success, fail) {
 		var callbacks = [];
 		projects.forEach((p) => {
-			let promise = $.get(p.client);
-			promise.done((data) => {
-				Object.assign(p, {email: data.email, display_name: data.display_name});
+			var promise = $.Deferred();
+			$.get(p.client).done((data) => {
+				p.email = data.email;
+				p.display_name= data.display_name;
+				promise.resolve();
 			});
 			callbacks.push(promise);
 		});
-		$.when(callbacks).then(success, fail || api.genericFail);
+		$.when.apply($, callbacks).done(success).fail(fail || api.genericFail);
 	}
 
 }

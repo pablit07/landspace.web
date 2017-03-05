@@ -26,6 +26,15 @@ export default class DesignerProjectsPage extends React.Component {
 			this.setState(newState);
 		});
 
+		if (this.props && this.props.params && this.props.params.id) {
+			dispatcher.dispatch({
+				type: 'designerProjects/empty',
+				data: {
+					id: Number(this.props.params.id)
+				}
+			});
+		}
+
 		dispatcher.dispatch({
 			type: 'user/start-load'
 		});

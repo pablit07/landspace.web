@@ -77,7 +77,7 @@ export default class ProjectsTopNav extends React.Component {
 		var projectsMenu = [];
 
 		this.state.projects.forEach( (p) => {
-			projectsMenu.push(<li><a href="/projects/designer/">{p.name}</a></li>);
+			projectsMenu.push(<li><a href={"/projects/designer/"+p.id+'/'}>{p.name}</a></li>);
 		});
 
 		if (projectsMenu.length == 0) {

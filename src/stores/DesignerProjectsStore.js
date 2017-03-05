@@ -23,12 +23,14 @@ class DesignerProjectsStore extends ReduceStore {
 
 	reduce(state, action) {
 
-		console.info(this.id, action, state);
+		// console.info(this.id, action, state);
 
 		switch (action.type) {
 			case 'designerProjects/empty':
 				if (!state.designerProjects || state.designerProjects.length)
 					state.designerProjects = api.getEmptyDesignerProjects();
+				if (action.data && action.data.id)
+					state = Object.assign({}, state, {activeProjectId: action.data.id});
 				return state;
 			case 'designerProjects/start-load':
 				if (state.designerID)
@@ -69,11 +71,9 @@ class DesignerProjectsStore extends ReduceStore {
 	}
 
 	projectsExtendedSuccessAction(data) {
-		if (data){
-			dispatcher.dispatch({
-				type: 'designerProjects/loaded-extended',
-			});
-		}
+		dispatcher.dispatch({
+			type: 'designerProjects/loaded-extended',
+		});
 	}
 
 	areEqual(one, two) {
