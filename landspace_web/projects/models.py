@@ -10,7 +10,6 @@ DESIGNER_MATCH_DESIGNER_NAME = 'Designer Match - Designer Role'
 class Project(models.Model):
 	name = models.CharField(max_length=100, blank=False, null=False)
 	client = models.ForeignKey(User, related_name='client_project')
-	designer = models.ForeignKey('landspace_web.Designer', related_name='designer_project', blank=True, null=True)
 
 	project_type = models.CharField(max_length=100)
 	lot_size = models.IntegerField(blank=True, null=True)
@@ -41,6 +40,7 @@ class Project(models.Model):
 
 	designer_step = models.ForeignKey('projects.Step', blank=True, null=True, related_name='designer_project')
 	admin_step = models.ForeignKey('projects.Step', blank=True, null=True, related_name='admin_project')
+	designer = models.ForeignKey('landspace_web.Designer', related_name='designer_project', blank=True, null=True)
 	drive_folder = models.URLField(blank=True, null=True)
 
 	def __unicode__(self):
