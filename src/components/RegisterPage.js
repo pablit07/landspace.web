@@ -56,11 +56,14 @@ export default class RegisterPage extends React.Component {
 	}
 
 	getFormFields(errorMessagesHtml) {
+		var style = {
+			'cursor': 'crosshair'
+		}
 		return [
 		(<div className={"control-group" + (errorMessagesHtml ? ' required' : '')} >
 		    <label htmlFor="username">Sign-in with your email address</label>
 		    <div className='control'>
-		    	<input id="username" type="text" name="username" disabled='disabled' value={this.props.params.email}/>
+		    	<input id="username" type="text" name="username" disabled='disabled' value={this.props.params.email} style={style}/>
 		    </div>
 	    </div>),
 	    (<div className={"control-group" + (errorMessagesHtml ? ' required' : '')}>

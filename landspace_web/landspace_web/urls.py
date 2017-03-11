@@ -21,12 +21,14 @@ from django.views.generic.base import RedirectView
 from . import api
 from . import views
 from projects import api as projects_api
+from survey import api as survey_api
 from utils import logout_user
 
 
 urlpatterns = [
 	url(r'^$', RedirectView.as_view(url='projects/', permanent=False), name='index'),
     url(r'^projects/?', include('projects.urls', namespace='projects')),
+    url(r'^survey/?', include('survey.urls', namespace='survey')),
     url(r'^admin/?', admin.site.urls),
     url(r'^login/$', auth_views.login),
 	url(r'^auth/', include('social_django.urls', namespace='social')),
