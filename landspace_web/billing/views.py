@@ -11,5 +11,5 @@ def webhook(request):
 			  'POST was {post}'.format(method=request.method, post=request.POST)
 		return HttpResponse(status=400)
 	event_obj = request.POST
-	print event_obj
+	print 'Webhook received, POST data: %s' % event_obj
 	return HttpResponse(status=200)
