@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'landspace_web',
     'projects',
     'survey',
+    'billing'
 ]
 
 MIDDLEWARE = [
@@ -223,4 +224,8 @@ ROLLBAR = {
     'environment': 'production',
     'root': BASE_DIR,
 }
+
+# sk_test_uCZM2uSszOyzTUTqv6QkAuVl
+# pk_test_8AIQYS5ucV0QGPXm8uYi9uzH Roll Key
+
 
