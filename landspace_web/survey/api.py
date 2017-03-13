@@ -3,8 +3,10 @@ from rest_framework import authentication, permissions
 from landspace_web.utils import get_registration_url
 from django.utils.crypto import get_random_string 
 from rest_framework.response import Response
+from django.http import HttpResponseBadRequest
 from django.contrib.auth.models import User
 from . import models
+from landspace_web.forms import ClientAdminForm
 
 class CreateSurveyResponseApiView(APIView):
 	permission_classes = (permissions.AllowAny,)
@@ -12,14 +14,20 @@ class CreateSurveyResponseApiView(APIView):
 	def get(self, request):
 
 		email = request.GET['email']
+		client = None
+		user = None
 		length = 5
 		survey_response = models.SurveyResponse(survey=models.Survey.objects.get(name=models.DEFAULT_SURVEY_NAME))
 		questions = []
 
-		user = User.objects.create_user(username=email, email=email, password=get_random_string())	
-		user.save()
+		form = ClientAdminForm(request.GET or None)
+		if form.is_valid():
+			client = form.save()
+			user = client.user
+		else:
+			return HttpResponseBadRequest()
 
-		redirect_url = get_registration_url(user)
+		redirect_url = client.registration_url
 
 		for x in xrange(1,length):
 			q = request.GET.get('q'+str(x), None)
@@ -27,6 +35,7 @@ class CreateSurveyResponseApiView(APIView):
 				setattr(survey_response, 'q'+str(), q)
 				questions.append(q)
 
+		survey_response.user = user
 		survey_response.save()
 
 

@@ -86,23 +86,7 @@ class ClientAdmin(admin.ModelAdmin):
 		return super(ClientAdmin, self).get_form(request, obj, *args, **kwargs)
 
 	def save_model(self, request, obj, form, change):
-		email = ''
-
-		if obj and obj.id:
-			email = obj.user.email
-		else:
-			email = form.cleaned_data.get('email')
-			user = User.objects.create_user(username=email, email=email, password=get_random_string())
-			user.save()
-			obj.user_id = user.id
-			
-
-		super(ClientAdmin, self).save_model(request, obj, form, change)
-
-		if form.cleaned_data.get('registration_url', '') == '':
-			obj.has_registered = False
-			obj.registration_url = settings.SITE_URL + 'users/new/{email}/'.format(email=urllib.quote(email))
-			obj.save()
+		form.save()
 
 
 admin.site.register(models.Designer, DesignerAdmin)
