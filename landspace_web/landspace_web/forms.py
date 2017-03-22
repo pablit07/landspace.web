@@ -44,7 +44,8 @@ class ClientAdminForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(ClientAdminForm, self).__init__(*args, **kwargs)
-		self.fields['user'].required = False
+		if 'user' in self.fields:
+			self.fields['user'].required = False
 
 	def clean(self):
 		email=self.cleaned_data.get('email', None)
