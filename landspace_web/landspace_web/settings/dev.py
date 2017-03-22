@@ -37,5 +37,3 @@ ROLLBAR = {
     'environment': 'development',
     'root': BASE_DIR,
 }
-
-STRIPE_API_KEY = "sk_test_uCZM2uSszOyzTUTqv6QkAuVl"

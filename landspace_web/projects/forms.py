@@ -9,17 +9,26 @@ stripe.api_key = settings.STRIPE_API_KEY
 
 
 class ProjectProfileForm(forms.ModelForm):
-	project_type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('front yard', 'front yard'), ('backyard', 'backyard'), ('small garden area', 'small garden area'), ('deck or patio', 'deck or patio'), ('roofdeck', 'roofdeck'), ('other', 'other')))
+	project_type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('front yard', 'front yard'), ('backyard', 'backyard'), \
+													('small garden area', 'small garden area'), ('deck or patio', 'deck or patio'), ('roofdeck', 'roofdeck'), \
+													('other', 'other')), help_text='(Check all that apply)')
 	work_type = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('planting', 'planting'),('wood construction', 'wood construction'),('stonework or masonry', 'stonework or masonry'),\
 													('walls', 'walls'),('art installation', 'art installation'),('small improvements (pots, firepit, etc)', 'small improvements (pots, firepit, etc)'),\
 													('patio', 'patio'),('pool or hot tub', 'pool or hot tub'),('fountain', 'fountain'),('pond', 'pond'),('outdoor kitchen', 'outdoor kitchen'),\
 													('playspace', 'playspace'), ('earthwork', 'earthwork'), ('wood construction (deck, pergola, etc.)', 'wood construction (deck, pergola, etc.)'), ('rooftop', 'rooftop'), ('sports court', 'sports court'),('I don’t have a set plan yet. I am looking for a designer to assist me',\
 													 'I don’t have a set plan yet. I am looking for a designer to assist me'),('other', 'other'),))
-	primary_users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('just me.', 'just me.'),('my partner and I', 'my partner and I'),('my family with young kids', 'my family with young kids'),('my family with young adults', 'my family with young adults'),('my family with elderly adults', 'my family with elderly adults'),('my friends and I', 'my friends and I'),('other', 'other'),))
-	has_pets = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('dog', 'dog'), ('cat', 'cat'), ('reptile', 'reptile'), ('horse', 'horse'), ('tiger', 'tiger'), ('other', 'other'), ('no', 'no'),))
-	outdoor_cooking_level = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('none, we cook inside','none, we cook inside'),('space for a pre-fab bbq grill','space for a pre-fab bbq grill'),('built-in outdoor kitchen','built-in outdoor kitchen'),('custom brick oven','custom brick oven'),))
+	primary_users = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('just me.', 'just me.'),('my partner and I', 'my partner and I'),\
+													('my family with young kids', 'my family with young kids'),\
+													('my family with young adults', 'my family with young adults'),\
+													('my family with elderly adults', 'my family with elderly adults'),\
+													('my friends and I', 'my friends and I'),('other', 'other'),))
+	has_pets = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('dog', 'dog'), ('cat', 'cat'), ('reptile', 'reptile'), ('horse', 'horse'), \
+													('tiger', 'tiger'), ('other', 'other'), ('no', 'no'),))
+	outdoor_cooking_level = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(), choices=(('none, we cook inside','none, we cook inside'),\
+													('space for a pre-fab bbq grill','space for a pre-fab bbq grill'),\
+													('built-in outdoor kitchen','built-in outdoor kitchen'),('custom brick oven','custom brick oven'),))
 	
-	card_number = forms.CharField(max_length=30)
+	card_number = forms.CharField(max_length=30, help_text='Your credit card will not be billed until after you\'ve had a chance to select a plan.')
 	card_cvc = forms.CharField(max_length=3)
 	card_expiry_month = forms.CharField(max_length=2)
 	card_expiry_year = forms.CharField(max_length=4)
@@ -27,7 +36,10 @@ class ProjectProfileForm(forms.ModelForm):
 
 	class Meta:
 		model = models.Project
-		fields = ["name","project_type","lot_size","slope_amount","work_type","primary_users","has_edible_garden","has_pets","approximate_budget","requires_contractor","is_in_phases",'accessibility_concerns','start','preferred_designer','is_for_sports','outdoor_cooking_level','has_existing_plan','has_allergies',"project_description_text","address_1","address_2","city","state_province","zip_code","country","card_number","card_cvc","card_expiry_month","card_expiry_year","address_zip"]
+		fields = ["name","project_type","lot_size","slope_amount","work_type","primary_users","has_edible_garden","has_pets","approximate_budget",\
+			"requires_contractor","is_in_phases",'accessibility_concerns','start','preferred_designer','is_for_sports','outdoor_cooking_level',\
+			'has_existing_plan','has_allergies',"project_description_text","address_1","address_2","city","state_province","zip_code","country",\
+			"card_number","card_cvc","card_expiry_month","card_expiry_year","address_zip"]
 		widgets = {
 			'slope_amount': forms.RadioSelect(),
 			'has_edible_garden': forms.RadioSelect(),
@@ -65,9 +77,8 @@ class ProjectProfileForm(forms.ModelForm):
 		}
 
 		help_texts = {
-			'project_type': '(check all that apply)',
 			'preferred_designer': 'Based on demand, please be aware your preferred designer might not be available.',
-			'requires_contractor': '**Additional $50 Cost'
+			'requires_contractor': '**Additional $50 Cost',
 		}
 
 
@@ -76,30 +87,42 @@ class ProjectProfileForm(forms.ModelForm):
 		super(ProjectProfileForm, self).__init__(*args, **kwargs)
 
 	def clean(self):
-		card_number = self.fields['card_number']
-		card_cvc = self.fields['card_cvc']
-		card_expiry_month = self.fields['card_expiry_month']
-		card_expiry_year = self.fields['card_expiry_year']
-		address_zip = self.fields['address_zip']
+		cleaned_data = super(ProjectProfileForm, self).clean()
+		card_number = cleaned_data['card_number']
+		card_cvc = cleaned_data['card_cvc']
+		card_expiry_month = cleaned_data['card_expiry_month']
+		card_expiry_year = cleaned_data['card_expiry_year']
+		address_zip = cleaned_data['address_zip']
 
 		try:
-			source = stripe.Source.create(
-				type='card',
-				currency='usd',
-				card={
-					number: card_number,
-					cvc: card_cvc,
-					exp_month: card_expiry_month,
-					exp_year: card_expiry_year,
-				},
-				owner={
-					address: {
-						postal_code: address_zip
-					}
+			# source = stripe.Source.create(
+			# 	type='card',
+			# 	currency='usd',
+			# 	card={
+					
+			# 	},
+			# 	owner={
+			# 		'address': {
+			# 			'postal_code': address_zip
+			# 		}
+			# 	}
+			# )
+
+			customer = stripe.Customer.create(
+				email=self.user.email,
+				source={
+					'object': 'card',
+					'number': card_number,
+					'cvc': card_cvc,
+					'exp_month': card_expiry_month,
+					'exp_year': card_expiry_year,
+					'address_zip': address_zip
 				}
 			)
 		except Exception as e:
 			raise ValidationError(e.message)
+
+		return cleaned_data
 
 	def save(self, commit=False):
 		instance = super(ProjectProfileForm, self).save(commit=False)
