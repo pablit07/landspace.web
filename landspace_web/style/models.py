@@ -11,6 +11,7 @@ from survey.models import SurveyResponse, Survey
 class Style(models.Model):
 	name = models.CharField(max_length=100)
 	survey = models.ForeignKey(Survey)
+	image_src = models.CharField(max_length=300, blank=True, null=True)
 
 	def __unicode__(self):
 		return self.name
