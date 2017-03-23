@@ -32,6 +32,11 @@ class Client(models.Model):
 	registration_url = models.URLField(blank=True, null=True)
 	has_registered = models.BooleanField(default=False)
 
+	def save(self, *args, **kwargs):
+		if self.user and not self.user.userbilling:
+			UserBilling.objects.create(user=self.user)
+		super(Client, self).save(*args, **kwargs)
+
 	@property
 	def url(self):
 		return '/api/users/clients/%s/' % self.id

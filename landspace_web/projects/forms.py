@@ -95,30 +95,22 @@ class ProjectProfileForm(forms.ModelForm):
 		address_zip = cleaned_data['address_zip']
 
 		try:
-			# source = stripe.Source.create(
-			# 	type='card',
-			# 	currency='usd',
-			# 	card={
-					
-			# 	},
-			# 	owner={
-			# 		'address': {
-			# 			'postal_code': address_zip
-			# 		}
-			# 	}
-			# )
+			if not self.user.userbilling.stripe_customer_id:
+				customer = stripe.Customer.create(
+					email=self.user.email,
+					source={
+						'object': 'card',
+						'number': card_number,
+						'cvc': card_cvc,
+						'exp_month': card_expiry_month,
+						'exp_year': card_expiry_year,
+						'address_zip': address_zip
+					}
+				)
 
-			customer = stripe.Customer.create(
-				email=self.user.email,
-				source={
-					'object': 'card',
-					'number': card_number,
-					'cvc': card_cvc,
-					'exp_month': card_expiry_month,
-					'exp_year': card_expiry_year,
-					'address_zip': address_zip
-				}
-			)
+				self.user.userbilling.stripe_customer_id = customer.id
+				self.user.userbilling.save()
+
 		except Exception as e:
 			raise ValidationError(e.message)
 

@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'landspace_web',
     'projects',
     'survey',
-    'billing'
+    'userbilling'
 ]
 
 MIDDLEWARE = [
