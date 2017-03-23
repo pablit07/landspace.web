@@ -1,5 +1,6 @@
 from django.contrib.auth.models import Group, User
 from django.db import models
+from userbilling.models import UserBilling
 from projects.models import Step
 
 
@@ -33,7 +34,7 @@ class Client(models.Model):
 	has_registered = models.BooleanField(default=False)
 
 	def save(self, *args, **kwargs):
-		if self.user and not self.user.userbilling:
+		if self.user and not hasattr(self.user, 'userbilling'):
 			UserBilling.objects.create(user=self.user)
 		super(Client, self).save(*args, **kwargs)
 
