@@ -272,7 +272,7 @@ export default class RegisterPage extends React.Component {
 	    	<div className='column-group gutters'>
 	    		<div className='all-40 tiny-100 small-100 medium-65 push-center'>		    		
     				<div className='left-space'><h1>Welcome.</h1>
-		    			<span className='note'>Thank you for registering.</span>
+		    			<img className='all-100 small-65' src='http://i.imgur.com/muAijfD.png'/>
 	    			</div>
 	    		</div>
 
