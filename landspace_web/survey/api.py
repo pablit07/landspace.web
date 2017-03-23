@@ -38,6 +38,10 @@ class CreateSurveyResponseApiView(APIView):
 		survey_response.user = user
 		survey_response.save()
 
+		user_style = UserStyle(user=user, survey_response=survey_response)
+		user_style.find_style()
+		user_style.save()
+
 
 		json_data = {
 			'survey_id': survey_response.id,

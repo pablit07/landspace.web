@@ -29,7 +29,7 @@ urlpatterns = [
 	url(r'^$', RedirectView.as_view(url='projects/', permanent=False), name='index'),
     url(r'^projects/?', include('projects.urls', namespace='projects')),
     url(r'^survey/?', include('survey.urls', namespace='survey')),
-    url(r'^billing/?', include('billing.urls', namespace='billing')),
+    url(r'^billing/?', include('userbilling.urls', namespace='billing')),
     url(r'^admin/?', admin.site.urls),
     url(r'^login/$', auth_views.login),
 	url(r'^auth/', include('social_django.urls', namespace='social')),

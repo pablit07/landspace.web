@@ -9,6 +9,9 @@ DEFAULT_SURVEY_NAME = "Style Survey"
 class Survey(models.Model):
 	name = models.CharField(max_length=100)
 
+	def __unicode__(self):
+		return self.name
+
 
 class SurveyResponse(models.Model):
 	user = models.ForeignKey(User)
