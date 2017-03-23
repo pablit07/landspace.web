@@ -85,6 +85,11 @@ class ProjectProfileForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		self.user = kwargs.pop('user', None)
 		super(ProjectProfileForm, self).__init__(*args, **kwargs)
+		self.fields['card_number'].widget.attrs.update({'class':'all-100'})
+		self.fields['card_cvc'].widget.attrs.update({'class':'all-100'})
+		self.fields['card_expiry_month'].widget.attrs.update({'class':'all-100'})
+		self.fields['card_expiry_year'].widget.attrs.update({'class':'all-100'})
+		self.fields['address_zip'].widget.attrs.update({'class':'all-100'})
 
 	def clean(self):
 		cleaned_data = super(ProjectProfileForm, self).clean()
