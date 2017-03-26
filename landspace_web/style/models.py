@@ -23,7 +23,7 @@ class DefaultStyleFinder():
 
 
 class UserStyle(models.Model):
-	user = models.ForeignKey(User)
+	user = models.ForeignKey(User, related_name='userstyle')
 	style = models.ForeignKey(Style, blank=True, null=True)
 	survey = models.ForeignKey(SurveyResponse, blank=True, null=True)
 

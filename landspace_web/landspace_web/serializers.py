@@ -61,12 +61,16 @@ class ClientSerializer(serializers.ModelSerializer):
 	current_step = StepSerializer()
 	display_name = serializers.SerializerMethodField()
 	email = serializers.SerializerMethodField()
+	style_image_url = serializers.SerializerMethodField()
 
 	def get_display_name(self, obj):
 		return obj.full_name
 
 	def get_email(self, obj):
 		return obj.user.email
+
+	def get_style_image_url(self, obj):
+		return obj.user.userstyle.first().style.image_src if hasattr(obj.user, 'userstyle') else None
 
 	class Meta:
 		model = models.Client

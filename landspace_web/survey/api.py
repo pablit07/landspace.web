@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from django.http import HttpResponseBadRequest
 from django.contrib.auth.models import User
 from . import models
+from style.models import UserStyle
 from landspace_web.forms import ClientAdminForm
 
 class CreateSurveyResponseApiView(APIView):

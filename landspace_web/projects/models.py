@@ -54,6 +54,7 @@ class Step(models.Model):
 	url = models.CharField(max_length=300, blank=True, null=True)
 	next = models.OneToOneField("self", blank=True, null=True)
 	icon_class = models.CharField(max_length=20, blank=True, null=True)
+	modal = models.TextField(blank=True, null=True)
 
 	def __unicode__(self):
 		return self.name

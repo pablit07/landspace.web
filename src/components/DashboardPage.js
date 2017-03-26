@@ -19,6 +19,7 @@ export default class ProjectsPage extends React.Component {
 
 	componentDidMount() {
 		var userDataSource;
+
 		$.get('/api/url/?name=users-api&p1=' + userId, (data) => { this.setState({'userDataSource': userDataSource = data.url}) }).done( _ => {
 			$.get(userDataSource, (data) => {
 				this.setState({
@@ -38,6 +39,7 @@ export default class ProjectsPage extends React.Component {
 						this.setState({
 							'currentStep': data.current_step.name,
 							'currentStepPercentShown': data.current_step.percent_shown,
+							'modal': data.current_step.modal,
 							'stepAction': data.current_step.action,
 							'stepActionUrl': data.current_step.url,
 							'stepIconClass': data.current_step.icon_class,
@@ -45,10 +47,20 @@ export default class ProjectsPage extends React.Component {
 							'nextStepUrl': data.current_step.next ? data.current_step.next.url : '',
 							'isLoading': false
 						});
+
+						if (data.current_step.modal) {
+							var modalObj = new Ink.UI.Modal((<div></div>), {closeOnClick: true});
+							modalObj.setContentMarkup(data.current_step.modal);
+							modalObj.open();
+
+							var modalImage = $('.ink-modal img');
+							modalImage[0].src = data.style_image_url;						
+						}
 					});
 				}
 			});
 		});
+
 	}
 
 	render() {
