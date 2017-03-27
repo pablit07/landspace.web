@@ -16,10 +16,10 @@ class Style(models.Model):
 	def __unicode__(self):
 		return self.name
 
-
+# http://localhost:8000/survey/api/?email=paulkohlhoff@gmail.com&q1=yes&q2=mediterranean
 class DefaultStyleFinder():
 	def find_style(self, user, user_style, survey_response):
-		return Style.objects.get(name='Rustic')
+		return Style.objects.get(name__iexact=survey_response.q2)
 
 
 class UserStyle(models.Model):

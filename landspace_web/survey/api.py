@@ -30,14 +30,15 @@ class CreateSurveyResponseApiView(APIView):
 
 		redirect_url = client.registration_url
 
-		for x in xrange(1,length):
+		for x in xrange(1,length+1):
 			q = request.GET.get('q'+str(x), None)
 			if q:
-				setattr(survey_response, 'q'+str(), q)
+				setattr(survey_response, 'q'+str(x), q)
 				questions.append(q)
 
 		survey_response.user = user
 		survey_response.save()
+
 
 		user_style = UserStyle(user=user, survey=survey_response)
 		user_style.find_style()
