@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom'
 export default class ProjectProfilePage extends React.Component {
 	constructor() {
 		super();
-		this.stripe = Stripe('pk_test_DN1CFjitql3IOBgUNqgeANjd');
+		this.stripe = Stripe(document.getElementById('stripe-public-data').innerHTML);
 	}
 
 	componentDidMount() {
@@ -14,7 +14,8 @@ export default class ProjectProfilePage extends React.Component {
 		// $('.control-group li:first-child').remove();
 		$('#main').css({'margin-bottom': '0', 'height': 'auto'});
 
-		var stripeFields = (<div className='control-group'>
+		var stripeFields = (<div className='control-group vertical-space'>
+				<div className="alert alert-danger"><strong id='card-errors'></strong></div>
 				<label for='card-number'>Card number</label>
 				<p className="help note">Your credit card will not be billed until after you've had a chance to select a plan.</p>
 				<div id='card-number'></div>
@@ -22,7 +23,8 @@ export default class ProjectProfilePage extends React.Component {
 				<div id='card-expiry'></div>
 				<label for='card-cvc'>Card cvc</label>
 				<div id='card-cvc'></div>
-				<label for='postal-code'>Postal code</label>
+				<label for='postal-code'>Card zip code</label>
+				<p className="help note">**Billing zip; may differ from above</p>
 				<div id='postal-code'></div>
 			</div>);
 		ReactDOM.render(
@@ -49,14 +51,13 @@ export default class ProjectProfilePage extends React.Component {
 	}
 
 	submitHandler() {
-		// $('#ProjectProfile').submit();
 
 		this.stripe.createToken(this.cardNumber).then(function(result) {
 			if (result.error) {
-				console.info(result.error);
+				console.error(result.error);
 				// Inform the user if there was an error
-				// var errorElement = document.getElementById('card-errors');
-				// errorElement.textContent = result.error.message;
+				var errorElement = document.getElementById('card-errors');
+				errorElement.textContent = result.error.message;
 			} else {
 				$('#id_source_token').val(result.token.id);
 				$('#ProjectProfile').submit();

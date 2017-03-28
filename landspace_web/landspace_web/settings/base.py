@@ -227,5 +227,6 @@ ROLLBAR = {
 }
 
 STRIPE_API_KEY = "sk_test_fkYN05ZDGDJ5fLQidLigkaGM"
+STRIPE_PUBLIC_API_KEY = "pk_test_DN1CFjitql3IOBgUNqgeANjd"
 
 

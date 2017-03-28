@@ -48,5 +48,6 @@
     {% csrf_token %}
 	</form>
 </script>
+<script type="text/html" id="stripe-public-data">{{ stripe_public_key | safe }}</script>
 
 {% endblock %}

@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, reverse
+from django.conf import settings
 import django_excel
 from . import forms, models
 
@@ -20,7 +21,8 @@ def create_project(request):
 		return redirect('/projects/')
 
 	view_data = {
-		'form': form
+		'form': form,
+		'stripe_public_key': settings.STRIPE_PUBLIC_API_KEY
 	}
 	return render(request, 'projects/create.html', view_data)
 
