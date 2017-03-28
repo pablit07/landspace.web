@@ -28,18 +28,20 @@ class ProjectProfileForm(forms.ModelForm):
 													('space for a pre-fab bbq grill','space for a pre-fab bbq grill'),\
 													('built-in outdoor kitchen','built-in outdoor kitchen'),('custom brick oven','custom brick oven'),))
 	
-	card_number = forms.CharField(max_length=30, help_text='Your credit card will not be billed until after you\'ve had a chance to select a plan.')
-	card_cvc = forms.CharField(max_length=3)
-	card_expiry_month = forms.CharField(max_length=2)
-	card_expiry_year = forms.CharField(max_length=4)
-	address_zip = forms.CharField(max_length=5)
+	# card_number = forms.CharField(max_length=30, help_text='Your credit card will not be billed until after you\'ve had a chance to select a plan.')
+	# card_cvc = forms.CharField(max_length=3)
+	# card_expiry_month = forms.CharField(max_length=2)
+	# card_expiry_year = forms.CharField(max_length=4)
+	# address_zip = forms.CharField(max_length=5)
+	source_token = forms.CharField(widget=forms.HiddenInput(), max_length=100)
 
 	class Meta:
 		model = models.Project
 		fields = ["name","project_type","lot_size","slope_amount","work_type","primary_users","has_edible_garden","has_pets","approximate_budget",\
 			"requires_contractor","is_in_phases",'accessibility_concerns','start','preferred_designer','is_for_sports','outdoor_cooking_level',\
 			'has_existing_plan','has_allergies',"project_description_text","address_1","address_2","city","state_province","zip_code","country",\
-			"card_number","card_cvc","card_expiry_month","card_expiry_year","address_zip"]
+			'source_token']
+			# "card_number","card_cvc","card_expiry_month","card_expiry_year","address_zip"]
 		widgets = {
 			'slope_amount': forms.RadioSelect(),
 			'has_edible_garden': forms.RadioSelect(),
@@ -85,32 +87,34 @@ class ProjectProfileForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		self.user = kwargs.pop('user', None)
 		super(ProjectProfileForm, self).__init__(*args, **kwargs)
-		self.fields['card_number'].widget.attrs.update({'class':'all-100'})
-		self.fields['card_cvc'].widget.attrs.update({'class':'all-100'})
-		self.fields['card_expiry_month'].widget.attrs.update({'class':'all-100'})
-		self.fields['card_expiry_year'].widget.attrs.update({'class':'all-100'})
-		self.fields['address_zip'].widget.attrs.update({'class':'all-100'})
+		# self.fields['card_number'].widget.attrs.update({'class':'all-100'})
+		# self.fields['card_cvc'].widget.attrs.update({'class':'all-100'})
+		# self.fields['card_expiry_month'].widget.attrs.update({'class':'all-100'})
+		# self.fields['card_expiry_year'].widget.attrs.update({'class':'all-100'})
+		# self.fields['address_zip'].widget.attrs.update({'class':'all-100'})
 
 	def clean(self):
 		cleaned_data = super(ProjectProfileForm, self).clean()
-		card_number = cleaned_data['card_number']
-		card_cvc = cleaned_data['card_cvc']
-		card_expiry_month = cleaned_data['card_expiry_month']
-		card_expiry_year = cleaned_data['card_expiry_year']
-		address_zip = cleaned_data['address_zip']
+		# card_number = cleaned_data['card_number']
+		# card_cvc = cleaned_data['card_cvc']
+		# card_expiry_month = cleaned_data['card_expiry_month']
+		# card_expiry_year = cleaned_data['card_expiry_year']
+		# address_zip = cleaned_data['address_zip']
+		source_token = cleaned_data['source_token']
 
 		try:
 			if not self.user.userbilling.stripe_customer_id:
 				customer = stripe.Customer.create(
 					email=self.user.email,
-					source={
-						'object': 'card',
-						'number': card_number,
-						'cvc': card_cvc,
-						'exp_month': card_expiry_month,
-						'exp_year': card_expiry_year,
-						'address_zip': address_zip
-					}
+					source=source_token
+					# source={
+					# 	'object': 'card',
+					# 	'number': card_number,
+					# 	'cvc': card_cvc,
+					# 	'exp_month': card_expiry_month,
+					# 	'exp_year': card_expiry_year,
+					# 	'address_zip': address_zip
+					# }
 				)
 
 				self.user.userbilling.stripe_customer_id = customer.id
