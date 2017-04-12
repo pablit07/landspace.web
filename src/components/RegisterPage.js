@@ -90,11 +90,11 @@ export default class RegisterPage extends React.Component {
 	    	</div>
 	  	</div>),
 	  	(<div className="control-group">
-		    <label htmlFor="mailing-list" className="all-45">
+		    <label htmlFor="mailing-list" className="all-45 disclaimer">
 		    	<input id="mailing-list" type="checkbox" name="mailingList" />
 		    	<div className='left-space'>Add me to the mailing list</div>
 	    	</label>
-	    	<label htmlFor="showcase-project" className="all-45">
+	    	<label htmlFor="showcase-project" className="all-45 disclaimer">
 	    		<input id="showcase-project" type="checkbox" name="showcaseProject" />
 	    		<div className='left-space'>Consider me for a Showcase Project</div>
     		</label>
@@ -272,7 +272,7 @@ export default class RegisterPage extends React.Component {
 						    	{this.getSubmitButton()}
 						    </div>) : null;
 
-	var disclaimer = submitButton ? (<p className='note'>I acknowledge that by registering I have read and accept the <a href='http://www.landspace.site/terms-and-conditions'>Terms and Conditions</a>.</p>)
+	var disclaimer = submitButton ? (<p className='note'>By registering I acknowledge that I have read and accept the <a href='http://www.landspace.site/terms-and-conditions'>Terms and Conditions</a>.</p>)
 						: null;
 
     return (
