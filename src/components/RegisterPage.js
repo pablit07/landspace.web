@@ -168,9 +168,12 @@ export default class RegisterPage extends React.Component {
 	}
 
 	toggleMailingList(event) {
+		var authHeader = 'token ' + this.state.token;
+
 		$.ajax({
 			headers: {
-				'X-CSRFToken': getCookie('csrftoken')
+				'X-CSRFToken': getCookie('csrftoken'),
+				'Authorization': authHeader
 			},
 			method: 'PATCH',
 			url: '/api/users/clients/'+this.state.clientId+'/',
@@ -180,8 +183,20 @@ export default class RegisterPage extends React.Component {
 		});
 	}
 
-	toggleShowcaseProject(e) {
-		console.info(e);
+	toggleShowcaseProject(event) {
+		var authHeader = 'token ' + this.state.token;
+		
+		$.ajax({
+			headers: {
+				'X-CSRFToken': getCookie('csrftoken'),
+				'Authorization': authHeader
+			},
+			method: 'PATCH',
+			url: '/api/users/clients/'+this.state.clientId+'/',
+			data: {
+				'is_showcase_project': event.target.checked
+			}
+		});
 	}
 
 	saveForm(form) {
