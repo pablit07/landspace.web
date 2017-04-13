@@ -11,7 +11,8 @@ export default class RegisterPage extends React.Component {
 		this.state = {
 			'fbLoginSource': '',
 			// 'createUserSource': '',
-			'errors': []
+			'errors': [],
+			'clientId': null
 		}
 	}
 
@@ -91,11 +92,11 @@ export default class RegisterPage extends React.Component {
 	  	</div>),
 	  	(<div className="control-group">
 		    <label htmlFor="mailing-list" className="all-45 disclaimer">
-		    	<input id="mailing-list" type="checkbox" name="mailingList" />
+		    	<input id="mailing-list" type="checkbox" name="mailingList" onChange={this.toggleMailingList.bind(this)}/>
 		    	<div className='left-space'>Add me to the mailing list</div>
 	    	</label>
 	    	<label htmlFor="showcase-project" className="all-45 disclaimer">
-	    		<input id="showcase-project" type="checkbox" name="showcaseProject" />
+	    		<input id="showcase-project" type="checkbox" name="showcaseProject" onChange={this.toggleShowcaseProject.bind(this)}/>
 	    		<div className='left-space'>Consider me for a Showcase Project</div>
     		</label>
 	  	</div>)
@@ -166,6 +167,37 @@ export default class RegisterPage extends React.Component {
 		return result;
 	}
 
+	toggleMailingList(event) {
+		var authHeader = 'token ' + this.state.token;
+
+		$.ajax({
+			headers: {
+				'X-CSRFToken': getCookie('csrftoken'),
+				'Authorization': authHeader
+			},
+			method: 'PATCH',
+			url: '/api/users/clients/'+this.state.clientId+'/',
+			data: {
+				'is_mailing_list': event.target.checked
+			}
+		});
+	}
+
+	toggleShowcaseProject(event) {
+		var authHeader = 'token ' + this.state.token;
+		
+		$.ajax({
+			headers: {
+				'X-CSRFToken': getCookie('csrftoken'),
+				'Authorization': authHeader
+			},
+			method: 'PATCH',
+			url: '/api/users/clients/'+this.state.clientId+'/',
+			data: {
+				'is_showcase_project': event.target.checked
+			}
+		});
+	}
 
 	saveForm(form) {
 		var userDataSource,
@@ -248,6 +280,7 @@ export default class RegisterPage extends React.Component {
 				}
 			}).done((data) => {
 				browserHistory.push(data.url);
+				this.setState({'clientId': data.client_id});
 			}).fail(_ => { this.setState({errors: ['Unable to register, please contact our support team.']})});
 		});
 	}

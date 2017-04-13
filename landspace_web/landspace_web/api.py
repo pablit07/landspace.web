@@ -110,7 +110,7 @@ class ClientRegisterUrlApiView(APIView):
 			client.current_step = Step.objects.get(name__icontains='project')
 			client.save()
 
-		return Response({'url': url})
+		return Response({'url': url, 'client_id': client.id if client else None})
 
 
 class UserTokenApiView(APIView):

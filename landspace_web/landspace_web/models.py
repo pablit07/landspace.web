@@ -32,6 +32,8 @@ class Client(models.Model):
 	current_step = models.ForeignKey(Step, blank=True, null=True)
 	registration_url = models.URLField(blank=True, null=True)
 	has_registered = models.BooleanField(default=False)
+	is_mailing_list = models.BooleanField(default=False)
+	is_showcase_project = models.BooleanField(default=False)
 
 	def save(self, *args, **kwargs):
 		if self.user and not hasattr(self.user, 'userbilling'):
