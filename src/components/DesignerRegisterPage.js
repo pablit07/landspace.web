@@ -47,7 +47,10 @@ export default class DesignerRegisterPage extends RegisterPage {
 	  	</div>));
 
 
-		formFields.unshift();
+		formFields.pop();
+		formFields.pop();
+
+		console.info(formFields);
 
 	  	return formFields;
 	}
