@@ -45,7 +45,8 @@ export default class ProjectsPage extends React.Component {
 							'stepIconClass': data.current_step.icon_class,
 							'nextStep': data.current_step.next ? data.current_step.next.name : '',
 							'nextStepUrl': data.current_step.next ? data.current_step.next.url : '',
-							'isLoading': false
+							'isLoading': false,
+							'hasActiveProject': data.has_active_project
 						});
 
 						if (data.current_step.modal) {
@@ -53,8 +54,10 @@ export default class ProjectsPage extends React.Component {
 							modalObj.setContentMarkup(data.current_step.modal);
 							modalObj.open();
 
-							var modalImage = $('.ink-modal img');
-							modalImage[0].src = data.style_image_url;						
+							if (data.style_image_url) {
+								var modalImage = $('.ink-modal img');
+								modalImage[0].src = data.style_image_url;
+							}
 						}
 					});
 				}
@@ -70,6 +73,14 @@ export default class ProjectsPage extends React.Component {
 				    </div>
 				</div>) : null;
 
+    	var designerMatchAlert = !this.state.isLoading && !this.state.hasActiveProject && this.state.currentStepPercentShown > 40
+    		? (<div className="ink-alert block">
+					<h4>Hang tight - we're matching you with the best designer for your project.</h4>
+					<button className="ink-dismiss">&times;</button>
+					<p>This process should not take more than a day. In the meantime, please upload your project images and select a package.</p>
+				</div>)
+    		: null;
+
     	var nextButton = this.state.stepAction ? (<div className="all-100 push-center align-center vertical-space"><a href={this.state.stepActionUrl} className='ink-button vertical-space'>{this.state.stepAction}</a></div>) : null;
 
     
@@ -80,12 +91,14 @@ export default class ProjectsPage extends React.Component {
 				<div className="ink-tabs top full-height left-space right-space vertical-space" data-prevent-url-change="true">
 				    <ul className="tabs-nav">
 				        <li><a className="tabs-tab" href="#home">Current Project</a></li>
-				        <li><a className="tabs-tab" href="#history">History</a></li>
+				        <li><a className={"tabs-tab"+(this.state.hasActiveProject?"":" disabled")} href={this.state.hasActiveProject?"#history":""}>History</a></li>
 				    </ul>
 
 			    	<div id="home" className="tabs-content full-height">
 
 			    		{ loading }
+
+						{ designerMatchAlert }
 
 						<div className="column-group gutters vertical-space">
 						    <div className="all-80 push-center align-center">

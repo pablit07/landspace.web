@@ -70,7 +70,7 @@ class ClientSerializer(serializers.ModelSerializer):
 		return obj.user.email
 
 	def get_style_image_url(self, obj):
-		return obj.user.userstyle.first().style.image_src if hasattr(obj.user, 'userstyle') else None
+		return obj.user.userstyle.first().style.image_src if hasattr(obj.user, 'userstyle') and obj.user.userstyle.exists() else None
 
 	class Meta:
 		model = models.Client

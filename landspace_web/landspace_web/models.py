@@ -34,6 +34,7 @@ class Client(models.Model):
 	has_registered = models.BooleanField(default=False)
 	is_mailing_list = models.BooleanField(default=False)
 	is_showcase_project = models.BooleanField(default=False)
+	has_active_project = models.BooleanField(default=False)
 
 	def save(self, *args, **kwargs):
 		if self.user and not hasattr(self.user, 'userbilling'):
