@@ -48,6 +48,77 @@ export default class ProjectProfilePage extends React.Component {
 		this.cardExpiry.mount('#card-expiry');
 		this.cardCvc.mount('#card-cvc');
 		this.postalCode.mount('#postal-code');
+
+		$('#id_address_1, #id_address_2, #id_city, #id_state_province, #id_zip_code, #id_country').each((i, el) => {
+			var label = $(el).siblings('label');
+			$(el).closest('.control-group').remove();
+			$('#address-fields').append($('<div/>').append(label).append(el));
+			$('#address-fields').append($('<br/>'));
+		});
+
+		var current = 1;
+		
+		var widget      = $("form .control-group");
+		var btnnext     = $(".next");
+		var btnback     = $(".back"); 
+		var btnsubmit   = $("#submit");
+
+		btnsubmit.hide();
+
+
+		var setProgress = function(currstep){
+			var percent = parseFloat(100 / widget.length) * currstep;
+			percent = percent.toFixed();
+			$(".progress-bar").css("width",percent+"%").html(percent+"%");		
+		};
+
+		var hideButtons = function(current){
+			var limit = parseInt(widget.length); 
+			$(".action").hide();
+			if(current < limit) btnnext.show();
+			if(current > 1) btnback.show();
+			if (current == limit) { 
+				// Show entered values
+				$(".display label.lbl").each(function(){
+					$(this).html($("#"+$(this).data("id")).val());	
+				});
+				btnnext.hide(); 
+				btnsubmit.show();
+			}
+		};
+
+		// INIT BUTTONS AND UI
+		widget.not(':eq(0)').hide();
+		hideButtons(current);
+		setProgress(current);
+		// NEXT BUTTON CLICK ACTION
+		btnnext.click(function(){
+			if(current < widget.length){
+				// CHECK VALIDATION
+				// if($(".form").valid()){
+					widget.show();
+					widget.not(':eq('+(current++)+')').hide();
+					setProgress(current);
+				// }
+			}
+			hideButtons(current);
+		})
+		// SUBMIT BUTTON CLICK
+		//btnsubmit.click(function(){
+		//	alert("Submit button clicked");
+		//});
+		// BACK BUTTON CLICK ACTION
+		btnback.click(function(){
+			if(current > 1){
+				current = current - 2;
+				if(current < widget.length){
+					widget.show();
+					widget.not(':eq('+(current++)+')').hide();
+					setProgress(current);
+				}
+			}
+			hideButtons(current);
+		});
 	}
 
 	submitHandler() {
@@ -79,12 +150,21 @@ export default class ProjectProfilePage extends React.Component {
 						<h1>Fill out this short form to help us better understand your project. </h1>
 					</div>
 				</div>
-				<div className='column-group gutters full-height'>
+				<div className='column-group gutters'>
 					<div className="all-40 tiny-90 small-90 medium-55 push-center block projectProfile" dangerouslySetInnerHTML={form}></div>
 				</div>
 				<div className='column-group gutters'>
-					<div className="all-50 tiny-90 small-90 medium-55 push-center align-right">
-						<input className="ink-button" type="submit" value="Submit" onClick={this.submitHandler.bind(this)}/>
+					<div className="all-40 tiny-90 small-90 medium-55 push-center">
+						<div className='all-50'>
+					      <button type="button" className="action back ink-button"><i className="fa fa-angle-double-left"></i>&nbsp; Back</button>
+					    </div>
+
+					    <div className="all-50">
+
+							<button type="button" className="action next ink-button">Next &nbsp;<i className="fa fa-angle-double-right"></i></button>
+			      	  		<input id="submit" className="ink-button" type="submit" value="Submit" onClick={this.submitHandler.bind(this)}/>
+				      </div>
+						
 					</div>
 				</div>
 			</div>

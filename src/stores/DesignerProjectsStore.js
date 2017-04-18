@@ -53,6 +53,7 @@ class DesignerProjectsStore extends ReduceStore {
 				newState.designerProjects.forEach((p) => { p.isOpen = p.id === newState.activeProjectId });
 				return newState;
 			case 'user/loaded-basic':
+				if (!state.designer) return state;
 				dispatcher.waitFor([userStore.getDispatchToken()]);
 				var newState = Object.assign({}, state, action.data);
 				if (newState.isAuthenticated) api.getAllDesignerProjects(newState.id, this.startLoadSuccessAction);
@@ -86,6 +87,3 @@ class DesignerProjectsStore extends ReduceStore {
 const designerProjectsStore = new DesignerProjectsStore(dispatcher, 1);
 
 export default designerProjectsStore;
-
-window.designerProjectsStore = designerProjectsStore;
-window.dispatcher = dispatcher;

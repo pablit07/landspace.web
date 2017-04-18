@@ -14,6 +14,12 @@
             <strong>{{ error|escape }}</strong>
         </div>
     {% endfor %}
+    {% if form.errors %}
+        <div class="alert alert-danger vertical-space">
+            <strong>Hold on a minute! Please correct the errors and resubmit.</strong>
+        </div>
+    {% endif %}
+
 	{% for field in form.visible_fields %}
     <div class="control-group">
         {% for error in field.errors %}
@@ -39,6 +45,7 @@
         
     </div>
 	{% endfor %}
+    <div id='address-fields' class="control-group"></div>
     <div id='stripe-fields'></div>
 
     {% for hidden in form.hidden_fields %}

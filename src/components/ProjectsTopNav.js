@@ -4,6 +4,8 @@ import Logo from './Logo.js'
 import userStore from '../stores/UserStore';
 import dispatcher from '../Dispatcher';
 
+console.log(process.env.NODE_ENV);
+
 
 export default class ProjectsTopNav extends React.Component {
 	constructor(props) {

@@ -26,6 +26,12 @@ def create_project(request):
 	}
 	return render(request, 'projects/create.html', view_data)
 
+def image_upload(request, role=None):
+	request.user.client.current_step = models.Step.objects.filter(name__icontains="upload").first()
+	request.user.client.save()
+
+	return render(request, 'projects/index.html')
+
 def testdrive(request):
 
 	return render(request, 'projects/testdrive.html', {})
