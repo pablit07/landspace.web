@@ -8,6 +8,7 @@ from django.contrib.auth.models import User
 from . import models
 from style.models import UserStyle
 from landspace_web.forms import ClientAdminForm
+from landspace_web.utils import subscribe_list
 
 class CreateSurveyResponseApiView(APIView):
 	permission_classes = (permissions.AllowAny,)
@@ -39,6 +40,7 @@ class CreateSurveyResponseApiView(APIView):
 		survey_response.user = user
 		survey_response.save()
 
+		subscribe_list('fbebc6937c', user.email, user.first_name, user.last_name, False)
 
 		user_style = UserStyle(user=user, survey=survey_response)
 		user_style.find_style()

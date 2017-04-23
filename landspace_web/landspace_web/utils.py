@@ -7,7 +7,7 @@ from django.utils.encoding import force_bytes
 from landspace_web.models import Designer
 from functools import wraps
 from django.conf import settings
-import urllib
+import urllib, mailchimp
 
 
 def logout_user(view_func):
@@ -27,3 +27,32 @@ def get_registration_url(user):
 	return settings.SITE_URL + base_url.format(token=default_token_generator.make_token(user),
 																				 email=urllib.quote(user.username),
 																				 uid=urlsafe_base64_encode(force_bytes(user.pk)).decode())
+# MAILCHIMP
+
+def get_mailchimp_api():
+    return mailchimp.Mailchimp(settings.MAILCHIMP_API_KEY)  # your api key here
+
+
+def get_lists(list_id):
+    members = []
+    try:
+        m = get_mailchimp_api()
+        lists = m.lists.list({'list_id': list_id})
+        list = lists['data'][0]
+        members = m.lists.members(list_id)['data']
+    except mailchimp.ListDoesNotExistError:
+        print "The list does not exist"
+    except mailchimp.Error, e:
+        print 'An error occurred: %s - %s' % (e.__class__, e)
+    return members
+
+
+def subscribe_list(list_id, email, first_name='', last_name='', double_optin=True):
+    try:
+        m = get_mailchimp_api()
+        m.lists.subscribe(list_id, {'email': email}, merge_vars={'FNAME': first_name, 'LNAME': last_name}, double_optin=double_optin)
+        return True
+    # messages.success(request,  "The email has been successfully subscribed")
+    except mailchimp.Error as e:
+        print e.__class__
+        return False
