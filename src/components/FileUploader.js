@@ -1,4 +1,5 @@
 import React from 'react';
+import { writeCsrf } from '../utils';
 
 
 export default class FileUploader extends React.Component {
@@ -7,21 +8,46 @@ export default class FileUploader extends React.Component {
     }
 
     componentDidMount() {
-
+        
     }
 
-    render() {
-        return (<div className='all-50 vertical-space'>
-                <span className="btn btn-success fileinput-button">
-                <i className="glyphicon glyphicon-plus"></i>
-                <span>Add files...</span>
-                <input id="fileupload" type="file" name="files[]" multiple></input>
+    render() {        
+        return (<div className='all-60 vertical-space'>
+    <form id="fileupload" action="/projects/fileupload/" method="POST" encType="multipart/form-data">
+        <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"/></noscript>
+        <div className="row fileupload-buttonbar">
+            <div className="col-lg-7">
+                <span className="ink-button green fileinput-button">
+                    <i className="glyphicon fa fa-plus"></i>
+                    <span>Add files...</span>
+                    <input type="file" name="files[]" multiple/>
                 </span>
-
-                <div id="progress" className="progress">
-                    <div className="progress-bar progress-bar-success"></div>
+                <button type="submit" className="ink-button blue start">
+                    <i className="glyphicon glyphicon-upload"></i>
+                    <span>Start upload</span>
+                </button>
+                <button type="reset" className="ink-button orange cancel">
+                    <i className="glyphicon glyphicon-ban-circle"></i>
+                    <span>Cancel upload</span>
+                </button>
+                <button type="button" className="ink-button red delete">
+                    <i className="glyphicon glyphicon-trash"></i>
+                    <span>Delete</span>
+                </button>
+                <span className="fileupload-process"></span>
+            </div>
+            <div className="col-lg-5 fileupload-progress fade">
+                <div className="progress progress-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                    <div className="progress-bar progress-bar-success" style={{width:'0%'}}></div>
                 </div>
-                <div id="files" className="files"></div>
+                <div className="progress-extended"></div>
+            </div>
+        </div>
+        <table role="presentation" className="ink-table table alternating bordered"><tbody className="files"></tbody></table>
+        {writeCsrf()}
+    </form>
+
+
 
             </div>);
     }

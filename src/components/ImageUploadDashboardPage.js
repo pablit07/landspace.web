@@ -15,7 +15,7 @@ export default class ImageUploadProjectsPage extends ProjectsPage {
 	getExtraContents() {
 		return (<div>
 			{React.createElement(FileUploader, null)}
-			<div className="panel panel-default all-50 align-left">
+			<div className="panel panel-default all-40 align-left vertical-space padding-left">
                     <div className="panel-heading">
                         <h3 className="panel-title">Image Upload Notes</h3>
                     </div>

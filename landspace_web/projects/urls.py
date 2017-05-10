@@ -10,6 +10,7 @@ urlpatterns = [
 	url(r'^$', decorators.login_required(views.index)),
 	url(r'(?P<role>designer)?^$', decorators.login_required(views.index), name='designer'),
 	url(r'^create/$', decorators.login_required(views.create_project)),
+	url(r'^imageupload/add/$', decorators.login_required(views.add_images)),
 	url(r'^imageupload/$', decorators.login_required(views.image_upload)),
 	url(r'^testdrive/$', views.testdrive),
 	url(r'^export/(?P<pk>\d+)', views.export_project)
