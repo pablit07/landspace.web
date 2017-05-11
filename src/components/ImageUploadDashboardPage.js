@@ -10,12 +10,13 @@ export default class ImageUploadProjectsPage extends ProjectsPage {
 
  		$('#main').css({'height':'auto'});
  		$('.tabs-content').css({'overflow':'visible'});
+        this.setState({'actionButtonClass':'hide-all'});
     }
 
 	getExtraContents() {
 		return (<div>
 			{React.createElement(FileUploader, null)}
-			<div className="panel panel-default all-40 align-left vertical-space padding-left">
+			<div className="panel panel-default all-40 medium-100 small-100 align-left vertical-space left-padding">
                     <div className="panel-heading">
                         <h3 className="panel-title">Image Upload Notes</h3>
                     </div>

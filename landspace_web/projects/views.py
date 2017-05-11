@@ -2,9 +2,20 @@ from django.shortcuts import render, redirect, reverse
 from django.conf import settings
 from django.http import HttpResponse
 from landspace_web.utils import subscribe_list
+from datetime import datetime
 import django_excel
 from . import forms, models
+import boto
+from boto.s3.key import Key
 import json
+
+
+def handle_uploaded_file(f):
+	file_name = '/tmp/%s%s.txt' % (datetime.utcnow(), f.name,)
+	with open(file_name, 'wb+') as destination:
+		for chunk in f.chunks():
+			destination.write(chunk)
+	return file_name
 
 def index(request, role=None):
 	if not role and hasattr(request.user, 'designer'):
@@ -62,10 +73,18 @@ def add_images(request):
 		return HttpResponse(json.dumps({'files':file_infos}), content_type='application/json')
 
 	if request.method == 'POST':
-		# we are expected to save the uploaded file and return some infos about it:
-		#                              vvvvvvvvv   this is the name for input type=file
+
+		for key, file in request.FILES.items():
+			file_path = handle_uploaded_file(file)
+			conn = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+			bucket = conn.get_bucket('landspace-file-uploads')
+			k = Key(bucket)
+			k.key = file.name
+			k.set_contents_from_filename(file_path)
+			k.make_public()
+
+
 		data_file = request.FILES['files[]']
-		print data_file
 		file_name = data_file.name
 		# save_file(data_file, file_name)
 		# file_size = get_file_size(file_name)

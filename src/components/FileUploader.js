@@ -12,7 +12,7 @@ export default class FileUploader extends React.Component {
     }
 
     render() {        
-        return (<div className='all-60 vertical-space'>
+        return (<div className='all-60 medium-100 small-100 vertical-space'>
     <form id="fileupload" action="/projects/fileupload/" method="POST" encType="multipart/form-data">
         <noscript><input type="hidden" name="redirect" value="https://blueimp.github.io/jQuery-File-Upload/"/></noscript>
         <div className="row fileupload-buttonbar">

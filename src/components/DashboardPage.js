@@ -14,7 +14,8 @@ export default class ProjectsPage extends React.Component {
 			'stepIconClass': 'none',
 			'designerSource': '',
 			'clientSource': '',
-			'currentStepText': ''
+			'currentStepText': '',
+			'actionButtonClass': ''
 		};
 	}
 
@@ -87,7 +88,7 @@ export default class ProjectsPage extends React.Component {
 				</div>)
     		: null;
 
-    	var nextButton = this.state.stepAction ? (<div className="all-100 push-center align-center vertical-space"><a href={this.state.stepActionUrl} className='ink-button vertical-space'>{this.state.stepAction}</a></div>) : null;
+    	var nextButton = this.state.stepAction ? (<div className="all-100 push-center align-center vertical-space nextButtonContainer "><a href={this.state.stepActionUrl} className={'ink-button vertical-space '+this.state.actionButtonClass}>{this.state.stepAction}</a></div>) : null;
     	var extraContents = this.getExtraContents();
 
     
