@@ -70,7 +70,7 @@ export default class ProjectsPage extends React.Component {
 	}
 
 	getExtraContents() {
-		return this.state.currentStepText ? (<div className="all-80 push-center vertical-space"><p className="note">{this.state.currentStepText})</p></div>) : null;
+		return this.state.currentStepText ? (<div className="all-80 push-center vertical-space"><p className="note">{this.state.currentStepText}</p></div>) : null;
 	}
 
 	render() {
