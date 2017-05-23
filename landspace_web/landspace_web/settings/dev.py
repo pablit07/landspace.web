@@ -37,3 +37,4 @@ ROLLBAR = {
     'environment': 'development',
     'root': BASE_DIR,
 }
+
