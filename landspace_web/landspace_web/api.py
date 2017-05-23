@@ -107,7 +107,7 @@ class ClientRegisterUrlApiView(APIView):
 		if client:
 			client.registration_url = url
 			client.has_registered = True
-			client.current_step = Step.objects.get(name__icontains='project')
+			client.current_step = Step.objects.get(name__icontains='project profile')
 			client.save()
 
 		return Response({'url': url, 'client_id': client.id if client else None})

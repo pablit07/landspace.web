@@ -47,10 +47,14 @@ def get_lists(list_id):
     return members
 
 
-def subscribe_list(list_id, email, first_name='', last_name='', double_optin=True):
+def subscribe_list(list_id, email, first_name='', last_name='', double_optin=True, extra_merge_vars=None):
     try:
         m = get_mailchimp_api()
-        m.lists.subscribe(list_id, {'email': email}, merge_vars={'FNAME': first_name, 'LNAME': last_name}, double_optin=double_optin)
+        if extra_merge_vars is None:
+        	extra_merge_vars = dict()
+        merge_vars = {'FNAME': first_name, 'LNAME': last_name}
+        merge_vars = dict(extra_merge_vars.items() + merge_vars.items())
+        m.lists.subscribe(list_id, {'email': email}, merge_vars=merge_vars, double_optin=double_optin)
         return True
     # messages.success(request,  "The email has been successfully subscribed")
     except mailchimp.Error as e:

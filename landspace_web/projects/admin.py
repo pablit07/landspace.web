@@ -2,6 +2,7 @@ from django.contrib import admin
 from . import models
 from django.contrib.auth.models import Group
 from social_django import models as social_django_models
+from landspace_web.utils import subscribe_list
 
 
 class ProjectAdmin(admin.ModelAdmin):
@@ -20,6 +21,8 @@ class ProjectAdmin(admin.ModelAdmin):
 			obj.designer_step = obj.designer_step.next
 			obj.client.client.current_step = obj.client.client.current_step.next
 			obj.client.client.save()
+			subscribe_list('8f9fa76ea6', obj.client.client.user.email, obj.client.client.user.first_name, obj.client.client.user.last_name, False, {'DNAME':obj.designer.full_name})
+
 
 		obj.save()
 
