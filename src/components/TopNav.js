@@ -20,18 +20,18 @@ export default class TopNav extends React.Component {
 			<nav className="ink-navigation ink-grid" style={paddingStyle}>
 			    <ul className={leftMenuClassName} style={spacerStyle}>
 			    	<li>
-				    	<a className='logoPlaceholder' href="http://www.landspace.site">
+				    	<a className='logoPlaceholder' href="http://landspace.gardenhouse.io/">
 							<Logo />
 						</a>
 					</li>
-			        <li className={responsiveClassNames}><a href='http://www.landspace.site/how-it-works'>How It Works</a></li>
-			        <li className={responsiveClassNames}><a href='http://www.landspace.site/blog'>Blog</a></li>
+			        <li className={responsiveClassNames}><a href='http://landspace.gardenhouse.io/'>How It Works</a></li>
+			        <li className={responsiveClassNames}><a href='http://landspace.gardenhouse.io/'>Blog</a></li>
 		        </ul>
 		        
 		        <ul className={rightMenuClassName}>
 			        <li><a href='/users/cart'><span className={responsiveClassNames}>Cart <i className="fa fa-shopping-cart" aria-hidden="true"></i></span> <i className={cartResponsiveClassNames} aria-hidden="true"></i></a></li>
 			        <li className={responsiveClassNames}><a href='/users/logout/?next=/users/login/'>Sign In</a></li>
-		        	<li className={responsiveClassNames}><a href='http://www.landspace.site/survey' className='ink-button'>Sign Up</a></li>
+		        	<li className={responsiveClassNames}><a href='http://landspace.gardenhouse.io/' className='ink-button'>Sign Up</a></li>
 		        	{responsiveBtn}
 			    </ul>
 			</nav>

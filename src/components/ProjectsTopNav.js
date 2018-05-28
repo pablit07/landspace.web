@@ -109,8 +109,8 @@ export default class ProjectsTopNav extends React.Component {
 	        (<li><a href="/users/logout/?next=/users/login/" className='separator-above'>Logout</a></li>)];
 
         var exploreMenu = [
-			(<li><a href="http://www.landspace.site/moreau">Projects</a></li>),
-	        (<li><a href="http://www.landspace.site/designers/">Designers</a></li>)];
+			(<li><a href="http://landspace.gardenhouse.io/">Projects</a></li>),
+	        (<li><a href="http://landspace.gardenhouse.io/">Designers</a></li>)];
 
 		if (!this.props.vertical) {
 			
@@ -154,7 +154,7 @@ export default class ProjectsTopNav extends React.Component {
 			<nav className="ink-navigation ink-grid" style={paddingStyle}>
 			    <ul className={leftMenuClassName} style={spacerStyle}>
 			    	<li>
-				    	<a className='logoPlaceholder' href="http://www.landspace.site">
+				    	<a className='logoPlaceholder' href="http://landspace.gardenhouse.io/">
 							<Logo />
 						</a>
 					</li>
