@@ -212,12 +212,14 @@ AUTHENTICATION_BACKENDS = (
 
 FIELDS_STORED_IN_SESSION = ['social_auth_new_user_allowed']
 
-SITE_URL = 'http://app.landspaceplan.com/'
+# SITE_URL = 'http://app.landspaceplan.com/'
+SITE_URL = 'http://app.landspace.gardenhouse.io'
 
 CORS_ORIGIN_WHITELIST = (
     'landspaceplan.com',
     'app.landspaceplan.com',
     'localhost:8000',
+    'app.landspace.gardenhouse.io'
 )
 
 ROLLBAR = {
