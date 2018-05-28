@@ -1,9 +1,56 @@
 import React from 'react';
 import { Link } from 'react-router';
-import Logo from './Logo'
+import ReactDomServer from 'react-dom/server';
+import Logo from './Logo';
+import { writeCsrf } from '../utils.js';
 
 
 export default class TopNav extends React.Component {
+
+	signUp() {
+		var modalObj = new Ink.UI.Modal((<div></div>), {closeOnClick: true});
+		let finishSignUpUrl;
+
+		$.get('/api/url/?name=survey:create-survey-response', (data) => { finishSignUpUrl = data.url });
+
+		let finishSignUp = function(e) {
+			e.preventDefault();
+
+			$.get(`${finishSignUpUrl}?email=` + encodeURIComponent($('[name=signup-email]').val() + '&q1=1&q2=Mediterranean&q3=1&q4=1&q5=1'), data => {
+				if (data.redirect_url) {
+					window.location = data.redirect_url;
+				}
+			});
+
+			return false;
+		}
+
+		modalObj.setContentMarkup(ReactDomServer.renderToStaticMarkup((
+			<div>
+			<h3>
+				Sign Up
+				<div className="push-right"><button className="ink-button caution ink-dismiss">X</button></div>
+      		</h3>
+      		<form method='POST' className='ink-form' id='get-started' onSubmit={finishSignUp}>
+				<div className='control-group'>
+				    <label htmlFor="username">Email</label>
+				    <div className='control'>
+				    	<input type="text" name="signup-email" />
+				    </div>
+			    </div>
+				<p>
+					<input type="submit" value="Get Started" onClick={finishSignUp}/>
+				</p>
+				{writeCsrf()}
+		    </form>
+            </div>
+        )));
+
+		modalObj.open();
+		$('[name=signup-email]').focus();
+		$('#get-started').submit(finishSignUp);
+	}
+
 	render() {
 		var leftOrientation = (this.props.vertical) ? 'vertical' : 'push-left horizontal';
 		var rightOrientation = (this.props.vertical) ? 'vertical' : 'push-right horizontal';
@@ -31,7 +78,7 @@ export default class TopNav extends React.Component {
 		        <ul className={rightMenuClassName}>
 			        <li><a href='/users/cart'><span className={responsiveClassNames}>Cart <i className="fa fa-shopping-cart" aria-hidden="true"></i></span> <i className={cartResponsiveClassNames} aria-hidden="true"></i></a></li>
 			        <li className={responsiveClassNames}><a href='/users/logout/?next=/users/login/'>Sign In</a></li>
-		        	<li className={responsiveClassNames}><a href='http://landspace.gardenhouse.io/' className='ink-button'>Sign Up</a></li>
+		        	<li className={responsiveClassNames}><a href='javascript:void(0)' onClick={this.signUp.bind(this)} className='ink-button'>Sign Up</a></li>
 		        	{responsiveBtn}
 			    </ul>
 			</nav>

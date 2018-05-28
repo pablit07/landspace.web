@@ -30,6 +30,8 @@ def get_registration_url(user):
 # MAILCHIMP
 
 def get_mailchimp_api():
+    if not hasattr(settings, 'MAILCHIMP_API_KEY'):
+        return False
     return mailchimp.Mailchimp(settings.MAILCHIMP_API_KEY)  # your api key here
 
 
@@ -50,6 +52,8 @@ def get_lists(list_id):
 def subscribe_list(list_id, email, first_name='', last_name='', double_optin=True, extra_merge_vars=None):
     try:
         m = get_mailchimp_api()
+        if not m:
+            return False
         if extra_merge_vars is None:
         	extra_merge_vars = dict()
         merge_vars = {'FNAME': first_name, 'LNAME': last_name}
