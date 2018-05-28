@@ -16,7 +16,7 @@ export default class TopNav extends React.Component {
 		let finishSignUp = function(e) {
 			e.preventDefault();
 
-			$.get(`${finishSignUpUrl}?email=` + encodeURIComponent($('[name=signup-email]').val() + '&q1=1&q2=Mediterranean&q3=1&q4=1&q5=1'), data => {
+			$.get(`${finishSignUpUrl}?email=` + encodeURIComponent($('[name=signup-email]').val()) + '&q1=1&q2=Mediterranean&q3=1&q4=1&q5=1', data => {
 				if (data.redirect_url) {
 					window.location = data.redirect_url;
 				}
