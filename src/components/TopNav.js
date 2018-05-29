@@ -43,6 +43,16 @@ export default class TopNav extends React.Component {
 				</p>
 				{writeCsrf()}
 		    </form>
+		    <div className='ink-grid full-height'>
+				<div className='column-group gutters'>
+					<div className="all-40 push-center vertical-space">
+						<p className="tip">For demo purposes, this signup form is a shortcut to entry. In the production version of this app, the user was entered into a funnel where they took a short survey to find out their "Style" preference. They then entered their email and were funnelled over to the app. If they chose not to procede, the email was still able to be used for follow-up offers and information</p>
+					</div>
+					<div className="all-40 push-center vertical-space align-center">
+						<img src="https://i.imgur.com/Xy4aHWE.png"/>
+					</div>
+				</div>
+			</div>
             </div>
         )));
 
