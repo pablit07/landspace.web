@@ -1,60 +1,117 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+
 {% load staticfiles %}
+{% load render_bundle from webpack_loader %}
 
-{% block extra_css %}
-{% endblock %}
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LANDSPACE</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static '/img/favicon.png' %}">
+    {% render_bundle 'app' 'css'%}
+    {% render_bundle 'page' 'css'%}
+    {% block extra_css %}
+    {% endblock %}
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <script src="https://use.typekit.net/pad2bjr.js"></script>
+    <script>try{Typekit.load({ async: true });}catch(e){}</script>
+    <script src="https://js.stripe.com/v3/"></script>
+    {% render_bundle 'init.js' %}
 
-{% block content %}
+    </head>
+      <body class='ink-drawer'>
+        <script type="text/javascript">window.userId = "{{ request.user.id }}";</script>
 
-<script type="text/html" id="project-profile-form">
-	<form id='ProjectProfile' method='POST' class='ink-form' name='project-profile' action=''>
-
-    {% for error in form.non_field_errors %}
-        <div class="alert alert-danger">
-            <strong>{{ error|escape }}</strong>
+        <div id="main" class='content-drawer'>
         </div>
-    {% endfor %}
-    {% if form.errors %}
-        <div class="alert alert-danger vertical-space">
-            <strong>Hold on a minute! Please correct the errors and resubmit.</strong>
-        </div>
-    {% endif %}
 
-	{% for field in form.visible_fields %}
-    <div class="control-group">
-        {% for error in field.errors %}
+        <div id="right-drawer" class="right-drawer">
+        </div>
+
+        {% block content %}
+        {% endblock %}
+
+        <script type="text/javascript" src="{% static 'js/jquery-latest.js' %}"></script>
+        {% render_bundle 'projects' 'js'%}
+
+
+
+    <script type="text/html" id="project-profile-form">
+    	<form id='ProjectProfile' method='POST' class='ink-form' name='project-profile' action=''>
+
+        {% for error in form.non_field_errors %}
             <div class="alert alert-danger">
                 <strong>{{ error|escape }}</strong>
             </div>
         {% endfor %}
-
-
-        {{ field.label_tag }}
-        {% if field.help_text %}
-         <p class="help note">{{ field.help_text|safe }}</p>
+        {% if form.errors %}
+            <div class="alert alert-danger vertical-space">
+                <strong>Hold on a minute! Please correct the errors and resubmit.</strong>
+            </div>
         {% endif %}
 
-        {% if field.id_for_label == "id_lot_size" %}
-        	<br>
-    	{% endif %}
+    	{% for field in form.visible_fields %}
+        <div class="control-group">
+            {% for error in field.errors %}
+                <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
 
-        {{ field }}
-        {% if field.id_for_label == "id_lot_size" %}
-        	acres
-    	{% endif %}
-        
-    </div>
-	{% endfor %}
-    <div id='address-fields' class="control-group"></div>
-    <div id='stripe-fields'></div>
 
-    {% for hidden in form.hidden_fields %}
-        {{ hidden }}
-    {% endfor %}
+            {{ field.label_tag }}
+            {% if field.help_text %}
+             <p class="help note">{{ field.help_text|safe }}</p>
+            {% endif %}
 
-    {% csrf_token %}
-	</form>
-</script>
-<script type="text/html" id="stripe-public-data">{{ stripe_public_key | safe }}</script>
+            {% if field.id_for_label == "id_lot_size" %}
+            	<br>
+        	{% endif %}
 
-{% endblock %}
+            {{ field }}
+            {% if field.id_for_label == "id_lot_size" %}
+            	acres
+        	{% endif %}
+            
+        </div>
+    	{% endfor %}
+        <div id='address-fields' class="control-group"></div>
+        <div id='stripe-fields'></div>
+
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        {% csrf_token %}
+    	</form>
+    </script>
+    <script type="text/html" id="stripe-public-data">{{ stripe_public_key | safe }}</script>
+
+    {% block extra_js %}
+        {% endblock %}
+        <footer class='clearfix'>
+            <div class="ink-grid">
+                    <ul class="inline align-center half-vertical-space">
+                        <li><a class="note" href="http://www.landspace.site/support">Help and Support</a></li>
+                        <li><a class="note" href="http://www.landspace.site/privacy-policy">Privacy</a></li>
+                        <li><a class="note" href="http://www.landspace.site/terms-and-conditions">Terms of Service</a></li>
+                        <li><p class="note align-center">&copy;2017 Landspace LLC</p></li>
+                    </ul>
+                    
+                </div>
+        </footer>
+      <script>
+
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+          ga('create', 'UA-91671663-2', 'auto', {'allowLinker': true});
+          ga('require', 'linker');
+          ga('linker:autoLink', ['landspaceplan.com'] );
+
+      </script>
+  </body>
+</html>
