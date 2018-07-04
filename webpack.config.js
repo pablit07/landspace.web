@@ -13,7 +13,8 @@ module.exports = {
 	},
 	entry: {
 		'app': path.join(__dirname, 'src', 'app-client.js'),
-		'page': path.join(__dirname, 'landspace_web', 'landspace_web', 'index.js')
+		'page': path.join(__dirname, 'landspace_web', 'landspace_web', 'index.js'),
+		'projects': path.join(__dirname, 'landspace_web', 'projects', 'index.js')
 	},
 	output: {
 		path: path.join(__dirname, 'landspace_web', 'static', 'bundles', 'js'),
@@ -24,7 +25,7 @@ module.exports = {
 			{ test: /\.css$/, loader: ExtractTextPlugin.extract("style-loader", "css-loader") },
 			{ test: /\.(woff|woff2|eot|ttf)(\?.*$|$)/, exclude: /node_modules/, loader: 'url-loader?importLoaders=1&limit=100000&name=../fonts/[hash].[ext]' },
 			{ test: /\.(png|jpe|jpg|svg)(\?.*$|$)/, exclude: /node_modules/, loader: 'url-loader?importLoaders=1&limit=100000&name=../img/[hash].[ext]' },
-			{ test: /\.js$/, exclude: /(node_modules|static)/, loader: 'babel-loader?presets[]=es2015&presets[]=react' },
+			{ test: /\.js$/, exclude: /(node_modules|static)/, loader: 'babel-loader?presets[]=es2015&presets[]=react&plugins[]=transform-object-rest-spread' },
 			{ test: /\.less$/, loader: "style!css!less" }
 		]
 	},
