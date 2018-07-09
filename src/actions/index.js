@@ -13,6 +13,10 @@ export const ProjectProfileControlActions = {
 };
 
 
+export const LOAD_QUESTIONS_STARTED = 'LOAD_QUESTIONS_STARTED';
+export const LOAD_QUESTIONS_SUCCESS = 'LOAD_QUESTIONS_SUCCESS';
+
+
 export function updateProjectProfileField(checked, projectProfileQuestionKey, type, label) {
 	if (checked) {
 		return {
@@ -36,4 +40,20 @@ export function updateProjectProfileText(text, projectProfileQuestionKey) {
 		key: projectProfileQuestionKey,
 		value: text
 	};
+};
+
+
+export function initQuestions(dispatch) {
+
+	$.getJSON('/static/projectform.json', function(response) {
+		dispatch({
+			type: LOAD_QUESTIONS_SUCCESS,
+
+			questions: response
+		})
+	});
+
+	return {
+		type: LOAD_QUESTIONS_STARTED
+	}
 };

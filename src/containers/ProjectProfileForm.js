@@ -6,7 +6,8 @@ const ProjectProfileFormContainer = connect(
 	(state, ownProps) => {
 		return {
 			activeQuestion: state.projectQuestions[state.currentProjectQuestionIndex],
-			percentComplete: 100 * ((state.currentProjectQuestionIndex) / state.projectQuestions.length)
+			percentComplete: Math.floor(100 * ((state.currentProjectQuestionIndex) / state.projectQuestions.length)),
+			length: state.projectQuestions.length
 		};
 	},
 	(dispatch, ownProps) => {

@@ -1,0 +1,325 @@
+{
+  "name": {
+    "initial_value": null,
+    "required": true,
+    "label": "Project Name",
+    "widget_type": "TextInput",
+    "help_text": "",
+    "hidden": false,
+    "type": "CharField"
+  },
+  "slope_amount": {
+    "initial_value": null,
+    "required": true,
+    "label": "How much slope does your space have?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "None, the space is flat",
+      "Some, moderate grade change",
+      "A lot, steep slopes"
+    ]
+  },
+  "lot_size": {
+    "initial_value": null,
+    "required": false,
+    "label": "What is the size of your lot? (Optional)",
+    "widget_type": "NumberInput",
+    "help_text": "",
+    "hidden": false,
+    "type": "IntegerField"
+  },
+  "has_pets": {
+    "initial_value": null,
+    "required": true,
+    "label": "Do you have any pets?",
+    "widget_type": "CheckboxSelectMultiple",
+    "help_text": "",
+    "hidden": false,
+    "type": "MultipleChoiceField",
+    "choices": [
+      "dog",
+      "cat",
+      "reptile",
+      "horse",
+      "tiger",
+      "other",
+      "no"
+    ]
+  },
+  "project_type": {
+    "initial_value": null,
+    "required": true,
+    "label": "Which of the following best describes your project?",
+    "widget_type": "CheckboxSelectMultiple",
+    "help_text": "(Check all that apply)",
+    "hidden": false,
+    "type": "MultipleChoiceField",
+    "choices": [
+      "front yard",
+      "backyard",
+      "small garden area",
+      "deck or patio",
+      "roofdeck"
+    ]
+  },
+  "requires_contractor": {
+    "initial_value": null,
+    "required": true,
+    "label": "Would you like one of our landspace designers to help connect you to a contractor in your area?",
+    "widget_type": "RadioSelect",
+    "help_text": "**Additional $50 Cost",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "yes",
+      "no - I will be diy-ing this project",
+      "no - I already have a good contractor",
+      "no - I am not planning on building just yet"
+    ]
+  },
+  "start": {
+    "initial_value": null,
+    "required": true,
+    "label": "When do you want to get started construction on the project?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "now",
+      "in a few months",
+      "several months",
+      "not sure, just checking my options"
+    ]
+  },
+  "has_edible_garden": {
+    "initial_value": null,
+    "required": true,
+    "label": "Will you have an edible garden? If so what do you envision growing?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "herbs (small pots - vertical)",
+      "vegetables (raised planter boxes)",
+      "fruit trees",
+      "not for my space"
+    ]
+  },
+  "accessibility_concerns": {
+    "initial_value": null,
+    "required": true,
+    "label": "Are there any accessibility concerns?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "yes wheelchair access is important",
+      "no"
+    ]
+  },
+  "work_type": {
+    "initial_value": null,
+    "required": true,
+    "label": "What type of work do you anticipate being done?",
+    "widget_type": "CheckboxSelectMultiple",
+    "help_text": "",
+    "hidden": false,
+    "type": "MultipleChoiceField",
+    "choices": [
+      "planting",
+      "wood construction",
+      "stonework or masonry",
+      "walls",
+      "art installation",
+      "small improvements (pots, firepit, etc)",
+      "patio",
+      "pool or hot tub",
+      "fountain",
+      "pond",
+      "outdoor kitchen",
+      "playspace",
+      "earthwork",
+      "wood construction (deck, pergola, etc.)",
+      "rooftop",
+      "sports court",
+      "I don’t have a set plan yet. I am looking for a designer to assist me",
+      "other"
+    ]
+  },
+  "has_allergies": {
+    "initial_value": null,
+    "required": true,
+    "label": "Do you have any plant allergies or sensitivities?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "nope all good!",
+      "yes I will explain on the call with my designer"
+    ]
+  },
+  "is_in_phases": {
+    "initial_value": null,
+    "required": true,
+    "label": "Will you be doing this project in phases?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "yes - I will build them when I have the time",
+      "no - let’s get this all out in one shot "
+    ]
+  },
+  "is_for_sports": {
+    "initial_value": null,
+    "required": true,
+    "label": "Will you be using your designed space for any particular outdoor sports needing a court?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "no",
+      "bocce",
+      "basketball",
+      "horseshoes",
+      "open lawn for free play",
+      "other"
+    ]
+  },
+  "outdoor_cooking_level": {
+    "initial_value": null,
+    "required": true,
+    "label": "What level of outdoor cooking do you plan on doing?",
+    "widget_type": "CheckboxSelectMultiple",
+    "help_text": "",
+    "hidden": false,
+    "type": "MultipleChoiceField",
+    "choices": [
+      "none, we cook inside",
+      "space for a pre-fab bbq grill",
+      "built-in outdoor kitchen",
+      "custom brick oven"
+    ]
+  },
+  "approximate_budget": {
+    "initial_value": null,
+    "required": true,
+    "label": "What is your approximate budget for your project including construction?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "$500 - $1,000",
+      "$1,000 - $5,000",
+      "$5000 - $10,000",
+      "$10,000 - $20,000",
+      "$20,000 - $50,000",
+      "$50,000 - $100,000",
+      "$100,000+"
+    ]
+  },
+  "primary_users": {
+    "initial_value": null,
+    "required": true,
+    "label": "Who will be the primary users of this space?",
+    "widget_type": "CheckboxSelectMultiple",
+    "help_text": "",
+    "hidden": false,
+    "type": "MultipleChoiceField",
+    "choices": [
+      "just me.",
+      "my partner and I",
+      "my family with young kids",
+      "my family with young adults",
+      "my family with elderly adults",
+      "my friends and I",
+      "other"
+    ]
+  },
+  "has_existing_plan": {
+    "initial_value": null,
+    "required": true,
+    "label": "Do you have an existing design or Landspace plan for this space?",
+    "widget_type": "RadioSelect",
+    "help_text": "",
+    "hidden": false,
+    "type": "TypedChoiceField",
+    "choices": [
+      "yes I will upload them when I upload images",
+      "no I am a blank canvas"
+    ]
+  },
+  "project_description_text": {
+    "initial_value": null,
+    "required": false,
+    "label": "Short Project Description (Optional)",
+    "widget_type": "Textarea",
+    "help_text": "",
+    "hidden": false,
+    "type": "CharField"
+  },
+  "address_1": {
+    "initial_value": null,
+    "required": true,
+    "label": "Address 1",
+    "widget_type": "TextInput",
+    "help_text": "",
+    "hidden": false,
+    "type": "CharField"
+  },
+  "address_2": {
+    "initial_value": null,
+    "required": false,
+    "label": "Address 2",
+    "widget_type": "TextInput",
+    "help_text": "",
+    "hidden": false,
+    "type": "CharField"
+  },
+  "city": {
+    "initial_value": null,
+    "required": true,
+    "label": "City",
+    "widget_type": "TextInput",
+    "help_text": "",
+    "hidden": false,
+    "type": "CharField"
+  },
+  "country": {
+    "initial_value": null,
+    "required": true,
+    "label": "Country",
+    "widget_type": "TextInput",
+    "help_text": "",
+    "hidden": false,
+    "type": "CharField"
+  },
+  "state_province": {
+    "initial_value": null,
+    "required": true,
+    "label": "State/Province",
+    "widget_type": "TextInput",
+    "help_text": "",
+    "hidden": false,
+    "type": "CharField"
+  },
+  "zip_code": {
+    "initial_value": null,
+    "required": true,
+    "label": "Zip code",
+    "widget_type": "TextInput",
+    "help_text": "",
+    "hidden": false,
+    "type": "CharField"
+  }
+}

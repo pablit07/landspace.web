@@ -4,21 +4,30 @@ import ProjectProfileForm from '../containers/ProjectProfileForm';
 import Controls from './ProjectProfileControls';
 
 
-const ProjectProfilePage = () => (
-	<div className='ink-grid full-height'>
-	<div className='column-group gutters'>
-		<div className="all-90 push-center vertical-space align-center">
-			<h1>Fill out this short form to help us better understand your project. </h1>
-		</div>
-	</div>
-		<div className='column-group gutters'>
-			<div className="all-40 tiny-90 small-90 medium-55 push-center block projectProfile">
-				<ProjectProfileForm />
+class ProjectProfilePage extends React.Component { 
+
+	componentDidMount() {
+		this.props.initQuestions();
+	}
+
+	render() {
+		return (
+			<div className='ink-grid full-height'>
+			<div className='column-group gutters'>
+				<div className="all-90 push-center vertical-space align-center">
+					<h1>Fill out this short form to help us better understand your project. </h1>
+				</div>
 			</div>
-		</div>
-		<Controls />
-	</div>
-);
+				<div className='column-group gutters'>
+					<div className="all-40 tiny-90 small-90 medium-55 push-center block projectProfile">
+						<ProjectProfileForm />
+					</div>
+				</div>
+				<Controls />
+			</div>
+		);
+	}
+}
 
 export default ProjectProfilePage;
 

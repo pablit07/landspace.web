@@ -35,9 +35,9 @@ const ProjectProfileField = ({choices, id, widget_type, children}) => {
 		);
 	}
 
-	if (widget_type == "TextInput") {
+	if (widget_type == "TextInput" || widget_type == "Textarea") {
 		return (
-			<div class="control-group">
+			<div className="control-group all-80 push-center">
         		{children}        
     			<ProjectProfileText id={id} />
     		</div>
@@ -46,7 +46,7 @@ const ProjectProfileField = ({choices, id, widget_type, children}) => {
 
 	if (widget_type == "NumberInput") {
 		return (
-			<div class="control-group">
+			<div className="control-group all-80 push-center">
         		{children}        
     			<ProjectProfileText id={id} type="number" />
     		</div>

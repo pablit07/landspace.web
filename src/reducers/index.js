@@ -1,7 +1,8 @@
 
 import {
 	ProjectProfileFieldActions,
-	ProjectProfileControlActions
+	ProjectProfileControlActions,
+	LOAD_QUESTIONS_SUCCESS
 } from '../actions';
 
 const initialState = {
@@ -66,6 +67,21 @@ const initialState = {
 }
 
 function reduce(state = initialState, action) {
+
+	if (action.type == LOAD_QUESTIONS_SUCCESS) {
+		let projectQuestions = [];
+		
+		for (let key in action.questions) {
+			projectQuestions.push({
+				...(action.questions[key]),
+				key
+			});
+		}
+		state.projectQuestions = projectQuestions;
+		return {
+			...state
+		};
+	}
 
 	if (action.type == ProjectProfileFieldActions.SET_CHECKBOX) {
 
